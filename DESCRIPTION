@@ -1,0 +1,14 @@
+Package: MPAfeedingact
+Title: Analysing the effect of protection levels on feeding activities
+Version: 0.0.0.9000
+Authors@R: 
+    person("Camille", "Magneville", , "camille.magneville@gmail.com", role = c("aut", "cre"))
+Description: This Research Compendium contains functiona and analysis scripts to
+  compute each figure and plot of the manuscript studying the effect of protection
+  levels on the feeding activities (and their daily variation).
+License: MIT + file LICENSE
+ByteCompile: true
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.3
