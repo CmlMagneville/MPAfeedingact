@@ -1,0 +1,314 @@
+################################################################################
+##
+## Script to study the effect of time and protection on interactions with ...
+## ... sequences information
+##
+## 6_Protection_time_effect_interactions.R
+##
+## 14/11/2022
+##
+## Camille Magneville
+##
+################################################################################
+
+
+
+
+#' Gathers data at the sequence scale when annotations are not continuous
+#'
+#' @param start_times
+#' @param end_times
+#' @param seq_length
+#' @param no_seq_length
+#' @param bites_df
+#'
+#' @return
+#' @export
+#'
+#' @examples
+
+data.sequences.scale <- function(start_times, end_times,
+                                 seq_length, no_seq_length,
+                                 bites_df) {
+
+  # build the new dataframe:
+  seq_final_bites_df <- as.data.frame(matrix(nrow = 1, ncol = ncol(bites_df) + 2, NA))
+  colnames(seq_final_bites_df) <- c(colnames(bites_df), "seq", "hour")
+
+  # count the number of sequences already computes:
+  seq_nb <- 1
+
+  # loop on the poses
+  for (i in c(1:length(start_times))) {
+
+    # get the time the pose starts:
+    pose_start <- hms::as_hms(start_times[i])
+
+    # get the time the pose ends:
+    pose_end <- hms::as_hms(end_times[i])
+
+    # select the rows in the studied pose:
+    pose_data <- dplyr::filter(bites_df, hms::as_hms(rownames(bites_df)) >= hms::as_hms(pose_start)
+                                        & hms::as_hms(rownames(bites_df)) <= hms::as_hms(pose_end))
+
+
+    # define a counter:
+    n <- hms::as_hms(rownames(pose_data)[1])
+
+    # while n is <= to the end of the pose:
+    while (n < hms::as_hms(rownames(pose_data)[nrow(pose_data)])) {
+
+
+      # get the data only in the studied sequence:
+      seq_data <- dplyr::filter(pose_data, hms::as_hms(rownames(pose_data)) >= n
+                                & hms::as_hms(rownames(pose_data)) <= hms::as_hms(n +
+                                                                       hms::as_hms(seq_length)))
+
+      # add a new row with no information:
+      seq_final_bites_df <- dplyr::add_row(seq_final_bites_df)
+
+      # loop on the column = species:
+      for (j in c(1:ncol(seq_data))) {
+
+        sp_nm <- colnames(seq_data)[j]
+
+        sum_sp <- apply(seq_data, 2, sum)[[j]]
+
+        # fill the final df:
+        seq_final_bites_df[nrow(seq_final_bites_df), sp_nm] <- sum_sp
+
+      }
+
+      # add sequence and hour information:
+      seq_final_bites_df[nrow(seq_final_bites_df), "hour"] <- n
+      seq_final_bites_df[nrow(seq_final_bites_df), "seq"] <- paste0("seq", sep = "_",
+                                                                    seq_nb)
+
+      seq_nb <- seq_nb + 1
+
+      # update n:
+      n <- hms::as_hms(n + hms::as_hms(seq_length) + hms::as_hms(no_seq_length))
+
+    } # end while
+
+  } # end loop on poses
+
+  # remove the first row which only has NA:
+  seq_final_bites_df <- seq_final_bites_df[-1, ]
+
+  seq_final_bites_df$hour <- hms::as_hms(seq_final_bites_df$hour)
+
+  return(seq_final_bites_df)
+
+}
+
+
+
+
+#' Compute the number of bites per annotated sequence and trophic guilds
+#'
+#' @param day
+#' @param seq_df
+#' @param sp_diet
+#'
+#' @return
+#' @export
+#'
+#' @examples
+
+
+compute.bites.seq <- function(day,
+                              seq_df,
+                              sp_diet) {
+
+
+  # create the new dataframe:
+  final_seq_guild_df <- as.data.frame(matrix(ncol = 9, nrow = nrow(seq_df), NA))
+  colnames(final_seq_guild_df) <- c("site", "day", "seq", "hour", "tot_bites",
+                                    "coral_bites", "crustac_bites",
+                                    "invert_bites", "herb_bites")
+  final_seq_guild_df$site <- seq_df$site
+  final_seq_guild_df$seq <- seq_df$seq
+  final_seq_guild_df$hour <- seq_df$hour
+  final_seq_guild_df$day <- rep(day, nrow(final_seq_guild_df))
+
+  # gather invertivores:
+  sp_diet[which(sp_diet$Diet_Parravicini_2020 %in%
+                               c("Macroinvertivores",
+                                 "sessile invertivores",
+                                 "Microinvertivores")), "Diet_Parravicini_2020"] <- "Invertivores"
+
+  # rename HMD:
+  sp_diet[which(sp_diet$Diet_Parravicini_2020 %in%
+                               c("Herbivores Microvores Detritivores")), "Diet_Parravicini_2020"] <- "HMD"
+
+  # get coral sp names:
+  coral_sp <- sp_diet$Latin_nm[which(sp_diet$Diet_Parravicini_2020 == "Corallivores")]
+  # get crust sp names:
+  crust_sp <- sp_diet$Latin_nm[which(sp_diet$Diet_Parravicini_2020 == "Crustacivores")]
+  # get invert sp names:
+  invert_sp <- sp_diet$Latin_nm[which(sp_diet$Diet_Parravicini_2020 == "Invertivores")]
+  # get herb sp names:
+  herb_sp <- sp_diet$Latin_nm[which(sp_diet$Diet_Parravicini_2020 == "HMD")]
+
+  # remove the 3 last columns of seq df which does not contain species info:
+  seq_df <- seq_df[, -c(ncol(seq_df), ncol(seq_df) - 1, ncol(seq_df) - 2)]
+
+  # comppute the total number of bites:
+  tot_bites <- apply(seq_df, 1, sum)
+  final_seq_guild_df$tot_bites <- tot_bites
+
+  # coral bites
+  coral_df <- seq_df[, colnames(seq_df[which(colnames(seq_df) %in% coral_sp)])]
+  coral_bites <- apply(coral_df, 1, sum)
+  final_seq_guild_df$coral_bites <- coral_bites
+
+  # herb bites
+  herb_df <- seq_df[, colnames(seq_df[which(colnames(seq_df) %in% herb_sp)])]
+  herb_bites <- apply(herb_df, 1, sum)
+  final_seq_guild_df$herb_bites <- herb_bites
+
+  # invert bites
+  invert_df <- seq_df[, colnames(seq_df[which(colnames(seq_df) %in% invert_sp)])]
+  invert_bites <- apply(invert_df, 1, sum)
+  final_seq_guild_df$invert_bites <- invert_bites
+
+  # crust bites
+  crust_df <- seq_df[, colnames(seq_df[which(colnames(seq_df) %in% crust_sp)])]
+  crust_bites <- apply(crust_df, 1, sum)
+  final_seq_guild_df$crustac_bites <- crust_bites
+
+  return(final_seq_guild_df)
+
+
+}
+
+
+
+
+
+#' Plot heatmaps of activity through time with one heatmap per trophic guild
+#'
+#' @param bites_seq_df_list
+#' @param color_palette
+#'
+#' @return
+#' @export
+#'
+#' @examples
+
+plot.heatmaps.act.intensity <- function(bites_seq_df_list) {
+
+
+  # link the tables:
+  bites_seq_final <- dplyr::bind_rows(bites_seq_df_list[[1]],
+                                      bites_seq_df_list[[2]],
+                                      bites_seq_df_list[[3]],
+                                      bites_seq_df_list[[4]])
+
+
+  # loop on the trophic guilds (and total activity):
+  trophic_guilds <- c("tot_bites", "coral_bites", "herb_bites",
+                      "crustac_bites", "invert_bites")
+
+  # create a list that will contain all plots:
+  plot_list <- list()
+
+  for (i in c(1:length(trophic_guilds))) {
+
+
+    guild_nm <- trophic_guilds[i]
+
+    # only keep the studied column:
+    subset_data <- dplyr::select(bites_seq_final, site, day, seq, hour, any_of(guild_nm))
+
+    # prepare FPA data:
+    FPA_subset_data <- dplyr::filter(subset_data, site == "FPA")
+
+    # prepare PPA data:
+    PPA_subset_data <- dplyr::filter(subset_data, site == "PPA")
+
+    # factor and order the sequence column:
+    FPA_subset_data$seq <- factor(FPA_subset_data$seq,
+              levels = paste0("seq", sep ="_", c(1:(nrow(FPA_subset_data)/2))))
+    PPA_subset_data$seq <- factor(PPA_subset_data$seq,
+              levels = paste0("seq", sep ="_", c(1:(nrow(PPA_subset_data)/2))))
+
+
+    # compute 5 classes of bites intensity based on FPA and PPA values:
+    min_value <- min(min(FPA_subset_data[, ncol(FPA_subset_data)]),
+                     min(PPA_subset_data[, ncol(PPA_subset_data)]))
+    max_value <- max(max(FPA_subset_data[, ncol(FPA_subset_data)]),
+                     max(PPA_subset_data[, ncol(PPA_subset_data)]))
+
+
+    # plot FPA:
+    heatmap_FPA <- ggplot2::ggplot(FPA_subset_data,
+                  ggplot2::aes(x = seq, y = day, fill = FPA_subset_data[, ncol(FPA_subset_data)])) +
+
+      ggplot2::geom_tile() +
+
+      harrypotter::scale_fill_hp(option = "Always", name = "Number of bites",
+                                 limits = c(min_value, max_value), oob = scales::squish) +
+
+      ggplot2::scale_x_discrete(labels = FPA_subset_data$hour) +
+
+      ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 90),
+                     panel.background = ggplot2::element_rect(fill = "white",
+                                                              colour = "grey"),
+                     panel.grid.major = ggplot2::element_line(colour = "white")) +
+
+      ggplot2::xlab("") +
+      ggplot2::ylab("") +
+
+      ggplot2::ggtitle("FPA")
+
+
+    # plot PPA:
+    heatmap_PPA <- ggplot2::ggplot(PPA_subset_data,
+                                   ggplot2::aes(x = seq, y = day, fill = PPA_subset_data[, ncol(PPA_subset_data)])) +
+
+      ggplot2::geom_tile() +
+
+      harrypotter::scale_fill_hp(option = "Always", name = "Number of bites",
+                                 limits = c(min_value, max_value), oob = scales::squish) +
+
+      ggplot2::scale_x_discrete(labels = PPA_subset_data$hour) +
+
+      ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 90),
+                     panel.background = ggplot2::element_rect(fill = "white",
+                                                              colour = "grey"),
+                     panel.grid.major = ggplot2::element_line(colour = "white")) +
+
+      ggplot2::xlab("") +
+      ggplot2::ylab("") +
+
+      ggplot2::ggtitle("PPA")
+
+
+    # combine both:
+    plot_both <- (heatmap_FPA + heatmap_PPA) +
+      patchwork::plot_layout(byrow = TRUE, heights = c(1, 1), widths = c(1, 1),
+                             ncol = 1, nrow = 2, guides = "collect") +
+      patchwork::plot_annotation(title = guild_nm)
+
+
+    # save:
+    ggplot2::ggsave(filename = here::here("outputs",
+                                          paste0("heatmap", sep = "_",
+                                                 guild_nm,
+                                                 sep = "", ".pdf")),
+                    plot = plot_both,
+                    device = "pdf",
+                    scale = 1,
+                    height = 5000,
+                    width = 10000,
+                    units = "px",
+                    dpi = 800)
+
+  }
+
+  return(plot_list)
+
+}
+
