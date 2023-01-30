@@ -86,8 +86,7 @@ sp_nm_interact_all <- get.sp.nm(df_list)
 sp_diet <- read.csv(here::here("raw_data", "diet_Parravicini2.csv"))
 
 # Create a new column with genus + species information:
-sp_diet <- sp_diet %>%
-            dplyr::mutate(sp_diet, Latin_nm = paste0(Genus, sep = "_", Species))
+sp_diet <- dplyr::mutate(sp_diet, Latin_nm = paste0(Genus, sep = "_", Species))
 
 # Only keep species diet and latin name:
 sp_diet <- sp_diet[, c("Latin_nm", "Diet_Mouillot_2014",
@@ -116,6 +115,37 @@ sp_diet <- sp_diet %>%
   dplyr::add_row(Latin_nm = "Scarus_ferrugineus",
                  Diet_Mouillot_2014 = NA,
                  Diet_Parravicini_2020 = "Herbivores Microvores Detritivores")
+
+sp_diet <- sp_diet %>%
+  dplyr::add_row(Latin_nm = "Chaetodon_trifasciatusinv",
+                 Diet_Mouillot_2014 = NA,
+                 Diet_Parravicini_2020 = "Microinvertivores")
+
+sp_diet <- sp_diet %>%
+  dplyr::add_row(Latin_nm = "Chaetodon_aurigainv",
+                 Diet_Mouillot_2014 = NA,
+                 Diet_Parravicini_2020 = "Microinvertivores")
+
+sp_diet <- sp_diet %>%
+  dplyr::add_row(Latin_nm = "Scarus_ferrugineuscoral",
+                 Diet_Mouillot_2014 = NA,
+                 Diet_Parravicini_2020 = "Corallivores")
+
+sp_diet <- sp_diet %>%
+  dplyr::add_row(Latin_nm = "Chlorurus_sordiduscoral",
+                 Diet_Mouillot_2014 = NA,
+                 Diet_Parravicini_2020 = "Corallivores")
+
+sp_diet <- sp_diet %>%
+  dplyr::add_row(Latin_nm = "Scarus_nigercoral",
+                 Diet_Mouillot_2014 = NA,
+                 Diet_Parravicini_2020 = "Corallivores")
+
+sp_diet <- sp_diet %>%
+  dplyr::add_row(Latin_nm = "Scarus_frenatuscoral",
+                 Diet_Mouillot_2014 = NA,
+                 Diet_Parravicini_2020 = "Corallivores")
+
 
 sp_nm_interact_all <- sp_nm_interact_all[which(sp_nm_interact_all != "Cheilinus_quinquecinctus")]
 
@@ -230,3 +260,4 @@ diet_PPA_only_plot <- ggplot2::ggplot(data = PPA_only_tr) +
                           stat = "count") +
   ggplot2::ylim(0, 11) +
   ggplot2::ggtitle("Diets in the PPA - only seen in the PPA")
+
