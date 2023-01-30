@@ -38,10 +38,6 @@ bites_seq_df <- bites_seq_03_df
 
 # coral
 sp_feedact_nm_vect <- sp_diet$Latin_nm[which(sp_diet$Diet_Parravicini_2020 == "Corallivores")]
-# add Scaridae which are not coralliv in the traits db but seen feedg on corals:
-sp_feedact_nm_vect <- c(sp_feedact_nm_vect, "Chlorurus_sordiduscoral",
-                        "Scarus_ferrugineuscoral", "Scarus_frenatuscoral",
-                        "Scarus_nigercoral")
 coral_bites_seq_03_df <- subset.df.feedact(bites_seq_df,
                                         sp_feedact_nm_vect)
 
@@ -55,9 +51,6 @@ sp_feedact_nm_vect <- sp_diet$Latin_nm[which(sp_diet$Diet_Parravicini_2020 %in%
                                                c("Macroinvertivores",
                                                  "Microinvertivores",
                                                  "sessile invertivores"))]
-# add Chaetodon which are not invert in the traits db but seen feedg on invert:
-sp_feedact_nm_vect <- c(sp_feedact_nm_vect, "Chaetodon_aurigainv",
-                        "Chaetodon_trifasciatusinv")
 invert_bites_seq_03_df <- subset.df.feedact(bites_seq_df,
                                         sp_feedact_nm_vect)
 
@@ -73,10 +66,6 @@ bites_seq_df <- bites_seq_04_df
 
 # coral
 sp_feedact_nm_vect <- sp_diet$Latin_nm[which(sp_diet$Diet_Parravicini_2020 == "Corallivores")]
-# add Scaridae which are not coralliv in the traits db but seen feedg on corals:
-sp_feedact_nm_vect <- c(sp_feedact_nm_vect, "Chlorurus_sordiduscoral",
-                        "Scarus_ferrugineuscoral", "Scarus_frenatuscoral",
-                        "Scarus_nigercoral")
 coral_bites_seq_04_df <- subset.df.feedact(bites_seq_df,
                                            sp_feedact_nm_vect)
 
@@ -90,9 +79,6 @@ sp_feedact_nm_vect <- sp_diet$Latin_nm[which(sp_diet$Diet_Parravicini_2020 %in%
                                                c("Macroinvertivores",
                                                  "Microinvertivores",
                                                  "sessile invertivores"))]
-# add Chaetodon which are not invert in the traits db but seen feedg on invert:
-sp_feedact_nm_vect <- c(sp_feedact_nm_vect, "Chaetodon_aurigainv",
-                        "Chaetodon_trifasciatusinv")
 invert_bites_seq_04_df <- subset.df.feedact(bites_seq_df,
                                             sp_feedact_nm_vect)
 
@@ -108,10 +94,6 @@ bites_seq_df <- bites_seq_05_df
 
 # coral
 sp_feedact_nm_vect <- sp_diet$Latin_nm[which(sp_diet$Diet_Parravicini_2020 == "Corallivores")]
-# add Scaridae which are not coralliv in the traits db but seen feedg on corals:
-sp_feedact_nm_vect <- c(sp_feedact_nm_vect, "Chlorurus_sordiduscoral",
-                        "Scarus_ferrugineuscoral", "Scarus_frenatuscoral",
-                        "Scarus_nigercoral")
 coral_bites_seq_05_df <- subset.df.feedact(bites_seq_df,
                                            sp_feedact_nm_vect)
 
@@ -125,9 +107,6 @@ sp_feedact_nm_vect <- sp_diet$Latin_nm[which(sp_diet$Diet_Parravicini_2020 %in%
                                                c("Macroinvertivores",
                                                  "Microinvertivores",
                                                  "sessile invertivores"))]
-# add Chaetodon which are not invert in the traits db but seen feedg on invert:
-sp_feedact_nm_vect <- c(sp_feedact_nm_vect, "Chaetodon_aurigainv",
-                        "Chaetodon_trifasciatusinv")
 invert_bites_seq_05_df <- subset.df.feedact(bites_seq_df,
                                             sp_feedact_nm_vect)
 
@@ -143,10 +122,6 @@ bites_seq_df <- bites_seq_06_df
 
 # coral
 sp_feedact_nm_vect <- sp_diet$Latin_nm[which(sp_diet$Diet_Parravicini_2020 == "Corallivores")]
-# add Scaridae which are not coralliv in the traits db but seen feedg on corals:
-sp_feedact_nm_vect <- c(sp_feedact_nm_vect, "Chlorurus_sordiduscoral",
-                        "Scarus_ferrugineuscoral", "Scarus_frenatuscoral",
-                        "Scarus_nigercoral")
 coral_bites_seq_06_df <- subset.df.feedact(bites_seq_df,
                                            sp_feedact_nm_vect)
 
