@@ -1,9 +1,9 @@
 ################################################################################
 ##
-## Script to study the effect of time and protection on interactions with ...
-## ... sequences information
+## Functions to gather data at the sequence scale, compute the number ...
+## ... of bites per feeding activity and plot heatmaps of feeding activity
 ##
-## 6_Protection_time_effect_interactions.R
+## 4_Heatmaps_feedact_fcts.R
 ##
 ## 14/11/2022
 ##

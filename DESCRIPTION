@@ -15,9 +15,8 @@ RoxygenNote: 7.2.3
 Imports: 
     betapart,
     DHARMa,
-    DHARMA,
     dplyr,
     ggplot2,
-    harry_potter,
+    harrypotter,
     hms,
     patchwork
