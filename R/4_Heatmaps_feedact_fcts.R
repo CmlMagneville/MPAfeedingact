@@ -154,7 +154,7 @@ compute.bites.seq <- function(day,
   # remove the 3 last columns of seq df which does not contain species info:
   seq_df <- seq_df[, -c(ncol(seq_df), ncol(seq_df) - 1, ncol(seq_df) - 2)]
 
-  # comppute the total number of bites:
+  # compute the total number of bites:
   tot_bites <- apply(seq_df, 1, sum)
   final_seq_guild_df$tot_bites <- tot_bites
 

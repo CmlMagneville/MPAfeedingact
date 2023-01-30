@@ -198,6 +198,78 @@ plot.interact.guild.contrib <- function(contrib_FPA_df,
     data_subset_FPA <- dplyr::filter(contrib_FPA_df, Diet_Parravicini_2020 == guild_nm)
     data_subset_PPA <- dplyr::filter(contrib_PPA_df, Diet_Parravicini_2020 == guild_nm)
 
+    # add a rox with all bites:
+    data_subset_FPA <- tibble::add_row(data_subset_FPA, sp_nm = "All species",
+                                       feed_act = sum(data_subset_FPA$feed_act),
+                                       site = "both", Diet_Mouillot_2014 = NA,
+                                       Diet_Parravicini_2020 = guild_nm)
+    data_subset_PPA <- tibble::add_row(data_subset_PPA, sp_nm = "All species",
+                                       feed_act = sum(data_subset_PPA$feed_act),
+                                       site = "both", Diet_Mouillot_2014 = NA,
+                                       Diet_Parravicini_2020 = guild_nm)
+
+
+    # if there is a Corallivore names spnmcoral -> rename:
+    if (guild_nm == "Corallivores") {
+
+      # Correct for FPA:
+      if ("Scarus_ferrugineuscoral" %in% data_subset_FPA$sp_nm) {
+        data_subset_FPA[which(data_subset_FPA$sp_nm == "Scarus_ferrugineuscoral"), "sp_nm"] <-
+          "Scarus_ferrugineus"
+      }
+      if ("Chlorurus_sordiduscoral" %in% data_subset_FPA$sp_nm) {
+        data_subset_FPA[which(data_subset_FPA$sp_nm == "Chlorurus_sordiduscoral"), "sp_nm"] <-
+          "Chlorurus_sordidus"
+      }
+      if ("Scarus_nigercoral" %in% data_subset_FPA$sp_nm) {
+        data_subset_FPA[which(data_subset_FPA$sp_nm == "Scarus_nigercoral"), "sp_nm"] <-
+          "Scarus_niger"
+      }
+      if ("Scarus_frenatuscoral" %in% data_subset_FPA$sp_nm) {
+        data_subset_FPA[which(data_subset_FPA$sp_nm == "Scarus_frenatuscoral"), "sp_nm"] <-
+          "Scarus_frenatus"
+      }
+
+      # Correct for PPA:
+      if ("Scarus_ferrugineuscoral" %in% data_subset_PPA$sp_nm) {
+        data_subset_PPA[which(data_subset_PPA$sp_nm == "Scarus_ferrugineuscoral"), "sp_nm"] <-
+          "Scarus_ferrugineus"
+      }
+      if ("Chlorurus_sordiduscoral" %in% data_subset_PPA$sp_nm) {
+        data_subset_PPA[which(data_subset_PPA$sp_nm == "Chlorurus_sordiduscoral"), "sp_nm"] <-
+          "Chlorurus_sordidus"
+      }
+      if ("Scarus_nigercoral" %in% data_subset_PPA$sp_nm) {
+        data_subset_PPA[which(data_subset_PPA$sp_nm == "Scarus_nigercoral"), "sp_nm"] <-
+          "Scarus_niger"
+      }
+      if ("Scarus_frenatuscoral" %in% data_subset_PPA$sp_nm) {
+        data_subset_PPA[which(data_subset_PPA$sp_nm == "Scarus_frenatuscoral"), "sp_nm"] <-
+          "Scarus_frenatus"
+      }
+
+    }
+
+    # if there is Invertivore names spnminv -> rename:
+    if (guild_nm == "Invertivores") {
+
+      # Correct for FPA:
+      if ("Chaetodon_trifasciatusinv" %in% data_subset_FPA$sp_nm) {
+        data_subset_FPA[which(data_subset_FPA$sp_nm == "Chaetodon_trifasciatusinv"), "sp_nm"] <-
+          "Chaetodon_trifasciatus"
+      }
+      if ("Chaetodon_aurigainv" %in% data_subset_FPA$sp_nm) {
+        data_subset_FPA[which(data_subset_FPA$sp_nm == "Chaetodon_aurigainv"), "sp_nm"] <-
+          "Chaetodon_auriga"
+      }
+
+    }
+
+    # rename all species by removing "_":
+    data_subset_FPA$sp_nm <- stringr::str_replace_all(data_subset_FPA$sp_nm, "_", " ")
+    data_subset_PPA$sp_nm <- stringr::str_replace_all(data_subset_PPA$sp_nm, "_", " ")
+
+
     plot_FPA <- ggplot2::ggplot(data = data_subset_FPA) +
 
       ggplot2::geom_bar(ggplot2::aes(y = reorder(sp_nm, - feed_act), x = feed_act,
