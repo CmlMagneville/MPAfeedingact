@@ -287,10 +287,36 @@ plot.heatmaps.act.intensity <- function(bites_seq_df_list) {
 
 
     # combine both:
-    plot_both <- (heatmap_FPA + heatmap_PPA) +
-      patchwork::plot_layout(byrow = TRUE, heights = c(1, 1), widths = c(1, 1),
-                             ncol = 1, nrow = 2, guides = "collect") +
-      patchwork::plot_annotation(title = guild_nm)
+    if (guild_nm == "tot_bites") {
+      plot_both <- (heatmap_FPA + heatmap_PPA) +
+        patchwork::plot_layout(byrow = TRUE, heights = c(1, 1), widths = c(1, 1),
+                               ncol = 1, nrow = 2, guides = "collect") +
+        patchwork::plot_annotation(title = "All feeding activities")
+    }
+    if (guild_nm == "coral_bites") {
+      plot_both <- (heatmap_FPA + heatmap_PPA) +
+        patchwork::plot_layout(byrow = TRUE, heights = c(1, 1), widths = c(1, 1),
+                               ncol = 1, nrow = 2, guides = "collect") +
+        patchwork::plot_annotation(title = "Corallivores")
+    }
+    if (guild_nm == "herb_bites") {
+      plot_both <- (heatmap_FPA + heatmap_PPA) +
+        patchwork::plot_layout(byrow = TRUE, heights = c(1, 1), widths = c(1, 1),
+                               ncol = 1, nrow = 2, guides = "collect") +
+        patchwork::plot_annotation(title = "HMD")
+    }
+    if (guild_nm == "crustac_bites") {
+      plot_both <- (heatmap_FPA + heatmap_PPA) +
+        patchwork::plot_layout(byrow = TRUE, heights = c(1, 1), widths = c(1, 1),
+                               ncol = 1, nrow = 2, guides = "collect") +
+        patchwork::plot_annotation(title = "Crustacivores")
+    }
+    if (guild_nm == "invert_bites") {
+      plot_both <- (heatmap_FPA + heatmap_PPA) +
+        patchwork::plot_layout(byrow = TRUE, heights = c(1, 1), widths = c(1, 1),
+                               ncol = 1, nrow = 2, guides = "collect") +
+        patchwork::plot_annotation(title = "Invertivores")
+    }
 
 
     # save:
