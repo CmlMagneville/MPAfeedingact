@@ -198,7 +198,7 @@ sp_coral <- stringr::str_replace_all(sp_coral, "_", " ")
 
 # Create the color palette using viridis (colorblindfriendly)
 sp_nb <- length(sp_coral)
-coral_colour_vect <- hcl.colors(sp_nb, palette = "TealGrn")
+coral_colour_vect <- hcl.colors(sp_nb, palette = "GnBu")
 names(coral_colour_vect) <- sp_coral
 coral_colour_vect[which(names(coral_colour_vect) == "Others")] <- "gray75"
 col_vect <- coral_colour_vect
