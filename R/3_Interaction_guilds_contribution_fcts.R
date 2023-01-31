@@ -263,6 +263,16 @@ plot.interact.guild.contrib <- function(contrib_FPA_df,
           "Chaetodon_auriga"
       }
 
+      # Correct for PPA:
+      if ("Chaetodon_trifasciatusinv" %in% data_subset_PPA$sp_nm) {
+        data_subset_PPA[which(data_subset_PPA$sp_nm == "Chaetodon_trifasciatusinv"), "sp_nm"] <-
+          "Chaetodon_trifasciatus"
+      }
+      if ("Chaetodon_aurigainv" %in% data_subset_PPA$sp_nm) {
+        data_subset_PPA[which(data_subset_PPA$sp_nm == "Chaetodon_aurigainv"), "sp_nm"] <-
+          "Chaetodon_auriga"
+      }
+
     }
 
     # rename all species by removing "_":

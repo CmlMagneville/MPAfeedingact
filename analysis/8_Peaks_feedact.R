@@ -146,6 +146,206 @@ crust_bites_seq_06_df <- subset.df.feedact(bites_seq_df,
 # I thus get 10 sequences per feeding activity (5 per site)
 
 
-#
+# Corallivory:
+list_FPA_df <- list(coral_bites_seq_03_df, coral_bites_seq_05_df)
+coral_FPA_peaks <- identify.peaks.species(list_df = list_FPA_df, peak_nb = 5)
+list_PPA_df <- list(coral_bites_seq_04_df, coral_bites_seq_06_df)
+coral_PPA_peaks <- identify.peaks.species(list_df = list_PPA_df, peak_nb = 5)
 
+# Herbivory:
+list_FPA_df <- list(herb_bites_seq_03_df, herb_bites_seq_05_df)
+herb_FPA_peaks <- identify.peaks.species(list_df = list_FPA_df, peak_nb = 5)
+list_PPA_df <- list(herb_bites_seq_04_df, herb_bites_seq_06_df)
+herb_PPA_peaks <- identify.peaks.species(list_df = list_PPA_df, peak_nb = 5)
+
+# Invertivory:
+list_FPA_df <- list(invert_bites_seq_03_df, invert_bites_seq_05_df)
+invert_FPA_peaks <- identify.peaks.species(list_df = list_FPA_df, peak_nb = 5)
+list_PPA_df <- list(invert_bites_seq_04_df, invert_bites_seq_06_df)
+invert_PPA_peaks <- identify.peaks.species(list_df = list_PPA_df, peak_nb = 5)
+
+# Crustacivory:
+list_FPA_df <- list(crust_bites_seq_03_df, crust_bites_seq_05_df)
+crust_FPA_peaks <- identify.peaks.species(list_df = list_FPA_df, peak_nb = 5)
+list_PPA_df <- list(crust_bites_seq_04_df, crust_bites_seq_06_df)
+crust_PPA_peaks <- identify.peaks.species(list_df = list_PPA_df, peak_nb = 5)
+
+
+# 4 - Plot the five biggest events and species contribution to it ####
+
+
+## Corallivory:
+
+# Create a vector that contain the names of all corallivores species seen ...
+# ... and affect a color to ecah species (so that same color between FPA and PPA plots):
+FPA_sp <- colnames(coral_FPA_peaks[, which(! colnames(coral_FPA_peaks)
+                                %in% c("site", "hour",
+                                       "seq", "day",
+                                       "summed_bites"))])
+PPA_sp <- colnames(coral_PPA_peaks[, which(! colnames(coral_PPA_peaks)
+                                           %in% c("site", "hour",
+                                                  "seq", "day",
+                                                  "summed_bites"))])
+sp_coral <- unique(c(FPA_sp, PPA_sp, "Others"))
+
+# Correct Scaridae names:
+sp_coral <- sub("Scarus_ferrugineuscoral", "Scarus_ferrugineus", sp_coral)
+sp_coral <- sub("Chlorurus_sordiduscoral", "Chlorurus_sordidus", sp_coral)
+sp_coral <- sub("Scarus_nigercoral", "Scarus_niger", sp_coral)
+sp_coral <- sub("Scarus_frenatuscoral", "Scarus_frenatus", sp_coral)
+# remove "_" and replace by empty space for species names:
+sp_coral <- stringr::str_replace_all(sp_coral, "_", " ")
+
+# Create the color palette using viridis (colorblindfriendly)
+sp_nb <- length(sp_coral)
+coral_colour_vect <- hcl.colors(sp_nb, palette = "TealGrn")
+names(coral_colour_vect) <- sp_coral
+coral_colour_vect[which(names(coral_colour_vect) == "Others")] <- "gray75"
+col_vect <- coral_colour_vect
+
+# FPA:
+biggest_peaks_df <- coral_FPA_peaks
+guild_nm <- "Corallivores"
+site <- "FPA"
+FPA_coral <- plot.peaks.contrib(biggest_peaks_df, guild_nm, site, col_vect)[[1]]
+# PPA:
+biggest_peaks_df <- coral_PPA_peaks
+guild_nm <- "Corallivores"
+site <- "PPA"
+PPA_coral <- plot.peaks.contrib(biggest_peaks_df, guild_nm, site, col_vect)[[1]]
+
+coral_peaks <- (FPA_coral + PPA_coral) +
+  patchwork::plot_layout(byrow = TRUE, heights = c(1, 1), widths = c(1, 1),
+                         ncol = 1, nrow = 2, guides = "collect") +
+  patchwork::plot_annotation(tag_levels = "A", title = "Corallivores")
+
+
+
+## Herbivory:
+
+# Create a vector that contain the names of all corallivores species seen ...
+# ... and affect a color to ecah species (so that same color between FPA and PPA plots):
+FPA_sp <- colnames(herb_FPA_peaks[, which(! colnames(herb_FPA_peaks)
+                                           %in% c("site", "hour",
+                                                  "seq", "day",
+                                                  "summed_bites"))])
+PPA_sp <- colnames(herb_PPA_peaks[, which(! colnames(herb_PPA_peaks)
+                                           %in% c("site", "hour",
+                                                  "seq", "day",
+                                                  "summed_bites"))])
+sp_herb <- unique(c(FPA_sp, PPA_sp, "Others"))
+# remove "_" and replace by empty space for species names:
+sp_herb <- stringr::str_replace_all(sp_herb, "_", " ")
+
+# Create the color palette using viridis (colorblindfriendly)
+sp_nb <- length(sp_herb)
+herb_colour_vect <- hcl.colors(sp_nb, palette = "YlGnBu")
+names(herb_colour_vect) <- sp_herb
+herb_colour_vect[which(names(herb_colour_vect) == "Others")] <- "gray75"
+col_vect <- herb_colour_vect
+
+
+# FPA:
+biggest_peaks_df <- herb_FPA_peaks
+guild_nm <- "Herbivores"
+site <- "FPA"
+FPA_herb <- plot.peaks.contrib(biggest_peaks_df, guild_nm, site, col_vect)[[1]]
+# PPA:
+biggest_peaks_df <- herb_PPA_peaks
+guild_nm <- "Herbivores"
+site <- "PPA"
+col_vect <- herb_colour_vect
+PPA_herb <- plot.peaks.contrib(biggest_peaks_df, guild_nm, site, col_vect)[[1]]
+
+herb_peaks <- (FPA_herb + PPA_herb) +
+  patchwork::plot_layout(byrow = TRUE, heights = c(1, 1), widths = c(1, 1),
+                         ncol = 1, nrow = 2, guides = "collect") +
+  patchwork::plot_annotation(tag_levels = "A", title = "Herbivores")
+
+
+## Invertivory:
+
+# Create a vector that contain the names of all corallivores species seen ...
+# ... and affect a color to ecah species (so that same color between FPA and PPA plots):
+FPA_sp <- colnames(invert_FPA_peaks[, which(! colnames(invert_FPA_peaks)
+                                           %in% c("site", "hour",
+                                                  "seq", "day",
+                                                  "summed_bites"))])
+PPA_sp <- colnames(invert_PPA_peaks[, which(! colnames(invert_PPA_peaks)
+                                           %in% c("site", "hour",
+                                                  "seq", "day",
+                                                  "summed_bites"))])
+sp_invert <- unique(c(FPA_sp, PPA_sp, "Others"))
+
+# Correct Scaridae names:
+sp_invert <- sub("Chaetodon_trifasciatusinv", "Chaetodon_trifasciatus", sp_invert)
+sp_invert <- sub("Chaetodon_aurigainv", "Chaetodon_auriga", sp_invert)
+# remove "_" and replace by empty space for species names:
+sp_invert <- stringr::str_replace_all(sp_invert, "_", " ")
+
+# Create the color palette using viridis (colorblindfriendly)
+sp_nb <- length(sp_invert)
+invert_colour_vect <- hcl.colors(sp_nb, palette = "BrWnYl")
+names(invert_colour_vect) <- sp_invert
+invert_colour_vect[which(names(invert_colour_vect) == "Others")] <- "gray75"
+col_vect <- invert_colour_vect
+
+
+# FPA:
+biggest_peaks_df <- invert_FPA_peaks
+guild_nm <- "Invertivores"
+site <- "FPA"
+FPA_invert <- plot.peaks.contrib(biggest_peaks_df, guild_nm, site, col_vect)[[1]]
+# PPA:
+biggest_peaks_df <- invert_PPA_peaks
+guild_nm <- "Invertivores"
+site <- "PPA"
+PPA_invert <- plot.peaks.contrib(biggest_peaks_df, guild_nm, site, col_vect)[[1]]
+
+invert_peaks <- (FPA_invert + PPA_invert) +
+  patchwork::plot_layout(byrow = TRUE, heights = c(1, 1), widths = c(1, 1),
+                         ncol = 1, nrow = 2, guides = "collect") +
+  patchwork::plot_annotation(tag_levels = "A", title = "Invertivores")
+
+
+
+## Crustacivores:
+
+# Create a vector that contain the names of all corallivores species seen ...
+# ... and affect a color to ecah species (so that same color between FPA and PPA plots):
+FPA_sp <- colnames(crust_FPA_peaks[, which(! colnames(crust_FPA_peaks)
+                                          %in% c("site", "hour",
+                                                 "seq", "day",
+                                                 "summed_bites"))])
+PPA_sp <- colnames(crust_PPA_peaks[, which(! colnames(crust_PPA_peaks)
+                                          %in% c("site", "hour",
+                                                 "seq", "day",
+                                                 "summed_bites"))])
+sp_crust <- unique(c(FPA_sp, PPA_sp, "Others"))
+# remove "_" and replace by empty space for species names:
+sp_crust <- stringr::str_replace_all(sp_crust, "_", " ")
+
+# Create the color palette using viridis (colorblindfriendly)
+sp_nb <- length(sp_crust)
+crust_colour_vect <- hcl.colors(sp_nb, palette = "Heat")
+names(crust_colour_vect) <- sp_crust
+crust_colour_vect[which(names(crust_colour_vect) == "Others")] <- "gray75"
+col_vect <- crust_colour_vect
+
+
+# FPA:
+biggest_peaks_df <- crust_FPA_peaks
+guild_nm <- "Crustacivores"
+site <- "FPA"
+FPA_crust <- plot.peaks.contrib(biggest_peaks_df, guild_nm, site, col_vect)[[1]]
+# PPA:
+biggest_peaks_df <- crust_PPA_peaks
+guild_nm <- "Crustacivores"
+site <- "PPA"
+PPA_crust <- plot.peaks.contrib(biggest_peaks_df, guild_nm, site, col_vect)[[1]]
+
+crust_peaks <- (FPA_crust + PPA_crust) +
+  patchwork::plot_layout(byrow = TRUE, heights = c(1, 1), widths = c(1, 1),
+                         ncol = 1, nrow = 2, guides = "collect") +
+  patchwork::plot_annotation(tag_levels = "A", title = "Crustacivores")
 
