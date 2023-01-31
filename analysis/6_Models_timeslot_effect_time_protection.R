@@ -11,7 +11,6 @@
 ##
 ################################################################################
 
-# TO ADAAAAAAPT
 
 # Model: does the protection level and time affect activity intensity? ####
 # AT THE TIMESLOT (3 in a day) LEVEL (see previous script for the sequence levels)
@@ -22,12 +21,24 @@
 
 bites_seq_guilds_03_df <- readRDS(here::here("transformed_data",
                                              "bites_seq_guilds_03_df.rds"))
+# add timeslot info:
+bites_seq_guilds_03_df$timeslot <- c(rep("timeslot_1", 4), rep("timeslot_2", 4),
+                                     rep("timeslot_3", 4))
 bites_seq_guilds_04_df <- readRDS(here::here("transformed_data",
                                              "bites_seq_guilds_04_df.rds"))
+# add timeslot info:
+bites_seq_guilds_04_df$timeslot <- c(rep("timeslot_1", 4), rep("timeslot_2", 4),
+                                     rep("timeslot_3", 4))
 bites_seq_guilds_05_df <- readRDS(here::here("transformed_data",
                                              "bites_seq_guilds_05_df.rds"))
+# add timeslot info:
+bites_seq_guilds_05_df$timeslot <- c(rep("timeslot_1", 4), rep("timeslot_2", 4),
+                                     rep("timeslot_3", 4))
 bites_seq_guilds_06_df <- readRDS(here::here("transformed_data",
                                              "bites_seq_guilds_06_df.rds"))
+# add timeslot info:
+bites_seq_guilds_06_df$timeslot <- c(rep("timeslot_1", 4), rep("timeslot_2", 4),
+                                     rep("timeslot_3", 4))
 bites_seq_final_df <- dplyr::bind_rows(bites_seq_guilds_03_df,
                                        bites_seq_guilds_04_df,
                                        bites_seq_guilds_05_df,
@@ -38,7 +49,7 @@ bites_seq_final_df <- dplyr::bind_rows(bites_seq_guilds_03_df,
 
 
 # change the name of the studied column to study the different guilds:
-trophic_guild <- "tot_bites"
+trophic_guild <- "crustac_bites"
 
 # Does the number of bites follow a Poisson distrib?
 hist(bites_seq_final_df[, trophic_guild])
@@ -57,13 +68,13 @@ ggplot2::ggplot(bites_seq_final_df, ggplot2::aes(get(trophic_guild))) +
 # ... and overdisp signif)
 
 # Plot data:
-bites_seq_final_df$seq <-  factor(bites_seq_final_df$seq,
-                                  levels = paste0("seq", sep ="_", c(1:12)))
+bites_seq_final_df$timeslot <-  factor(bites_seq_final_df$timeslot,
+                                  levels = paste0("timeslot", sep ="_", c(1:3)))
 
 plot_bites <- ggplot2::ggplot(data = bites_seq_final_df) +
 
   ggplot2::geom_boxplot(ggplot2::aes(y = get(trophic_guild),
-                                     x = seq,
+                                     x = timeslot,
                                      fill = site),
                         outlier.shape = NA)
 plot_bites
@@ -76,7 +87,7 @@ mean_bites <- bites_seq_final_df %>%
 mean_bites
 
 # Build the model:
-model_bites <- lme4::glmer.nb(get(trophic_guild) ~ site + seq + (1|day),
+model_bites <- lme4::glmer.nb(get(trophic_guild) ~ site + timeslot + (1|day),
                               data = bites_seq_final_df)
 summary(model_bites)
 car::Anova(model_bites) # H0: no effect of the variable
