@@ -43,6 +43,13 @@ source(here::here("analysis", "5_Models_seq_effect_time_protection.R"))
 # 6 - Compute GLMM to study the effect of protectionlevel and time (timeslot):
 source(here::here("analysis", "6_Models_timeslot_effect_time_protection.R"))
 
+# 7 - Compute the taxonomic dissimilarity and turnover between time slots:
+source(here::here("analysis", "7_Temporal_seq_turnover.R"))
+
+# 8 - Study the five big feeding activity events and plot species contribution:
+source(here::here("analysis", "8_Peaks_feedact.R"))
+
+
 
 
 
