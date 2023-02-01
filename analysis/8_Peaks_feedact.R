@@ -196,7 +196,7 @@ sp_coral <- sub("Scarus_frenatuscoral", "Scarus_frenatus", sp_coral)
 # remove "_" and replace by empty space for species names:
 sp_coral <- stringr::str_replace_all(sp_coral, "_", " ")
 
-# Create the color palette using viridis (colorblindfriendly)
+# Create the color palette (colorblindfriendly using colorBlindness::cvdPlot(plot))
 sp_nb <- length(sp_coral)
 coral_colour_vect <- hcl.colors(sp_nb, palette = "GnBu")
 names(coral_colour_vect) <- sp_coral
@@ -237,7 +237,7 @@ sp_herb <- unique(c(FPA_sp, PPA_sp, "Others"))
 # remove "_" and replace by empty space for species names:
 sp_herb <- stringr::str_replace_all(sp_herb, "_", " ")
 
-# Create the color palette using viridis (colorblindfriendly)
+# Create the color palette (colorblindfriendly)
 sp_nb <- length(sp_herb)
 herb_colour_vect <- hcl.colors(sp_nb, palette = "YlGnBu")
 names(herb_colour_vect) <- sp_herb
@@ -283,7 +283,7 @@ sp_invert <- sub("Chaetodon_aurigainv", "Chaetodon_auriga", sp_invert)
 # remove "_" and replace by empty space for species names:
 sp_invert <- stringr::str_replace_all(sp_invert, "_", " ")
 
-# Create the color palette using viridis (colorblindfriendly)
+# Create the color palette (colorblindfriendly)
 sp_nb <- length(sp_invert)
 invert_colour_vect <- hcl.colors(sp_nb, palette = "BrWnYl")
 names(invert_colour_vect) <- sp_invert
@@ -325,7 +325,7 @@ sp_crust <- unique(c(FPA_sp, PPA_sp, "Others"))
 # remove "_" and replace by empty space for species names:
 sp_crust <- stringr::str_replace_all(sp_crust, "_", " ")
 
-# Create the color palette using viridis (colorblindfriendly)
+# Create the color palette (colorblindfriendly)
 sp_nb <- length(sp_crust)
 crust_colour_vect <- hcl.colors(sp_nb, palette = "Heat")
 names(crust_colour_vect) <- sp_crust
