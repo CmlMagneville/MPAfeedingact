@@ -117,10 +117,14 @@ contrib_FPA_df <- FPA_tot_contrib_diet
 contrib_PPA_df <- PPA_tot_contrib_diet
 guild_nm <- "Corallivores"
 sites_colors <- c("grey85", "#bf812d", "#80cdc1")
-plot.interact.guild.contrib(contrib_FPA_df,
-                            contrib_PPA_df,
-                            guild_nm,
-                            sites_colors)
+res_coral <- plot.interact.guild.contrib(contrib_FPA_df,
+                                         contrib_PPA_df,
+                                         guild_nm,
+                                         sites_colors)
+coral_contrib_PPA <- res_coral[[2]]
+coral_contrib_FPA <- res_coral[[3]]
+saveRDS(coral_contrib_PPA, here::here("transformed_data", "coral_contrib_PPA.rds"))
+saveRDS(coral_contrib_FPA, here::here("transformed_data", "coral_contrib_FPA.rds"))
 
 
 # HMD
@@ -128,10 +132,14 @@ contrib_FPA_df <- FPA_tot_contrib_diet
 contrib_PPA_df <- PPA_tot_contrib_diet
 guild_nm <- "HMD"
 sites_colors <- c("grey85", "#bf812d", "#80cdc1")
-plot.interact.guild.contrib(contrib_FPA_df,
+res_herb <- plot.interact.guild.contrib(contrib_FPA_df,
                             contrib_PPA_df,
                             guild_nm,
                             sites_colors)
+herb_contrib_PPA <- res_herb[[2]]
+herb_contrib_FPA <- res_herb[[3]]
+saveRDS(herb_contrib_PPA, here::here("transformed_data", "herb_contrib_PPA.rds"))
+saveRDS(herb_contrib_FPA, here::here("transformed_data", "herb_contrib_FPA.rds"))
 
 
 # Invertivores
@@ -139,10 +147,14 @@ contrib_FPA_df <- FPA_tot_contrib_diet
 contrib_PPA_df <- PPA_tot_contrib_diet
 guild_nm <- "Invertivores"
 sites_colors <- c("grey85", "#bf812d", "#80cdc1")
-plot.interact.guild.contrib(contrib_FPA_df,
+res_invert <- plot.interact.guild.contrib(contrib_FPA_df,
                             contrib_PPA_df,
                             guild_nm,
                             sites_colors)
+invert_contrib_PPA <- res_invert[[2]]
+invert_contrib_FPA <- res_invert[[3]]
+saveRDS(invert_contrib_PPA, here::here("transformed_data", "invert_contrib_PPA.rds"))
+saveRDS(invert_contrib_FPA, here::here("transformed_data", "invert_contrib_FPA.rds"))
 
 
 # Crustacivores
@@ -150,7 +162,11 @@ contrib_FPA_df <- FPA_tot_contrib_diet
 contrib_PPA_df <- PPA_tot_contrib_diet
 guild_nm <- "Crustacivores"
 sites_colors <- c("grey85", "#bf812d", "#80cdc1")
-plot.interact.guild.contrib(contrib_FPA_df,
+res_crustac <- plot.interact.guild.contrib(contrib_FPA_df,
                             contrib_PPA_df,
                             guild_nm,
                             sites_colors)
+crustac_contrib_PPA <- res_crustac[[2]]
+crustac_contrib_FPA <- res_crustac[[3]]
+saveRDS(crustac_contrib_PPA, here::here("transformed_data", "crustac_contrib_PPA.rds"))
+saveRDS(crustac_contrib_FPA, here::here("transformed_data", "crustac_contrib_FPA.rds"))

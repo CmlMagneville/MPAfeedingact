@@ -17,6 +17,7 @@ Imports:
     DHARMa,
     dplyr,
     ggplot2,
+    ggpubr,
     harrypotter,
     hms,
     patchwork,

@@ -348,6 +348,6 @@ plot.interact.guild.contrib <- function(contrib_FPA_df,
                     units = "px",
                     dpi = 800)
 
-    return(plot_both)
+    return(list(plot_both, data_subset_PPA, data_subset_FPA))
 
 }

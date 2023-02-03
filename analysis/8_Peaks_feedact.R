@@ -219,12 +219,19 @@ coral_peaks <- (FPA_coral + PPA_coral) +
                          ncol = 1, nrow = 2, guides = "collect") +
   patchwork::plot_annotation(tag_levels = "A", title = "Corallivores")
 
-
+ggplot2::ggsave(filename = here::here("outputs", "Coral_peaks_tot.pdf"),
+                plot = coral_peaks,
+                device = "pdf",
+                scale = 1,
+                height = 4000,
+                width = 5000,
+                units = "px",
+                dpi = 600)
 
 ## Herbivory:
 
 # Create a vector that contain the names of all corallivores species seen ...
-# ... and affect a color to ecah species (so that same color between FPA and PPA plots):
+# ... and affect a color to each species (so that same color between FPA and PPA plots):
 FPA_sp <- colnames(herb_FPA_peaks[, which(! colnames(herb_FPA_peaks)
                                            %in% c("site", "hour",
                                                   "seq", "day",
@@ -261,6 +268,15 @@ herb_peaks <- (FPA_herb + PPA_herb) +
   patchwork::plot_layout(byrow = TRUE, heights = c(1, 1), widths = c(1, 1),
                          ncol = 1, nrow = 2, guides = "collect") +
   patchwork::plot_annotation(tag_levels = "A", title = "Herbivores")
+
+ggplot2::ggsave(filename = here::here("outputs", "Herb_peaks_tot.pdf"),
+                plot = herb_peaks,
+                device = "pdf",
+                scale = 1,
+                height = 4000,
+                width = 5000,
+                units = "px",
+                dpi = 600)
 
 
 ## Invertivory:
@@ -307,12 +323,21 @@ invert_peaks <- (FPA_invert + PPA_invert) +
                          ncol = 1, nrow = 2, guides = "collect") +
   patchwork::plot_annotation(tag_levels = "A", title = "Invertivores")
 
+ggplot2::ggsave(filename = here::here("outputs", "Invert_peaks_tot.pdf"),
+                plot = invert_peaks,
+                device = "pdf",
+                scale = 1,
+                height = 4000,
+                width = 5000,
+                units = "px",
+                dpi = 600)
+
 
 
 ## Crustacivores:
 
 # Create a vector that contain the names of all corallivores species seen ...
-# ... and affect a color to ecah species (so that same color between FPA and PPA plots):
+# ... and affect a color to each species (so that same color between FPA and PPA plots):
 FPA_sp <- colnames(crust_FPA_peaks[, which(! colnames(crust_FPA_peaks)
                                           %in% c("site", "hour",
                                                  "seq", "day",
@@ -348,4 +373,36 @@ crust_peaks <- (FPA_crust + PPA_crust) +
   patchwork::plot_layout(byrow = TRUE, heights = c(1, 1), widths = c(1, 1),
                          ncol = 1, nrow = 2, guides = "collect") +
   patchwork::plot_annotation(tag_levels = "A", title = "Crustacivores")
+
+ggplot2::ggsave(filename = here::here("outputs", "Crustac_peaks_tot.pdf"),
+                plot = crust_peaks,
+                device = "pdf",
+                scale = 1,
+                height = 4000,
+                width = 5000,
+                units = "px",
+                dpi = 600)
+
+
+
+# 5 - Retrieve pres/abs dataframe for each feedact to check individual nb ####
+
+
+presabs_03_df <- readRDS(here::here("transformed_data",
+                                    "presabs_03_df.rds"))
+presabs_04_df <- readRDS(here::here("transformed_data",
+                                    "presabs_04_df.rds"))
+presabs_05_df <- readRDS(here::here("transformed_data",
+                                    "presabs_05_df.rds"))
+presabs_06_df <- readRDS(here::here("transformed_data",
+                                    "presabs_06_df.rds"))
+
+# coral:
+sp_coral_nm <- sp_diet$Latin_nm[which(sp_diet$Diet_Parravicini_2020 == "Corallivores")]
+coral_03_df <- presabs_03_df[, which(colnames(presabs_03_df) %in% sp_coral_nm)]
+coral_04_df <- presabs_04_df[, which(colnames(presabs_04_df) %in% sp_coral_nm)]
+coral_05_df <- presabs_05_df[, which(colnames(presabs_05_df) %in% sp_coral_nm)]
+coral_06_df <- presabs_06_df[, which(colnames(presabs_06_df) %in% sp_coral_nm)]
+
+
 

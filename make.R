@@ -32,7 +32,7 @@ source(here::here("analysis", "1_Nb_sp_feedact.R"))
 source(here::here("analysis", "2_Merge_cameras.R"))
 
 # 3 - Species contribution to feeding activities (and plot):
-source(here::here("analysis", "3_Feedact_contrib.R"))
+source(here::here("analysis", "3_Feedact_contribution.R"))
 
 # 4 - Plot heatmaps of feeding activities and nb of bites per seq per feedact:
 source(here::here("analysis", "4_Heatmaps_feedact.R"))
@@ -49,7 +49,8 @@ source(here::here("analysis", "7_Temporal_seq_turnover.R"))
 # 8 - Study the five big feeding activity events and plot species contribution:
 source(here::here("analysis", "8_Peaks_feedact.R"))
 
-
+# 9 - Compute and plot the correlation between feeding activities
+source(here::here("analysis", "9_Correlation_feedact.R"))
 
 
 
