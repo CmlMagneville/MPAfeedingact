@@ -207,14 +207,17 @@ col_vect <- coral_colour_vect
 biggest_peaks_df <- coral_FPA_peaks
 guild_nm <- "Corallivores"
 site <- "FPA"
-FPA_coral <- plot.peaks.contrib(biggest_peaks_df, guild_nm, site, col_vect)[[1]]
+FPA_coral <- plot.peaks.contrib(biggest_peaks_df, guild_nm, site, col_vect)
+FPA_coral_plot <- FPA_coral[[1]]
 # PPA:
 biggest_peaks_df <- coral_PPA_peaks
 guild_nm <- "Corallivores"
 site <- "PPA"
-PPA_coral <- plot.peaks.contrib(biggest_peaks_df, guild_nm, site, col_vect)[[1]]
+PPA_coral <- plot.peaks.contrib(biggest_peaks_df, guild_nm, site, col_vect)
+PPA_coral_plot <- PPA_coral[[1]]
 
-coral_peaks <- (FPA_coral + PPA_coral) +
+
+coral_peaks <- (FPA_coral_plot + PPA_coral_plot) +
   patchwork::plot_layout(byrow = TRUE, heights = c(1, 1), widths = c(1, 1),
                          ncol = 1, nrow = 2, guides = "collect") +
   patchwork::plot_annotation(tag_levels = "A", title = "Corallivores")
@@ -227,6 +230,11 @@ ggplot2::ggsave(filename = here::here("outputs", "Coral_peaks_tot.pdf"),
                 width = 5000,
                 units = "px",
                 dpi = 600)
+
+# save the five biggest peaks data:
+saveRDS(FPA_coral[[2]], here::here("transformed_data", "biggest_peaks_coral_FPA.rds"))
+saveRDS(PPA_coral[[2]], here::here("transformed_data", "biggest_peaks_coral_PPA.rds"))
+
 
 ## Herbivory:
 
@@ -256,15 +264,18 @@ col_vect <- herb_colour_vect
 biggest_peaks_df <- herb_FPA_peaks
 guild_nm <- "Herbivores"
 site <- "FPA"
-FPA_herb <- plot.peaks.contrib(biggest_peaks_df, guild_nm, site, col_vect)[[1]]
+FPA_herb <- plot.peaks.contrib(biggest_peaks_df, guild_nm, site, col_vect)
+FPA_herb_plot <- FPA_herb[[1]]
+
 # PPA:
 biggest_peaks_df <- herb_PPA_peaks
 guild_nm <- "Herbivores"
 site <- "PPA"
 col_vect <- herb_colour_vect
-PPA_herb <- plot.peaks.contrib(biggest_peaks_df, guild_nm, site, col_vect)[[1]]
+PPA_herb <- plot.peaks.contrib(biggest_peaks_df, guild_nm, site, col_vect)
+PPA_herb_plot <- PPA_herb[[1]]
 
-herb_peaks <- (FPA_herb + PPA_herb) +
+herb_peaks <- (FPA_herb_plot + PPA_herb_plot) +
   patchwork::plot_layout(byrow = TRUE, heights = c(1, 1), widths = c(1, 1),
                          ncol = 1, nrow = 2, guides = "collect") +
   patchwork::plot_annotation(tag_levels = "A", title = "Herbivores")
@@ -277,6 +288,10 @@ ggplot2::ggsave(filename = here::here("outputs", "Herb_peaks_tot.pdf"),
                 width = 5000,
                 units = "px",
                 dpi = 600)
+
+# save the five biggest peaks data:
+saveRDS(FPA_herb[[2]], here::here("transformed_data", "biggest_peaks_herb_FPA.rds"))
+saveRDS(PPA_herb[[2]], here::here("transformed_data", "biggest_peaks_herb_PPA.rds"))
 
 
 ## Invertivory:
@@ -311,14 +326,17 @@ col_vect <- invert_colour_vect
 biggest_peaks_df <- invert_FPA_peaks
 guild_nm <- "Invertivores"
 site <- "FPA"
-FPA_invert <- plot.peaks.contrib(biggest_peaks_df, guild_nm, site, col_vect)[[1]]
+FPA_invert <- plot.peaks.contrib(biggest_peaks_df, guild_nm, site, col_vect)
+FPA_invert_plot <- FPA_invert[[1]]
 # PPA:
 biggest_peaks_df <- invert_PPA_peaks
 guild_nm <- "Invertivores"
 site <- "PPA"
-PPA_invert <- plot.peaks.contrib(biggest_peaks_df, guild_nm, site, col_vect)[[1]]
+PPA_invert <- plot.peaks.contrib(biggest_peaks_df, guild_nm, site, col_vect)
+PPA_invert_plot <- PPA_invert[[1]]
 
-invert_peaks <- (FPA_invert + PPA_invert) +
+
+invert_peaks <- (FPA_invert_plot + PPA_invert_plot) +
   patchwork::plot_layout(byrow = TRUE, heights = c(1, 1), widths = c(1, 1),
                          ncol = 1, nrow = 2, guides = "collect") +
   patchwork::plot_annotation(tag_levels = "A", title = "Invertivores")
@@ -331,6 +349,10 @@ ggplot2::ggsave(filename = here::here("outputs", "Invert_peaks_tot.pdf"),
                 width = 5000,
                 units = "px",
                 dpi = 600)
+
+# save the five biggest peaks data:
+saveRDS(FPA_invert[[2]], here::here("transformed_data", "biggest_peaks_invert_FPA.rds"))
+saveRDS(PPA_invert[[2]], here::here("transformed_data", "biggest_peaks_invert_PPA.rds"))
 
 
 
@@ -362,14 +384,16 @@ col_vect <- crust_colour_vect
 biggest_peaks_df <- crust_FPA_peaks
 guild_nm <- "Crustacivores"
 site <- "FPA"
-FPA_crust <- plot.peaks.contrib(biggest_peaks_df, guild_nm, site, col_vect)[[1]]
+FPA_crust <- plot.peaks.contrib(biggest_peaks_df, guild_nm, site, col_vect)
+FPA_crust_plot <- FPA_crust[[1]]
 # PPA:
 biggest_peaks_df <- crust_PPA_peaks
 guild_nm <- "Crustacivores"
 site <- "PPA"
-PPA_crust <- plot.peaks.contrib(biggest_peaks_df, guild_nm, site, col_vect)[[1]]
+PPA_crust <- plot.peaks.contrib(biggest_peaks_df, guild_nm, site, col_vect)
+PPA_crist_plot <- PPA_crust[[1]]
 
-crust_peaks <- (FPA_crust + PPA_crust) +
+crust_peaks <- (FPA_crust_plot + PPA_crust_plot) +
   patchwork::plot_layout(byrow = TRUE, heights = c(1, 1), widths = c(1, 1),
                          ncol = 1, nrow = 2, guides = "collect") +
   patchwork::plot_annotation(tag_levels = "A", title = "Crustacivores")
@@ -382,6 +406,10 @@ ggplot2::ggsave(filename = here::here("outputs", "Crustac_peaks_tot.pdf"),
                 width = 5000,
                 units = "px",
                 dpi = 600)
+
+# save the five biggest peaks data:
+saveRDS(FPA_crust[[2]], here::here("transformed_data", "biggest_peaks_crust_FPA.rds"))
+saveRDS(PPA_crust[[2]], here::here("transformed_data", "biggest_peaks_crust_PPA.rds"))
 
 
 

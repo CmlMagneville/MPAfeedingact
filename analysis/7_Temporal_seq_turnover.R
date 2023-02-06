@@ -169,3 +169,10 @@ turn_invert_df <- compute.temporal.turn(list_df)
 list_df <- list(crust_bites_seq_03_df, crust_bites_seq_04_df,
                 crust_bites_seq_05_df, crust_bites_seq_06_df)
 turn_crust_df <- compute.temporal.turn(list_df)
+
+
+# save:
+saveRDS(turn_coral_df, here::here("transformed_data", "temp_turn_coral_df.rds"))
+saveRDS(turn_herb_df, here::here("transformed_data", "temp_turn_herb_df.rds"))
+saveRDS(turn_invert_df, here::here("transformed_data", "temp_turn_invert_df.rds"))
+saveRDS(turn_crust_df, here::here("transformed_data", "temp_turn_crust_df.rds"))

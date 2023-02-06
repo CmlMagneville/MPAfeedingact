@@ -192,7 +192,8 @@ compute.plot.correl <- function(bites_df) {
     patchwork::plot_layout(byrow = TRUE, heights = c(1, 1), widths = c(1, 1),
                            ncol = 3, nrow = 3, guides = "collect")
 
-  return(all_correl_plots)
+  return(list(cor_coral_inv, cor_coral_herb, cor_coral_crust, cor_invert_herb,
+              cor_crust_herb, cor_crust_invert, all_correl_plots))
 
 }
 

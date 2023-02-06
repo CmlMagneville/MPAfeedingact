@@ -43,13 +43,15 @@ bites_seq_final_df <- dplyr::bind_rows(bites_seq_guilds_03_df,
                                        bites_seq_guilds_04_df,
                                        bites_seq_guilds_05_df,
                                        bites_seq_guilds_06_df)
+bites_seq_final_df$site <- as.factor(bites_seq_final_df$site)
+bites_seq_final_df$timeslot <- as.factor(bites_seq_final_df$timeslot)
 
 
 # 2 - GLMM effect site (protection) and timeslot (time of the day)?
 
 
 # change the name of the studied column to study the different guilds:
-trophic_guild <- "coral_bites"
+trophic_guild <- "invert_bites"
 
 # Does the number of bites follow a Poisson distrib?
 hist(bites_seq_final_df[, trophic_guild])
@@ -89,6 +91,10 @@ mean_bites
 # Build the model:
 model_bites <- lme4::glmer.nb(get(trophic_guild) ~ site + timeslot + (1|day),
                               data = bites_seq_final_df)
+model_bites <- glmmTMB::glmmTMB(get(trophic_guild) ~ site + timeslot + (1|day),
+                                data = bites_seq_final_df,
+                                family = nbinom2)
+
 summary(model_bites)
 car::Anova(model_bites) # H0: no effect of the variable
 
@@ -103,7 +109,7 @@ performance::check_model(model_bites)
 
 
 # change the name of the studied column to study the different guilds:
-trophic_guild <- "crustac_bites"
+trophic_guild <- "coral_bites"
 
 
 ## FPA:
