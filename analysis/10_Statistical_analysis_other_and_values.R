@@ -585,50 +585,378 @@ ggpubr::ggboxplot(bites_seq_final_df[which(bites_seq_final_df$site == "FPA"), ],
 # PERMANOVA: test for differences in the composition of sp pools realising activities btw time slots ####
 
 
-# 1 - Load data:
-
-turn_coral_df <- readRDS(here::here("transformed_data", "temp_turn_coral_df.rds"))
-turn_herb_df <- readRDS(here::here("transformed_data", "temp_turn_herb_df.rds"))
-turn_invert_df <- readRDS(here::here("transformed_data", "temp_turn_invert_df.rds"))
-turn_crust_df <- readRDS(here::here("transformed_data", "temp_turn_crust_df.rds"))
-
-# 2 - Corallivory:
-
-# create the distance object:
-turn_coral_df$pair1 <- paste0(turn_coral_df$day, sep = "_",
-                              turn_coral_df$site, sep = "_",
-                              "timeslot", sep = "_",
-                              substr(turn_coral_df$pair_timeslots, 1, 1))
-turn_coral_df$pair2 <- paste0(turn_coral_df$day, sep = "_",
-                              turn_coral_df$site, sep = "_",
-                              "timeslot", sep = "_",
-                              substr(turn_coral_df$pair_timeslots, 3, 3))
-dissim_coral_df <- turn_coral_df[, c("tot_dissim", "pair1", "pair2")]
-dissim_coral_df$tot_dissim <- as.numeric(dissim_coral_df$tot_dissim)
-
-coral_dist <- reshape2::acast(dissim_coral_df, pair1 ~ pair2, value.var='tot_dissim', fun.aggregate = sum, margins=FALSE)
-
-# plot pcoa
-pcoa_coral <- ape::pcoa(as.matrix(coral_dist)) # pcoa explained by only one eigenvalue...
+# 1 - Load data gathered at the sequence level for each day and traits data ####
 
 
-# create the variable dataframe:
-pair_info <- unique(c(dissim_coral_df$pair1, dissim_coral_df$pair2))
-coral_var <- as.data.frame(matrix(ncol = 3, nrow = length(pair_info)))
+bites_seq_03_df <- readRDS(here::here("transformed_data",
+                                      "presabs_seq_03.rds"))
+bites_seq_04_df <- readRDS(here::here("transformed_data",
+                                      "presabs_seq_04.rds"))
+bites_seq_05_df <- readRDS(here::here("transformed_data",
+                                      "presabs_seq_05.rds"))
+bites_seq_06_df <- readRDS(here::here("transformed_data",
+                                      "presabs_seq_06.rds"))
+
+sp_diet <- readRDS(here::here("transformed_data", "sp_diet_final.rds"))
+
+
+
+# 2 - Subset one dataframe per diet and per day ####
+
+
+## 03
+
+bites_seq_df <- bites_seq_03_df
+
+# coral
+sp_feedact_nm_vect <- sp_diet$Latin_nm[which(sp_diet$Diet_Parravicini_2020 == "Corallivores")]
+coral_bites_seq_03_df <- subset.df.feedact(bites_seq_df,
+                                           sp_feedact_nm_vect)
+
+# herb
+sp_feedact_nm_vect <- sp_diet$Latin_nm[which(sp_diet$Diet_Parravicini_2020 == "Herbivores Microvores Detritivores")]
+herb_bites_seq_03_df <- subset.df.feedact(bites_seq_df,
+                                          sp_feedact_nm_vect)
+
+# invert
+sp_feedact_nm_vect <- sp_diet$Latin_nm[which(sp_diet$Diet_Parravicini_2020 %in%
+                                               c("Macroinvertivores",
+                                                 "Microinvertivores",
+                                                 "sessile invertivores"))]
+invert_bites_seq_03_df <- subset.df.feedact(bites_seq_df,
+                                            sp_feedact_nm_vect)
+
+# crust
+sp_feedact_nm_vect <- sp_diet$Latin_nm[which(sp_diet$Diet_Parravicini_2020 == "Crustacivores")]
+crust_bites_seq_03_df <- subset.df.feedact(bites_seq_df,
+                                           sp_feedact_nm_vect)
+
+
+## 04
+
+bites_seq_df <- bites_seq_04_df
+
+# coral
+sp_feedact_nm_vect <- sp_diet$Latin_nm[which(sp_diet$Diet_Parravicini_2020 == "Corallivores")]
+coral_bites_seq_04_df <- subset.df.feedact(bites_seq_df,
+                                           sp_feedact_nm_vect)
+
+# herb
+sp_feedact_nm_vect <- sp_diet$Latin_nm[which(sp_diet$Diet_Parravicini_2020 == "Herbivores Microvores Detritivores")]
+herb_bites_seq_04_df <- subset.df.feedact(bites_seq_df,
+                                          sp_feedact_nm_vect)
+
+# invert
+sp_feedact_nm_vect <- sp_diet$Latin_nm[which(sp_diet$Diet_Parravicini_2020 %in%
+                                               c("Macroinvertivores",
+                                                 "Microinvertivores",
+                                                 "sessile invertivores"))]
+invert_bites_seq_04_df <- subset.df.feedact(bites_seq_df,
+                                            sp_feedact_nm_vect)
+
+# crust
+sp_feedact_nm_vect <- sp_diet$Latin_nm[which(sp_diet$Diet_Parravicini_2020 == "Crustacivores")]
+crust_bites_seq_04_df <- subset.df.feedact(bites_seq_df,
+                                           sp_feedact_nm_vect)
+
+
+## 05
+
+bites_seq_df <- bites_seq_05_df
+
+# coral
+sp_feedact_nm_vect <- sp_diet$Latin_nm[which(sp_diet$Diet_Parravicini_2020 == "Corallivores")]
+coral_bites_seq_05_df <- subset.df.feedact(bites_seq_df,
+                                           sp_feedact_nm_vect)
+
+# herb
+sp_feedact_nm_vect <- sp_diet$Latin_nm[which(sp_diet$Diet_Parravicini_2020 == "Herbivores Microvores Detritivores")]
+herb_bites_seq_05_df <- subset.df.feedact(bites_seq_df,
+                                          sp_feedact_nm_vect)
+
+# invert
+sp_feedact_nm_vect <- sp_diet$Latin_nm[which(sp_diet$Diet_Parravicini_2020 %in%
+                                               c("Macroinvertivores",
+                                                 "Microinvertivores",
+                                                 "sessile invertivores"))]
+invert_bites_seq_05_df <- subset.df.feedact(bites_seq_df,
+                                            sp_feedact_nm_vect)
+
+# crust
+sp_feedact_nm_vect <- sp_diet$Latin_nm[which(sp_diet$Diet_Parravicini_2020 == "Crustacivores")]
+crust_bites_seq_05_df <- subset.df.feedact(bites_seq_df,
+                                           sp_feedact_nm_vect)
+
+
+## 06
+
+bites_seq_df <- bites_seq_06_df
+
+# coral
+sp_feedact_nm_vect <- sp_diet$Latin_nm[which(sp_diet$Diet_Parravicini_2020 == "Corallivores")]
+coral_bites_seq_06_df <- subset.df.feedact(bites_seq_df,
+                                           sp_feedact_nm_vect)
+
+# herb
+sp_feedact_nm_vect <- sp_diet$Latin_nm[which(sp_diet$Diet_Parravicini_2020 == "Herbivores Microvores Detritivores")]
+herb_bites_seq_06_df <- subset.df.feedact(bites_seq_df,
+                                          sp_feedact_nm_vect)
+
+# invert
+sp_feedact_nm_vect <- sp_diet$Latin_nm[which(sp_diet$Diet_Parravicini_2020 %in%
+                                               c("Macroinvertivores",
+                                                 "Microinvertivores",
+                                                 "sessile invertivores"))]
+invert_bites_seq_06_df <- subset.df.feedact(bites_seq_df,
+                                            sp_feedact_nm_vect)
+
+# crust
+sp_feedact_nm_vect <- sp_diet$Latin_nm[which(sp_diet$Diet_Parravicini_2020 == "Crustacivores")]
+crust_bites_seq_06_df <- subset.df.feedact(bites_seq_df,
+                                           sp_feedact_nm_vect)
+
+
+# 3 - Compute temporal turnover between timeslots and plot them ####
+# Add together the bites of sequences from a given timeslot to get bites/timeslot
+
+
+# Corallivory:
+list_df <- list(coral_bites_seq_03_df, coral_bites_seq_04_df,
+                coral_bites_seq_05_df, coral_bites_seq_06_df)
+
+coral_dissim <- compute.temporal.turn.allday(list_df)
+coral_dissim_dist <- coral_dissim[[1]]
+
+# Herbivory:
+list_df <- list(herb_bites_seq_03_df, herb_bites_seq_04_df,
+                herb_bites_seq_05_df, herb_bites_seq_06_df)
+
+herb_dissim <- compute.temporal.turn.allday(list_df)
+herb_dissim_dist <- herb_dissim[[1]]
+
+# Invertivory:
+list_df <- list(invert_bites_seq_03_df, invert_bites_seq_04_df,
+                invert_bites_seq_05_df, invert_bites_seq_06_df)
+
+invert_dissim <- compute.temporal.turn.allday(list_df)
+invert_dissim_dist <- invert_dissim[[1]]
+
+
+# Crustacivory:
+list_df <- list(crust_bites_seq_03_df, crust_bites_seq_04_df,
+                crust_bites_seq_05_df, crust_bites_seq_06_df)
+
+crust_dissim <- compute.temporal.turn.allday(list_df)
+crust_dissim_dist <- crust_dissim[[1]]
+
+
+# 4 - Compute ordination, visualise and PERMANOVA ####
+
+
+## Corallivory:
+
+# create the variable dataframe with info about timeslots:
+coral_var <- as.data.frame(matrix(ncol = 3, nrow = 12))
 colnames(coral_var) <- c("id", "site", "timeslot")
-coral_var$id <- pair_info
+
+coral_dissim_df <- mFD::dist.to.df(list(dist = coral_dissim_dist))
+
+coral_var$id <- unique(as.character(c(coral_dissim_df$x1, coral_dissim_df$x2)))
 coral_var$site <- substr(coral_var$id, 7, 9)
 coral_var$timeslot <- substr(coral_var$id, 11, 20)
 coral_var$site_timeslot <- paste0(coral_var$site, sep = "_", coral_var$timeslot)
 coral_var$site <- as.factor(coral_var$site)
 coral_var$timeslot <- as.factor(coral_var$timeslot)
 coral_var$site_timeslot <- as.factor(coral_var$site_timeslot)
+
 rownames(coral_var) <- coral_var$id
 
 
-# Permdisp:
-vegan::betadisper(as.dist(coral_dist), group = coral_var$site_timeslot)
-vegan::adonis2(as.dist(coral_dist) ~ site*timeslot, data = coral_var, permutations = 999)
+# compute ordination and plot it:
+
+#compute pcoa and get coord along axis 1 and 2:
+pcoa_coral <- ape::pcoa(as.matrix(coral_dissim_dist))
+
+pcoa_coord <- as.data.frame(matrix(ncol = 2, nrow = 12))
+colnames(pcoa_coord) <- c("pcoa1", "pcoa2")
+pcoa_coord$pcoa1 <- pcoa_coral$vectors[, 1]
+pcoa_coord$pcoa2 <- pcoa_coral$vectors[, 2]
+pcoa_coord$id <- names(pcoa_coral$vectors[, 1])
+
+# get together coordinates and variables about timeslots:
+var_coord_df <- dplyr::inner_join(coral_var, pcoa_coord)
+
+# plot according to timeslots and site:
+ggplot2::ggplot(data = var_coord_df,
+                ggplot2::aes(x = pcoa1, y = pcoa2,
+                               colour = timeslot,
+                              shape = site)) +
+  ggplot2::geom_point()
+
+# compute permdisp: no significant variation differece between timeslots or sites:
+permd <- vegan::betadisper(coral_dissim_dist, coral_var$site)
+anova(permd)
+permd <- vegan::betadisper(coral_dissim_dist, coral_var$site)
+anova(permd)
+
+# compute permanova: no effect of the site or the timeslot:
+vegan::adonis2(coral_dissim_dist ~ timeslot + site,
+               data = coral_var,  permutations = 999)
+
+
+## Herbivory:
+
+# create the variable dataframe with info about timeslots:
+herb_var <- as.data.frame(matrix(ncol = 3, nrow = 12))
+colnames(herb_var) <- c("id", "site", "timeslot")
+
+herb_dissim_df <- mFD::dist.to.df(list(dist = herb_dissim_dist))
+
+herb_var$id <- unique(as.character(c(herb_dissim_df$x1, herb_dissim_df$x2)))
+herb_var$site <- substr(herb_var$id, 7, 9)
+herb_var$timeslot <- substr(herb_var$id, 11, 20)
+herb_var$site_timeslot <- paste0(herb_var$site, sep = "_", herb_var$timeslot)
+herb_var$site <- as.factor(herb_var$site)
+herb_var$timeslot <- as.factor(herb_var$timeslot)
+herb_var$site_timeslot <- as.factor(herb_var$site_timeslot)
+
+rownames(herb_var) <- herb_var$id
+
+
+# compute ordination and plot it:
+
+#compute pcoa and get coord along axis 1 and 2:
+pcoa_herb <- ape::pcoa(as.matrix(herb_dissim_dist))
+
+pcoa_coord <- as.data.frame(matrix(ncol = 2, nrow = 12))
+colnames(pcoa_coord) <- c("pcoa1", "pcoa2")
+pcoa_coord$pcoa1 <- pcoa_herb$vectors[, 1]
+pcoa_coord$pcoa2 <- pcoa_herb$vectors[, 2]
+pcoa_coord$id <- names(pcoa_herb$vectors[, 1])
+
+# get together coordinates and variables about timeslots:
+var_coord_df <- dplyr::inner_join(herb_var, pcoa_coord)
+
+# plot according to timeslots and site:
+ggplot2::ggplot(data = var_coord_df,
+                ggplot2::aes(x = pcoa1, y = pcoa2,
+                             colour = timeslot,
+                             shape = site)) +
+  ggplot2::geom_point()
+
+# compute permdisp: no significant variation differece between timeslots or sites:
+permd <- vegan::betadisper(herb_dissim_dist, herb_var$site)
+anova(permd)
+permd <- vegan::betadisper(herb_dissim_dist, herb_var$timeslot)
+anova(permd)
+
+# compute permanova: no effect of the site or the timeslot:
+vegan::adonis2(herb_dissim_dist ~ timeslot + site,
+               data = herb_var,  permutations = 999)
+
+
+## Invertivory:
+
+# create the variable dataframe with info about timeslots:
+invert_var <- as.data.frame(matrix(ncol = 3, nrow = 12))
+colnames(invert_var) <- c("id", "site", "timeslot")
+
+invert_dissim_df <- mFD::dist.to.df(list(dist = invert_dissim_dist))
+
+invert_var$id <- unique(as.character(c(invert_dissim_df$x1, invert_dissim_df$x2)))
+invert_var$site <- substr(invert_var$id, 7, 9)
+invert_var$timeslot <- substr(invert_var$id, 11, 20)
+invert_var$site_timeslot <- paste0(invert_var$site, sep = "_", invert_var$timeslot)
+invert_var$site <- as.factor(invert_var$site)
+invert_var$timeslot <- as.factor(invert_var$timeslot)
+invert_var$site_timeslot <- as.factor(invert_var$site_timeslot)
+
+rownames(invert_var) <- invert_var$id
+
+
+# compute ordination and plot it:
+
+#compute pcoa and get coord along axis 1 and 2:
+pcoa_invert <- ape::pcoa(as.matrix(invert_dissim_dist))
+
+pcoa_coord <- as.data.frame(matrix(ncol = 2, nrow = 12))
+colnames(pcoa_coord) <- c("pcoa1", "pcoa2")
+pcoa_coord$pcoa1 <- pcoa_invert$vectors[, 1]
+pcoa_coord$pcoa2 <- pcoa_invert$vectors[, 2]
+pcoa_coord$id <- names(pcoa_invert$vectors[, 1])
+
+# get together coordinates and variables about timeslots:
+var_coord_df <- dplyr::inner_join(invert_var, pcoa_coord)
+
+# plot according to timeslots and site:
+ggplot2::ggplot(data = var_coord_df,
+                ggplot2::aes(x = pcoa1, y = pcoa2,
+                             colour = timeslot,
+                             shape = site)) +
+  ggplot2::geom_point()
+
+# compute permdisp: no significant variation differece between timeslots or sites:
+permd <- vegan::betadisper(invert_dissim_dist, invert_var$site)
+anova(permd)
+permd <- vegan::betadisper(invert_dissim_dist, invert_var$timeslot)
+anova(permd)
+
+# compute permanova: no effect of the site or the timeslot:
+vegan::adonis2(invert_dissim_dist ~ timeslot + site,
+               data = invert_var,  permutations = 999)
+
+
+## Crustacivory:
+
+# create the variable dataframe with info about timeslots:
+crust_var <- as.data.frame(matrix(ncol = 3, nrow = 12))
+colnames(crust_var) <- c("id", "site", "timeslot")
+
+crust_dissim_df <- mFD::dist.to.df(list(dist = crust_dissim_dist))
+
+crust_var$id <- unique(as.character(c(crust_dissim_df$x1, crust_dissim_df$x2)))
+crust_var$site <- substr(crust_var$id, 7, 9)
+crust_var$timeslot <- substr(crust_var$id, 11, 20)
+crust_var$site_timeslot <- paste0(crust_var$site, sep = "_", crust_var$timeslot)
+crust_var$site <- as.factor(crust_var$site)
+crust_var$timeslot <- as.factor(crust_var$timeslot)
+crust_var$site_timeslot <- as.factor(crust_var$site_timeslot)
+
+rownames(crust_var) <- crust_var$id
+
+
+# compute ordination and plot it:
+
+#compute pcoa and get coord along axis 1 and 2:
+pcoa_crust <- ape::pcoa(as.matrix(crust_dissim_dist))
+
+pcoa_coord <- as.data.frame(matrix(ncol = 2, nrow = 12))
+colnames(pcoa_coord) <- c("pcoa1", "pcoa2")
+pcoa_coord$pcoa1 <- pcoa_crust$vectors[, 1]
+pcoa_coord$pcoa2 <- pcoa_crust$vectors[, 2]
+pcoa_coord$id <- names(pcoa_crust$vectors[, 1])
+
+# get together coordinates and variables about timeslots:
+var_coord_df <- dplyr::inner_join(crust_var, pcoa_coord)
+
+# plot according to timeslots and site:
+ggplot2::ggplot(data = var_coord_df,
+                ggplot2::aes(x = pcoa1, y = pcoa2,
+                             colour = timeslot,
+                             shape = site)) +
+  ggplot2::geom_point()
+
+# compute permdisp: no significant variation differece between timeslots or sites:
+permd <- vegan::betadisper(crust_dissim_dist, crust_var$site)
+anova(permd)
+permd <- vegan::betadisper(crust_dissim_dist, crust_var$timeslot)
+anova(permd)
+
+# compute permanova: NA so not possible
+vegan::adonis2(crust_dissim_dist ~ timeslot + site,
+               data = crust_var,  permutations = 999,
+               na.action = na.omit)
+
 
 # Dissimilarity and Turnover between time slots ####
 

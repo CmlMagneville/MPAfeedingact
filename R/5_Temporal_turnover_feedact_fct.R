@@ -43,7 +43,7 @@ subset.df.feedact <- function(bites_seq_df, sp_feedact_nm_vect) {
 }
 
 
-#' Title
+#' Compute temporal turnover between time slots of the same day
 #'
 #' @param list_df a vector gathering the dataframes of bites taken from species
 #' of a given feedact (the one studied) over sequences
@@ -153,5 +153,107 @@ compute.temporal.turn <- function(list_df) {
 
 
   return(dissim_turn_df)
+
+}
+
+
+
+#' Compute temporal turnover between all timeslots (site and days pooled)
+#'
+#' @param list_df a vector gathering the dataframes of bites taken from species
+#' of a given feedact (the one studied) over sequences
+#'
+#' @return a dataframe with beta dissim and turnover values for the three
+#' timeslots pairs for all days and all sites
+#'
+#' @export
+#'
+#' @examples
+#'
+
+compute.temporal.turn.allday <- function(list_df) {
+
+
+  # create a vector that will contain rownames values of the global df:
+  # day_site_timeslot type
+  global_timeslot_rownm <- c()
+
+  # loop on each df (gathering the 4 sampling days):
+  for (i in (1:length(list_df))) {
+
+    studied_df <- list_df[[i]]
+    rownames(studied_df) <- NULL
+
+    # compute new dataframe with timelsots instead of sequences (add seq bites):
+    timeslot_df <- as.data.frame(matrix(ncol = ncol(studied_df) - 1,
+                                        nrow = 1, NA))
+    colnames(timeslot_df) <- colnames(studied_df[, -ncol(studied_df)])
+
+
+    # for each timeslot: add bites from associated sequences:
+    for (j in c(1, 5, 9)) {
+
+      studied_rows <- c(j, j + 1, j + 2, j + 3)
+
+      bites_timeslot <- apply(studied_df[studied_rows,
+                                         -c(ncol(studied_df),
+                                            ncol(studied_df) - 1,
+                                            ncol(studied_df) - 2)],
+                              2, sum)
+
+      timeslot_df <- dplyr::bind_rows(timeslot_df, c(bites_timeslot,
+                                                     site = unique(studied_df$site),
+                                                     hour = studied_df$hour[j]))
+
+
+    } # end for each timeslot
+
+
+    # add a "timeslot" column:
+    timeslot_df <- timeslot_df[-1, ]
+    timeslot_df[, "timeslot_nb"] <- c("07:30", "11:45", "16:00")
+    global_timeslot_rownm <- append(global_timeslot_rownm, paste0("day", sep = "_", i,
+                                    sep = "_", timeslot_df$site,
+                                    sep = "_", timeslot_df$timeslot_nb))
+
+
+    #  dataframe: bites number"timeslot1" per timeslots (all timeslots from all days):
+    if (i == 1) {
+      global_timeslot_df <- timeslot_df[, -c(ncol(timeslot_df),
+                                             ncol(timeslot_df) - 1,
+                                             ncol(timeslot_df) -2) ]
+    }
+
+    else {
+      timeslot_df <- timeslot_df[, -c(ncol(timeslot_df),
+                                      ncol(timeslot_df) - 1,
+                                      ncol(timeslot_df) -2) ]
+      global_timeslot_df <- dplyr::bind_rows(global_timeslot_df,
+                                             timeslot_df)
+
+    }
+
+  }
+
+  # give rownames toglobal_timeslot_df:
+  rownames(global_timeslot_df) <- global_timeslot_rownm
+  # where NA -> 0
+  global_timeslot_df[is.na(global_timeslot_df)] <- 0
+
+
+
+  # Compute tot dissim and turnover:
+  global_timeslot_df <- apply(global_timeslot_df, 2, as.numeric)
+  global_timeslot_df[global_timeslot_df > 0] <- 1
+  rownames(global_timeslot_df) <- global_timeslot_rownm
+  beta_results <- betapart::beta.pair(global_timeslot_df, index.family = "jaccard")
+
+  # Get tot dissim and turnover results:
+  tot_dissim <- beta_results[[3]]
+
+  # Get turn:
+  turn_dissim <- beta_results[[1]]
+
+  return(list(tot_dissim, turn_dissim))
 
 }
