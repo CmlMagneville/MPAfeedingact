@@ -207,6 +207,9 @@ herb_contrib_PPA <- readRDS(here::here("transformed_data", "herb_contrib_PPA.rds
 herb_contrib_FPA <- readRDS(here::here("transformed_data", "herb_contrib_FPA.rds"))
 invert_contrib_PPA <- readRDS(here::here("transformed_data", "invert_contrib_PPA.rds"))
 invert_contrib_FPA <- readRDS(here::here("transformed_data", "invert_contrib_FPA.rds"))
+crustac_contrib_FPA <- readRDS(here::here("transformed_data", "crustac_contrib_FPA.rds"))
+crustac_contrib_PPA <- readRDS(here::here("transformed_data", "crustac_contrib_PPA.rds"))
+
 
 # 2 - Corallivory: what  of the total corallivory realised the 3 dominant species?
 

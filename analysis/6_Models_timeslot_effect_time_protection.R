@@ -91,9 +91,6 @@ mean_bites
 # Build the model:
 model_bites <- lme4::glmer.nb(get(trophic_guild) ~ site + timeslot + (1|day),
                               data = bites_seq_final_df)
-model_bites <- glmmTMB::glmmTMB(get(trophic_guild) ~ site + timeslot + (1|day),
-                                data = bites_seq_final_df,
-                                family = nbinom2)
 
 summary(model_bites)
 car::Anova(model_bites) # H0: no effect of the variable
