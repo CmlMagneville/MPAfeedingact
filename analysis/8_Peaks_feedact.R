@@ -220,7 +220,7 @@ PPA_coral_plot <- PPA_coral[[1]]
 coral_peaks <- (FPA_coral_plot + PPA_coral_plot) +
   patchwork::plot_layout(byrow = TRUE, heights = c(1, 1), widths = c(1, 1),
                          ncol = 1, nrow = 2, guides = "collect") +
-  patchwork::plot_annotation(tag_levels = "A", title = "Corallivores")
+  patchwork::plot_annotation(title = "Corallivores")
 
 ggplot2::ggsave(filename = here::here("outputs", "Coral_peaks_tot.pdf"),
                 plot = coral_peaks,
@@ -278,7 +278,7 @@ PPA_herb_plot <- PPA_herb[[1]]
 herb_peaks <- (FPA_herb_plot + PPA_herb_plot) +
   patchwork::plot_layout(byrow = TRUE, heights = c(1, 1), widths = c(1, 1),
                          ncol = 1, nrow = 2, guides = "collect") +
-  patchwork::plot_annotation(tag_levels = "A", title = "Herbivores")
+  patchwork::plot_annotation(title = "Herbivores")
 
 ggplot2::ggsave(filename = here::here("outputs", "Herb_peaks_tot.pdf"),
                 plot = herb_peaks,
@@ -339,7 +339,7 @@ PPA_invert_plot <- PPA_invert[[1]]
 invert_peaks <- (FPA_invert_plot + PPA_invert_plot) +
   patchwork::plot_layout(byrow = TRUE, heights = c(1, 1), widths = c(1, 1),
                          ncol = 1, nrow = 2, guides = "collect") +
-  patchwork::plot_annotation(tag_levels = "A", title = "Invertivores")
+  patchwork::plot_annotation(title = "Invertivores")
 
 ggplot2::ggsave(filename = here::here("outputs", "Invert_peaks_tot.pdf"),
                 plot = invert_peaks,
@@ -391,12 +391,12 @@ biggest_peaks_df <- crust_PPA_peaks
 guild_nm <- "Crustacivores"
 site <- "PPA"
 PPA_crust <- plot.peaks.contrib(biggest_peaks_df, guild_nm, site, col_vect)
-PPA_crist_plot <- PPA_crust[[1]]
+PPA_crust_plot <- PPA_crust[[1]]
 
 crust_peaks <- (FPA_crust_plot + PPA_crust_plot) +
   patchwork::plot_layout(byrow = TRUE, heights = c(1, 1), widths = c(1, 1),
                          ncol = 1, nrow = 2, guides = "collect") +
-  patchwork::plot_annotation(tag_levels = "A", title = "Crustacivores")
+  patchwork::plot_annotation(title = "Crustacivores")
 
 ggplot2::ggsave(filename = here::here("outputs", "Crustac_peaks_tot.pdf"),
                 plot = crust_peaks,

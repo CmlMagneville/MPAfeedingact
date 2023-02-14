@@ -215,9 +215,11 @@ plot.peaks.contrib <- function(biggest_peaks_df, guild_nm, site, col_vect) {
 
     ggplot2::xlab("Sequences") +
 
-    ggplot2::ylab("Bites number / 10m²") +
+    ggplot2::ylab("Bites number/5min/10m²") +
 
-    ggplot2::labs(fill = "Species")
+    ggplot2::labs(fill = "Species") +
+
+    ggplot2::ggtitle(site)
 
 
   ggplot2::ggsave(filename = here::here("outputs", paste0(guild_nm, sep ="_",
