@@ -106,7 +106,9 @@ compute.temporal.turn <- function(list_df) {
                                                     ncol(prepare_timeslot_df) - 1,
                                                     ncol(prepare_timeslot_df) - 2)]
     prepare_timeslot_df <- apply(prepare_timeslot_df, 2, as.numeric)
+
     prepare_timeslot_df[prepare_timeslot_df > 0] <- 1
+
     rownames(prepare_timeslot_df) <- c("07:30", "11:45", "16:00")
     beta_results <- betapart::beta.pair(prepare_timeslot_df, index.family = "jaccard")
 
@@ -163,6 +165,11 @@ compute.temporal.turn <- function(list_df) {
 #' @param list_df a vector gathering the dataframes of bites taken from species
 #' of a given feedact (the one studied) over sequences
 #'
+#' @param type equals "jaccard" if jaccard dissimilarity is to be computed
+#' (ie test difference in composition, only 1 or 1) or "bray" if bray-curtis
+#' dissim is to be computed (ie difference in dominance of roles, bites nb into
+#' account)
+#'
 #' @return a dataframe with beta dissim and turnover values for the three
 #' timeslots pairs for all days and all sites
 #'
@@ -171,7 +178,7 @@ compute.temporal.turn <- function(list_df) {
 #' @examples
 #'
 
-compute.temporal.turn.allday <- function(list_df) {
+compute.temporal.turn.allday <- function(list_df, type) {
 
 
   # create a vector that will contain rownames values of the global df:
@@ -244,15 +251,33 @@ compute.temporal.turn.allday <- function(list_df) {
 
   # Compute tot dissim and turnover:
   global_timeslot_df <- apply(global_timeslot_df, 2, as.numeric)
-  global_timeslot_df[global_timeslot_df > 0] <- 1
+
+  if (type == "jaccard") {
+    global_timeslot_df[global_timeslot_df > 0] <- 1
+  }
+
   rownames(global_timeslot_df) <- global_timeslot_rownm
-  beta_results <- betapart::beta.pair(global_timeslot_df, index.family = "jaccard")
 
-  # Get tot dissim and turnover results:
-  tot_dissim <- beta_results[[3]]
+  if (type == "jaccard") {
 
-  # Get turn:
-  turn_dissim <- beta_results[[1]]
+    beta_results <- betapart::beta.pair(global_timeslot_df, index.family = "jaccard")
+
+    # Get tot dissim and turnover results:
+    tot_dissim <- beta_results[[3]]
+    # Get turn:
+    turn_dissim <- beta_results[[1]]
+
+  }
+
+  if (type == "bray") {
+
+    beta_results <- vegan::vegdist(global_timeslot_df, method = "bray")
+
+    tot_dissim <- beta_results
+
+    turn_dissim <- NULL
+
+  }
 
   return(list(tot_dissim, turn_dissim))
 

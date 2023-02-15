@@ -404,7 +404,7 @@ plot.heatmaps.act.intensity <- function(bites_seq_df_list) {
       plot_both <- (heatmap_FPA + heatmap_PPA) +
         patchwork::plot_layout(byrow = TRUE, heights = c(1, 1), widths = c(1, 1),
                                ncol = 1, nrow = 2, guides = "collect") +
-        patchwork::plot_annotation(title = "HMD")
+        patchwork::plot_annotation(title = "Herbivores")
     }
     if (guild_nm == "crustac_bites") {
       plot_both <- (heatmap_FPA + heatmap_PPA) +
