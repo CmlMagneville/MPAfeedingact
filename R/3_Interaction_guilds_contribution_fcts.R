@@ -170,6 +170,7 @@ compute.contrib.feedact <- function(df_list,
 
 
   # 3 - Build the df with mean bites values over the days on the studied site:
+  # = total number of bites / 24 (nb of sequences both days)
   bites_info_tot_df <- as.data.frame(matrix(ncol = 4,
                                             nrow = 1,
                                             NA))
@@ -329,18 +330,18 @@ plot.interact.guild.contrib <- function(contrib_FPA_df,
     data_subset_PPA$sp_nm <- stringr::str_replace_all(data_subset_PPA$sp_nm, "_", " ")
 
     # compute ic to put on the plot (24 = number of sequences on both days):
-    data_subset_FPA$ic <- (data_subset_FPA$feed_act_sd/sqrt(24)) * qt((1-0.05)/2 + 0.5, 24-1)
-    data_subset_PPA$ic <- (data_subset_PPA$feed_act_sd/sqrt(24)) * qt((1-0.05)/2 + 0.5, 24-1)
+    # data_subset_FPA$ic <- (data_subset_FPA$feed_act_sd/sqrt(24)) * qt((1-0.05)/2 + 0.5, 24-1)
+    # data_subset_PPA$ic <- (data_subset_PPA$feed_act_sd/sqrt(24)) * qt((1-0.05)/2 + 0.5, 24-1)
 
     # compute top and botton bars:
-    data_subset_FPA$bottom <- data_subset_FPA$feed_act_mean - data_subset_FPA$ic
-    data_subset_FPA$top <- data_subset_FPA$feed_act_mean + data_subset_FPA$ic
-    data_subset_PPA$bottom <- data_subset_PPA$feed_act_mean - data_subset_PPA$ic
-    data_subset_PPA$top <- data_subset_PPA$feed_act_mean + data_subset_PPA$ic
+    # data_subset_FPA$bottom <- data_subset_FPA$feed_act_mean - data_subset_FPA$ic
+    # data_subset_FPA$top <- data_subset_FPA$feed_act_mean + data_subset_FPA$ic
+    # data_subset_PPA$bottom <- data_subset_PPA$feed_act_mean - data_subset_PPA$ic
+    # data_subset_PPA$top <- data_subset_PPA$feed_act_mean + data_subset_PPA$ic
 
     # when bar below 0 -> 0:
-    data_subset_FPA[which(data_subset_FPA$bottom < 0), "bottom"] <- 0
-    data_subset_PPA[which(data_subset_PPA$bottom < 0), "bottom"] <- 0
+    # data_subset_FPA[which(data_subset_FPA$bottom < 0), "bottom"] <- 0
+    # data_subset_PPA[which(data_subset_PPA$bottom < 0), "bottom"] <- 0
 
 
 
@@ -351,19 +352,19 @@ plot.interact.guild.contrib <- function(contrib_FPA_df,
                                      fill = site),
                         stat = "identity") +
 
-      ggplot2::geom_errorbar(ggplot2::aes(y = reorder(sp_nm, - feed_act_mean),
-                             xmin = bottom,
-                             xmax = top), width = 0.1,
-                             colour = "grey50",
-                             size = 0.7) +
+      # ggplot2::geom_errorbar(ggplot2::aes(y = reorder(sp_nm, - feed_act_mean),
+      #                        xmin = bottom,
+      #                        xmax = top), width = 0.1,
+      #                        colour = "grey50",
+      #                        size = 0.7) +
 
       ggplot2::scale_fill_manual(values = c(sites_colors[1],
                                             sites_colors[3]),
                                  name = "Site presence",
                                  labels = c("Both", "Fully Protected")) +
 
-      ggplot2::theme(axis.text.x = ggplot2::element_text(size = 8),
-                     axis.text.y = ggplot2::element_text(size = 8,
+      ggplot2::theme(axis.text.x = ggplot2::element_text(size = 10),
+                     axis.text.y = ggplot2::element_text(size = 10,
                                                          face = "italic"),
                      panel.background = ggplot2::element_rect(fill = "white",
                                                               colour = "grey90"),
@@ -371,8 +372,8 @@ plot.interact.guild.contrib <- function(contrib_FPA_df,
 
       ggplot2::xlab("Mean bites number/5 min/10m²") +
 
-      ggplot2::xlim(c(0, max(max(data_subset_FPA$top),
-                             max(data_subset_PPA$top)) + 0.1)) +
+      ggplot2::xlim(c(0, max(max(data_subset_FPA$feed_act_mean),
+                             max(data_subset_PPA$feed_act_mean)) + 0.1)) +
 
       ggplot2::ylab("") +
 
@@ -386,19 +387,19 @@ plot.interact.guild.contrib <- function(contrib_FPA_df,
                                      fill = site),
                         stat = "identity") +
 
-      ggplot2::geom_errorbar(ggplot2::aes(y = reorder(sp_nm, - feed_act_mean),
-                                          xmin = bottom,
-                                          xmax = top), width = 0.1,
-                             colour = "grey50",
-                             size = 0.7) +
+      # ggplot2::geom_errorbar(ggplot2::aes(y = reorder(sp_nm, - feed_act_mean),
+      #                                     xmin = bottom,
+      #                                     xmax = top), width = 0.1,
+      #                        colour = "grey50",
+      #                        size = 0.7) +
 
       ggplot2::scale_fill_manual(values = c(sites_colors[1],
                                             sites_colors[2]),
                                  name = "Site presence",
                                  labels = c("Both", "Poorly Protected")) +
 
-      ggplot2::theme(axis.text.x = ggplot2::element_text(size = 8),
-                     axis.text.y = ggplot2::element_text(size = 8,
+      ggplot2::theme(axis.text.x = ggplot2::element_text(size = 10),
+                     axis.text.y = ggplot2::element_text(size = 10,
                                                          face = "italic"),
                      panel.background = ggplot2::element_rect(fill = "white",
                                                               colour = "grey90"),
@@ -406,8 +407,8 @@ plot.interact.guild.contrib <- function(contrib_FPA_df,
 
       ggplot2::xlab("Mean bites number/5 min/10m²") +
 
-      ggplot2::xlim(c(0, max(max(data_subset_FPA$top),
-                             max(data_subset_PPA$top)) + 0.1)) +
+      ggplot2::xlim(c(0, max(max(data_subset_FPA$feed_act_mean),
+                             max(data_subset_PPA$feed_act_mean)) + 0.1)) +
 
       ggplot2::ylab("") +
 
