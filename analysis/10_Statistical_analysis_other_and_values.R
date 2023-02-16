@@ -1293,7 +1293,7 @@ ggplot2::ggplot(data = var_coord_df,
 # compute permdisp: no significant variation differece between timeslots or sites:
 permd <- vegan::betadisper(coral_dissim_dist, coral_var$site)
 anova(permd)
-permd <- vegan::betadisper(coral_dissim_dist, coral_var$site)
+permd <- vegan::betadisper(coral_dissim_dist, coral_var$timeslot)
 anova(permd)
 
 # compute permanova: no effect of timeslot but effect of site:
@@ -1425,3 +1425,26 @@ rownames(crust_var) <- crust_var$id
 
 #compute pcoa and get coord along axis 1 and 2: to many NA: stop here
 pcoa_crust <- ape::pcoa(as.matrix(crust_dissim_dist))
+
+
+
+# Compute mean bites of all groups ####
+
+# Compare intensity differences between sequences in the FPA and PPA ####
+
+
+# 1 - Load data:
+bites_seq_guilds_03_df <- readRDS(here::here("transformed_data",
+                                             "bites_seq_guilds_03_df.rds"))
+bites_seq_guilds_04_df <- readRDS(here::here("transformed_data",
+                                             "bites_seq_guilds_04_df.rds"))
+bites_seq_guilds_05_df <- readRDS(here::here("transformed_data",
+                                             "bites_seq_guilds_05_df.rds"))
+bites_seq_guilds_06_df <- readRDS(here::here("transformed_data",
+                                             "bites_seq_guilds_06_df.rds"))
+
+# Bind rows:
+df_all_act <- dplyr::bind_rows(bites_seq_guilds_03_df,
+                               bites_seq_guilds_04_df,
+                               bites_seq_guilds_05_df,
+                               bites_seq_guilds_06_df)
