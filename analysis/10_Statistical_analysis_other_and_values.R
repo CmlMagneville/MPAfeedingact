@@ -1448,3 +1448,9 @@ df_all_act <- dplyr::bind_rows(bites_seq_guilds_03_df,
                                bites_seq_guilds_04_df,
                                bites_seq_guilds_05_df,
                                bites_seq_guilds_06_df)
+
+# Compute mean tot bites (10m2 per 5min):
+mean_tot_bites_seq <- mean(df_all_act$tot_bites)
+
+# Get per 2m2 and per 10min
+(mean_tot_bites_seq/5)*2
