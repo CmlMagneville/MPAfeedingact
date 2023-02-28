@@ -51,7 +51,7 @@ bites_seq_final_df$timeslot <- as.factor(bites_seq_final_df$timeslot)
 
 
 # change the name of the studied column to study the different guilds:
-trophic_guild <- "invert_bites"
+trophic_guild <- "coral_bites"
 
 # Does the number of bites follow a Poisson distrib?
 hist(bites_seq_final_df[, trophic_guild])

@@ -363,12 +363,14 @@ plot.interact.guild.contrib <- function(contrib_FPA_df,
                                  name = "Site presence",
                                  labels = c("Both", "Fully Protected")) +
 
-      ggplot2::theme(axis.text.x = ggplot2::element_text(size = 10),
-                     axis.text.y = ggplot2::element_text(size = 10,
+      ggplot2::theme(axis.text.x = ggplot2::element_text(size = 12),
+                     axis.text.y = ggplot2::element_text(size = 12,
                                                          face = "italic"),
                      panel.background = ggplot2::element_rect(fill = "white",
                                                               colour = "grey90"),
-                     panel.grid.major = ggplot2::element_line(colour = "grey90")) +
+                     panel.grid.major = ggplot2::element_line(colour = "grey90"),
+                     legend.text = ggplot2::element_text(size = 12),
+                     legend.title = ggplot2::element_text(size = 12)) +
 
       ggplot2::xlab("Mean bites number/5 min/10m²") +
 
@@ -398,12 +400,14 @@ plot.interact.guild.contrib <- function(contrib_FPA_df,
                                  name = "Site presence",
                                  labels = c("Both", "Poorly Protected")) +
 
-      ggplot2::theme(axis.text.x = ggplot2::element_text(size = 10),
-                     axis.text.y = ggplot2::element_text(size = 10,
+      ggplot2::theme(axis.text.x = ggplot2::element_text(size = 12),
+                     axis.text.y = ggplot2::element_text(size = 12,
                                                          face = "italic"),
                      panel.background = ggplot2::element_rect(fill = "white",
                                                               colour = "grey90"),
-                     panel.grid.major = ggplot2::element_line(colour = "grey90")) +
+                     panel.grid.major = ggplot2::element_line(colour = "grey90"),
+                     legend.text = ggplot2::element_text(size = 12),
+                     legend.title = ggplot2::element_text(size = 12)) +
 
       ggplot2::xlab("Mean bites number/5 min/10m²") +
 
