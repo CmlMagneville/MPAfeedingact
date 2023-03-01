@@ -1454,3 +1454,117 @@ mean_tot_bites_seq <- mean(df_all_act$tot_bites)
 
 # Get per 2m2 and per 10min
 (mean_tot_bites_seq/5)*2
+
+
+
+
+# Compute the percentage of each feeding activity computed each day ####
+
+
+# 1 - Load data:
+bites_seq_guilds_03_df <- readRDS(here::here("transformed_data",
+                                             "bites_seq_guilds_03_df.rds"))
+# add timeslot info:
+bites_seq_guilds_03_df$timeslot <- c(rep("timeslot_1", 4), rep("timeslot_2", 4),
+                                     rep("timeslot_3", 4))
+bites_seq_guilds_04_df <- readRDS(here::here("transformed_data",
+                                             "bites_seq_guilds_04_df.rds"))
+# add timeslot info:
+bites_seq_guilds_04_df$timeslot <- c(rep("timeslot_1", 4), rep("timeslot_2", 4),
+                                     rep("timeslot_3", 4))
+bites_seq_guilds_05_df <- readRDS(here::here("transformed_data",
+                                             "bites_seq_guilds_05_df.rds"))
+# add timeslot info:
+bites_seq_guilds_05_df$timeslot <- c(rep("timeslot_1", 4), rep("timeslot_2", 4),
+                                     rep("timeslot_3", 4))
+bites_seq_guilds_06_df <- readRDS(here::here("transformed_data",
+                                             "bites_seq_guilds_06_df.rds"))
+# add timeslot info:
+bites_seq_guilds_06_df$timeslot <- c(rep("timeslot_1", 4), rep("timeslot_2", 4),
+                                     rep("timeslot_3", 4))
+bites_seq_final_df <- dplyr::bind_rows(bites_seq_guilds_03_df,
+                                       bites_seq_guilds_04_df,
+                                       bites_seq_guilds_05_df,
+                                       bites_seq_guilds_06_df)
+
+# 2 - Corallivory:
+
+## Compute percentage of activity realised each day based on PPA/FPA:
+
+# 03-11-2020 (FPA)
+(sum(bites_seq_final_df[which(bites_seq_final_df$day == "03-11-2020"), "coral_bites"])/
+    sum(bites_seq_final_df[which(bites_seq_final_df$site == "FPA"), "coral_bites"]))*100
+
+# 05-11-2020 (FPA)
+(sum(bites_seq_final_df[which(bites_seq_final_df$day == "05-11-2020"), "coral_bites"])/
+    sum(bites_seq_final_df[which(bites_seq_final_df$site == "FPA"), "coral_bites"]))*100
+
+# 04-11-2020 (PPA)
+(sum(bites_seq_final_df[which(bites_seq_final_df$day == "04-11-2020"), "coral_bites"])/
+    sum(bites_seq_final_df[which(bites_seq_final_df$site == "PPA"), "coral_bites"]))*100
+
+# 06-11-2020 (PPA)
+(sum(bites_seq_final_df[which(bites_seq_final_df$day == "06-11-2020"), "coral_bites"])/
+    sum(bites_seq_final_df[which(bites_seq_final_df$site == "PPA"), "coral_bites"]))*100
+
+
+# 2 - herbivory:
+
+## Compute percentage of activity realised each day based on PPA/FPA:
+
+# 03-11-2020 (FPA)
+(sum(bites_seq_final_df[which(bites_seq_final_df$day == "03-11-2020"), "herb_bites"])/
+    sum(bites_seq_final_df[which(bites_seq_final_df$site == "FPA"), "herb_bites"]))*100
+
+# 05-11-2020 (FPA)
+(sum(bites_seq_final_df[which(bites_seq_final_df$day == "05-11-2020"), "herb_bites"])/
+    sum(bites_seq_final_df[which(bites_seq_final_df$site == "FPA"), "herb_bites"]))*100
+
+# 04-11-2020 (PPA)
+(sum(bites_seq_final_df[which(bites_seq_final_df$day == "04-11-2020"), "herb_bites"])/
+    sum(bites_seq_final_df[which(bites_seq_final_df$site == "PPA"), "herb_bites"]))*100
+
+# 06-11-2020 (PPA)
+(sum(bites_seq_final_df[which(bites_seq_final_df$day == "06-11-2020"), "herb_bites"])/
+    sum(bites_seq_final_df[which(bites_seq_final_df$site == "PPA"), "herb_bites"]))*100
+
+# 3 - invertivory:
+
+## Compute percentage of activity realised each day based on PPA/FPA:
+
+# 03-11-2020 (FPA)
+(sum(bites_seq_final_df[which(bites_seq_final_df$day == "03-11-2020"), "invert_bites"])/
+    sum(bites_seq_final_df[which(bites_seq_final_df$site == "FPA"), "invert_bites"]))*100
+
+# 05-11-2020 (FPA)
+(sum(bites_seq_final_df[which(bites_seq_final_df$day == "05-11-2020"), "invert_bites"])/
+    sum(bites_seq_final_df[which(bites_seq_final_df$site == "FPA"), "invert_bites"]))*100
+
+# 04-11-2020 (PPA)
+(sum(bites_seq_final_df[which(bites_seq_final_df$day == "04-11-2020"), "invert_bites"])/
+    sum(bites_seq_final_df[which(bites_seq_final_df$site == "PPA"), "invert_bites"]))*100
+
+# 06-11-2020 (PPA)
+(sum(bites_seq_final_df[which(bites_seq_final_df$day == "06-11-2020"), "invert_bites"])/
+    sum(bites_seq_final_df[which(bites_seq_final_df$site == "PPA"), "invert_bites"]))*100
+
+# 4 - crustac:
+
+## Compute percentage of activity realised each day based on PPA/FPA:
+
+# 03-11-2020 (FPA)
+(sum(bites_seq_final_df[which(bites_seq_final_df$day == "03-11-2020"), "crustac_bites"])/
+    sum(bites_seq_final_df[which(bites_seq_final_df$site == "FPA"), "crustac_bites"]))*100
+
+# 05-11-2020 (FPA)
+(sum(bites_seq_final_df[which(bites_seq_final_df$day == "05-11-2020"), "crustac_bites"])/
+    sum(bites_seq_final_df[which(bites_seq_final_df$site == "FPA"), "crustac_bites"]))*100
+
+# 04-11-2020 (PPA)
+(sum(bites_seq_final_df[which(bites_seq_final_df$day == "04-11-2020"), "crustac_bites"])/
+    sum(bites_seq_final_df[which(bites_seq_final_df$site == "PPA"), "crustac_bites"]))*100
+
+# 06-11-2020 (PPA)
+(sum(bites_seq_final_df[which(bites_seq_final_df$day == "06-11-2020"), "crustac_bites"])/
+    sum(bites_seq_final_df[which(bites_seq_final_df$site == "PPA"), "crustac_bites"]))*100
+
