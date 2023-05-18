@@ -123,9 +123,9 @@ compute.bites.seq <- function(day,
 
 
   # create the new dataframe:
-  final_seq_guild_df <- as.data.frame(matrix(ncol = 9, nrow = nrow(seq_df), NA))
+  final_seq_guild_df <- as.data.frame(matrix(ncol = 8, nrow = nrow(seq_df), NA))
   colnames(final_seq_guild_df) <- c("site", "day", "seq", "hour", "tot_bites",
-                                    "coral_bites", "crustac_bites",
+                                    "coral_bites",
                                     "invert_bites", "herb_bites")
   final_seq_guild_df$site <- seq_df$site
   final_seq_guild_df$seq <- seq_df$seq
@@ -136,7 +136,8 @@ compute.bites.seq <- function(day,
   sp_diet[which(sp_diet$Diet_Parravicini_2020 %in%
                                c("Macroinvertivores",
                                  "sessile invertivores",
-                                 "Microinvertivores")), "Diet_Parravicini_2020"] <- "Invertivores"
+                                 "Microinvertivores",
+                                 "Crustacivores")), "Diet_Parravicini_2020"] <- "Invertivores"
 
   # rename HMD:
   sp_diet[which(sp_diet$Diet_Parravicini_2020 %in%
@@ -144,8 +145,6 @@ compute.bites.seq <- function(day,
 
   # get coral sp names:
   coral_sp <- sp_diet$Latin_nm[which(sp_diet$Diet_Parravicini_2020 == "Corallivores")]
-  # get crust sp names:
-  crust_sp <- sp_diet$Latin_nm[which(sp_diet$Diet_Parravicini_2020 == "Crustacivores")]
   # get invert sp names:
   invert_sp <- sp_diet$Latin_nm[which(sp_diet$Diet_Parravicini_2020 == "Invertivores")]
   # get herb sp names:
@@ -172,11 +171,6 @@ compute.bites.seq <- function(day,
   invert_df <- seq_df[, colnames(seq_df[which(colnames(seq_df) %in% invert_sp)])]
   invert_bites <- apply(invert_df, 1, sum)
   final_seq_guild_df$invert_bites <- invert_bites
-
-  # crust bites
-  crust_df <- seq_df[, colnames(seq_df[which(colnames(seq_df) %in% crust_sp)])]
-  crust_bites <- apply(crust_df, 1, sum)
-  final_seq_guild_df$crustac_bites <- crust_bites
 
   return(final_seq_guild_df)
 
@@ -209,7 +203,7 @@ plot.heatmaps.act.intensity <- function(bites_seq_df_list) {
 
   # loop on the trophic guilds (and total activity):
   trophic_guilds <- c("tot_bites", "coral_bites", "herb_bites",
-                      "crustac_bites", "invert_bites")
+                      "invert_bites")
 
   # create a list that will contain all plots:
   plot_list <- list()
@@ -307,14 +301,6 @@ plot.heatmaps.act.intensity <- function(bites_seq_df_list) {
                                    paste0(fifth_interval[1], sep = "-", fifth_interval[2]))
     }
     if (guild_nm == "invert_bites") {
-      col_vect_feedact <-  c("white", rev(hcl.colors(5, palette = "BrWnYl")))
-      names(col_vect_feedact) <- c("0", paste0(first_interval[1], sep = "-", first_interval[2]),
-                                   paste0(second_interval[1], sep = "-", second_interval[2]),
-                                   paste0(third_interval[1], sep = "-", third_interval[2]),
-                                   paste0(fourth_interval[1], sep = "-", fourth_interval[2]),
-                                   paste0(fifth_interval[1], sep = "-", fifth_interval[2]))
-    }
-    if (guild_nm == "crustac_bites") {
       col_vect_feedact <-  c("white", rev(hcl.colors(5, palette = "Heat")))
       names(col_vect_feedact) <- c("0", paste0(first_interval[1], sep = "-", first_interval[2]),
                                    paste0(second_interval[1], sep = "-", second_interval[2]),
@@ -360,7 +346,7 @@ plot.heatmaps.act.intensity <- function(bites_seq_df_list) {
       ggplot2::xlab("") +
       ggplot2::ylab("") +
 
-      ggplot2::ggtitle("FPA")
+      ggplot2::ggtitle("N'Gouja")
 
 
     # plot PPA:
@@ -384,7 +370,7 @@ plot.heatmaps.act.intensity <- function(bites_seq_df_list) {
       ggplot2::xlab("") +
       ggplot2::ylab("") +
 
-      ggplot2::ggtitle("PPA")
+      ggplot2::ggtitle("Bouéni")
 
 
     # combine both:
@@ -405,12 +391,6 @@ plot.heatmaps.act.intensity <- function(bites_seq_df_list) {
         patchwork::plot_layout(byrow = TRUE, heights = c(1, 1), widths = c(1, 1),
                                ncol = 1, nrow = 2, guides = "collect") +
         patchwork::plot_annotation(title = "Herbivores")
-    }
-    if (guild_nm == "crustac_bites") {
-      plot_both <- (heatmap_FPA + heatmap_PPA) +
-        patchwork::plot_layout(byrow = TRUE, heights = c(1, 1), widths = c(1, 1),
-                               ncol = 1, nrow = 2, guides = "collect") +
-        patchwork::plot_annotation(title = "Crustacivores")
     }
     if (guild_nm == "invert_bites") {
       plot_both <- (heatmap_FPA + heatmap_PPA) +

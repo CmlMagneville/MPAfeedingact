@@ -20,10 +20,10 @@ presabs_seq_04 <- readRDS(here::here("transformed_data",
                                          "presabs_seq_04.rds"))
 presabs_seq_05 <- readRDS(here::here("transformed_data",
                                          "presabs_seq_05.rds"))
-presabs_seq_06 <- saveRDS(here::here("transformed_data",
+presabs_seq_06 <- readRDS(here::here("transformed_data",
                                          "presabs_seq_06.rds"))
 
-
+sp_diet <- readRDS(here::here("transformed_data", "sp_diet_final.rds"))
 
 # 2 - Retrieve total number of bites and per trophic guilds across time ####
 
