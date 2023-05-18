@@ -1,20 +1,18 @@
 ################################################################################
 ##
-## Script to compute temporal turnover between time slots per feedact and ...
-## ... plot the turnover pairs (timeslot 1-2, 1-3, 2-3) for both days ...
-## ... on each site
+## Script to study the change in dominant species identity across time
 ##
-## 7_Temporal_seq_turnover.R
+## 11_Species_identity_across_time.R
 ##
-## 30/01/2023
+## 18/05/2023
 ##
 ## Camille Magneville
 ##
 ################################################################################
 
 
-# 1 - Load data gathered at the sequence level for each day and traits data ####
 
+# 1 - Load data:
 
 bites_seq_03_df <- readRDS(here::here("transformed_data",
                                       "presabs_seq_03.rds"))
@@ -39,12 +37,12 @@ bites_seq_df <- bites_seq_03_df
 # coral
 sp_feedact_nm_vect <- sp_diet$Latin_nm[which(sp_diet$Diet_Parravicini_2020 == "Corallivores")]
 coral_bites_seq_03_df <- subset.df.feedact(bites_seq_df,
-                                        sp_feedact_nm_vect)
+                                           sp_feedact_nm_vect)
 
 # herb
 sp_feedact_nm_vect <- sp_diet$Latin_nm[which(sp_diet$Diet_Parravicini_2020 == "Herbivores Microvores Detritivores")]
 herb_bites_seq_03_df <- subset.df.feedact(bites_seq_df,
-                                        sp_feedact_nm_vect)
+                                          sp_feedact_nm_vect)
 
 # invert
 sp_feedact_nm_vect <- sp_diet$Latin_nm[which(sp_diet$Diet_Parravicini_2020 %in%
@@ -53,7 +51,8 @@ sp_feedact_nm_vect <- sp_diet$Latin_nm[which(sp_diet$Diet_Parravicini_2020 %in%
                                                  "sessile invertivores",
                                                  "Crustacivores"))]
 invert_bites_seq_03_df <- subset.df.feedact(bites_seq_df,
-                                        sp_feedact_nm_vect)
+                                            sp_feedact_nm_vect)
+
 
 
 ## 04
@@ -105,6 +104,8 @@ invert_bites_seq_05_df <- subset.df.feedact(bites_seq_df,
                                             sp_feedact_nm_vect)
 
 
+
+
 ## 06
 
 bites_seq_df <- bites_seq_06_df
@@ -129,29 +130,112 @@ invert_bites_seq_06_df <- subset.df.feedact(bites_seq_df,
                                             sp_feedact_nm_vect)
 
 
-# 3 - Compute temporal turnover between timeslots and plot them ####
-# Add together the bites of sequences from a given timeslot to get bites/timeslot
-# For each feedact, get one dataframe with the values for the two sites and ...
-# ... two days and one plot per feedact
+
+# 2 - Get species relative activity for each timeslot ####
+# In the final df, I have species relative activity per timeslot per day:
+# ex: C. trifasciatus realise 60% of the activity of the time slot 1 on 03.
 
 
 # Corallivory:
-list_df <- list(coral_bites_seq_03_df, coral_bites_seq_04_df,
-             coral_bites_seq_05_df, coral_bites_seq_06_df)
-turn_coral_df <- compute.temporal.turn(list_df)
+list_coral_bites_seq <- list(coral_bites_seq_03_df, coral_bites_seq_05_df)
+coral_dominance_act_FPA <- sp.dominance.act(list_bites_seq = list_coral_bites_seq)
+
+list_coral_bites_seq <- list(coral_bites_seq_04_df, coral_bites_seq_06_df)
+coral_dominance_act_PPA <- sp.dominance.act(list_bites_seq = list_coral_bites_seq)
+
 
 # Herbivory:
-list_df <- list(herb_bites_seq_03_df, herb_bites_seq_04_df,
-                herb_bites_seq_05_df, herb_bites_seq_06_df)
-turn_herb_df <- compute.temporal.turn(list_df)
+list_herb_bites_seq <- list(herb_bites_seq_03_df, herb_bites_seq_05_df)
+herb_dominance_act_FPA <- sp.dominance.act(list_bites_seq = list_herb_bites_seq)
+
+list_herb_bites_seq <- list(herb_bites_seq_04_df, herb_bites_seq_06_df)
+herb_dominance_act_PPA <- sp.dominance.act(list_bites_seq = list_herb_bites_seq)
+
 
 # Invertivory:
-list_df <- list(invert_bites_seq_03_df, invert_bites_seq_04_df,
-                invert_bites_seq_05_df, invert_bites_seq_06_df)
-turn_invert_df <- compute.temporal.turn(list_df)
+list_invert_bites_seq <- list(invert_bites_seq_03_df, invert_bites_seq_05_df)
+invert_dominance_act_FPA <- sp.dominance.act(list_bites_seq = list_invert_bites_seq)
+
+list_invert_bites_seq <- list(invert_bites_seq_04_df, invert_bites_seq_06_df)
+invert_dominance_act_PPA <- sp.dominance.act(list_bites_seq = list_invert_bites_seq)
 
 
-# save:
-saveRDS(turn_coral_df, here::here("transformed_data", "temp_turn_coral_df.rds"))
-saveRDS(turn_herb_df, here::here("transformed_data", "temp_turn_herb_df.rds"))
-saveRDS(turn_invert_df, here::here("transformed_data", "temp_turn_invert_df.rds"))
+# 3 - Plot ####
+
+
+## Corallivory:
+
+# Set up the color vector:
+sp_nm <- unique(c(colnames(coral_dominance_act_FPA)[1:(ncol(coral_dominance_act_FPA) - 4)],
+                  colnames(coral_dominance_act_PPA)[1:(ncol(coral_dominance_act_PPA) - 4)]))
+sp_nb <- length(sp_nm)
+col_vect <- hcl.colors(sp_nb, palette = "GnBu")
+names(col_vect) <- sort(unique(c(colnames(coral_dominance_act_FPA)[1:(ncol(coral_dominance_act_FPA) - 4)],
+                               colnames(coral_dominance_act_PPA)[1:(ncol(coral_dominance_act_PPA) - 4)])))
+
+# FPA:
+
+dominance_df <- coral_dominance_act_FPA
+guild_nm <- "Corallivores"
+
+dominance_coral_FPA_plot <- dominance.sp.plot(dominance_df, guild_nm, col_vect)
+
+
+# PPA:
+dominance_df <- coral_dominance_act_PPA
+guild_nm <- "Corallivores"
+
+dominance_coral_PPA_plot <- dominance.sp.plot(dominance_df, guild_nm, col_vect)
+
+
+## Herbivory
+
+# Set up the color vector:
+sp_nm <- unique(c(colnames(herb_dominance_act_FPA)[1:(ncol(herb_dominance_act_FPA) - 4)],
+                  colnames(herb_dominance_act_PPA)[1:(ncol(herb_dominance_act_PPA) - 4)]))
+sp_nb <- length(sp_nm)
+col_vect <- hcl.colors(sp_nb, palette = "YlGnBu")
+names(col_vect) <- sort(unique(c(colnames(herb_dominance_act_FPA)[1:(ncol(herb_dominance_act_FPA) - 4)],
+                                 colnames(herb_dominance_act_PPA)[1:(ncol(herb_dominance_act_PPA) - 4)])))
+
+# FPA:
+
+dominance_df <- herb_dominance_act_FPA
+guild_nm <- "Herbivores"
+
+dominance_herb_FPA_plot <- dominance.sp.plot(dominance_df, guild_nm, col_vect)
+
+
+# PPA:
+dominance_df <- herb_dominance_act_PPA
+guild_nm <- "Herbivores"
+
+dominance_herb_PPA_plot <- dominance.sp.plot(dominance_df, guild_nm, col_vect)
+
+
+## Invertivory:
+
+# Set up the color vector:
+sp_nm <- unique(c(colnames(invert_dominance_act_FPA)[1:(ncol(invert_dominance_act_FPA) - 4)],
+                  colnames(invert_dominance_act_PPA)[1:(ncol(invert_dominance_act_PPA) - 4)]))
+sp_nb <- length(sp_nm)
+col_vect <- hcl.colors(sp_nb, palette = "Heat")
+names(col_vect) <- sort(unique(c(colnames(invert_dominance_act_FPA)[1:(ncol(invert_dominance_act_FPA) - 4)],
+                                 colnames(invert_dominance_act_PPA)[1:(ncol(invert_dominance_act_PPA) - 4)])))
+
+# FPA:
+
+dominance_df <- invert_dominance_act_FPA
+guild_nm <- "Invertivores"
+
+dominance_invert_FPA_plot <- dominance.sp.plot(dominance_df, guild_nm, col_vect)
+
+
+# PPA:
+dominance_df <- invert_dominance_act_PPA
+guild_nm <- "Invertivores"
+
+dominance_invert_PPA_plot <- dominance.sp.plot(dominance_df, guild_nm, col_vect)
+
+
+

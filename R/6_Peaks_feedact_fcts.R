@@ -195,6 +195,13 @@ plot.peaks.contrib <- function(biggest_peaks_df, guild_nm, site, col_vect) {
   cleaned_plot_peaks_df$species <- factor(cleaned_plot_peaks_df$species,
                                           levels = names(col_vect_site))
 
+  # change the name of the graph:
+  if (site == "FPA") {
+    site_nm <- "N'Gouja"
+  }
+  if (site == "PPA") {
+    site_nm <- "Bouéni"
+  }
 
   # plot:
   peaks_plot <- ggplot2::ggplot(cleaned_plot_peaks_df,
@@ -219,7 +226,7 @@ plot.peaks.contrib <- function(biggest_peaks_df, guild_nm, site, col_vect) {
 
     ggplot2::labs(fill = "Species") +
 
-    ggplot2::ggtitle(site)
+    ggplot2::ggtitle(site_nm)
 
 
   ggplot2::ggsave(filename = here::here("outputs", paste0(guild_nm, sep ="_",

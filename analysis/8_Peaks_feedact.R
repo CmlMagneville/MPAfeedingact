@@ -48,14 +48,11 @@ herb_bites_seq_03_df <- subset.df.feedact(bites_seq_df,
 sp_feedact_nm_vect <- sp_diet$Latin_nm[which(sp_diet$Diet_Parravicini_2020 %in%
                                                c("Macroinvertivores",
                                                  "Microinvertivores",
-                                                 "sessile invertivores"))]
+                                                 "sessile invertivores",
+                                                 "Crustacivores"))]
 invert_bites_seq_03_df <- subset.df.feedact(bites_seq_df,
                                             sp_feedact_nm_vect)
 
-# crust
-sp_feedact_nm_vect <- sp_diet$Latin_nm[which(sp_diet$Diet_Parravicini_2020 == "Crustacivores")]
-crust_bites_seq_03_df <- subset.df.feedact(bites_seq_df,
-                                           sp_feedact_nm_vect)
 
 
 ## 04
@@ -76,14 +73,11 @@ herb_bites_seq_04_df <- subset.df.feedact(bites_seq_df,
 sp_feedact_nm_vect <- sp_diet$Latin_nm[which(sp_diet$Diet_Parravicini_2020 %in%
                                                c("Macroinvertivores",
                                                  "Microinvertivores",
-                                                 "sessile invertivores"))]
+                                                 "sessile invertivores",
+                                                 "Crustacivores"))]
 invert_bites_seq_04_df <- subset.df.feedact(bites_seq_df,
                                             sp_feedact_nm_vect)
 
-# crust
-sp_feedact_nm_vect <- sp_diet$Latin_nm[which(sp_diet$Diet_Parravicini_2020 == "Crustacivores")]
-crust_bites_seq_04_df <- subset.df.feedact(bites_seq_df,
-                                           sp_feedact_nm_vect)
 
 
 ## 05
@@ -104,14 +98,12 @@ herb_bites_seq_05_df <- subset.df.feedact(bites_seq_df,
 sp_feedact_nm_vect <- sp_diet$Latin_nm[which(sp_diet$Diet_Parravicini_2020 %in%
                                                c("Macroinvertivores",
                                                  "Microinvertivores",
-                                                 "sessile invertivores"))]
+                                                 "sessile invertivores",
+                                                 "Crustacivores"))]
 invert_bites_seq_05_df <- subset.df.feedact(bites_seq_df,
                                             sp_feedact_nm_vect)
 
-# crust
-sp_feedact_nm_vect <- sp_diet$Latin_nm[which(sp_diet$Diet_Parravicini_2020 == "Crustacivores")]
-crust_bites_seq_05_df <- subset.df.feedact(bites_seq_df,
-                                           sp_feedact_nm_vect)
+
 
 
 ## 06
@@ -132,14 +124,11 @@ herb_bites_seq_06_df <- subset.df.feedact(bites_seq_df,
 sp_feedact_nm_vect <- sp_diet$Latin_nm[which(sp_diet$Diet_Parravicini_2020 %in%
                                                c("Macroinvertivores",
                                                  "Microinvertivores",
-                                                 "sessile invertivores"))]
+                                                 "sessile invertivores",
+                                                 "Crustacivores"))]
 invert_bites_seq_06_df <- subset.df.feedact(bites_seq_df,
                                             sp_feedact_nm_vect)
 
-# crust
-sp_feedact_nm_vect <- sp_diet$Latin_nm[which(sp_diet$Diet_Parravicini_2020 == "Crustacivores")]
-crust_bites_seq_06_df <- subset.df.feedact(bites_seq_df,
-                                           sp_feedact_nm_vect)
 
 
 # 3 - Get the five strongest event / site for each feeding activity (days pooled) ####
@@ -163,12 +152,6 @@ list_FPA_df <- list(invert_bites_seq_03_df, invert_bites_seq_05_df)
 invert_FPA_peaks <- identify.peaks.species(list_df = list_FPA_df, peak_nb = 5)
 list_PPA_df <- list(invert_bites_seq_04_df, invert_bites_seq_06_df)
 invert_PPA_peaks <- identify.peaks.species(list_df = list_PPA_df, peak_nb = 5)
-
-# Crustacivory:
-list_FPA_df <- list(crust_bites_seq_03_df, crust_bites_seq_05_df)
-crust_FPA_peaks <- identify.peaks.species(list_df = list_FPA_df, peak_nb = 5)
-list_PPA_df <- list(crust_bites_seq_04_df, crust_bites_seq_06_df)
-crust_PPA_peaks <- identify.peaks.species(list_df = list_PPA_df, peak_nb = 5)
 
 
 # 4 - Plot the five biggest events and species contribution to it ####
@@ -316,7 +299,7 @@ sp_invert <- stringr::str_replace_all(sp_invert, "_", " ")
 
 # Create the color palette (colorblindfriendly)
 sp_nb <- length(sp_invert)
-invert_colour_vect <- hcl.colors(sp_nb, palette = "BrWnYl")
+invert_colour_vect <- hcl.colors(sp_nb, palette = "Heat")
 names(invert_colour_vect) <- sp_invert
 invert_colour_vect[which(names(invert_colour_vect) == "Others")] <- "gray75"
 col_vect <- invert_colour_vect
@@ -353,63 +336,6 @@ ggplot2::ggsave(filename = here::here("outputs", "Invert_peaks_tot.pdf"),
 # save the five biggest peaks data:
 saveRDS(FPA_invert[[2]], here::here("transformed_data", "biggest_peaks_invert_FPA.rds"))
 saveRDS(PPA_invert[[2]], here::here("transformed_data", "biggest_peaks_invert_PPA.rds"))
-
-
-
-## Crustacivores:
-
-# Create a vector that contain the names of all corallivores species seen ...
-# ... and affect a color to each species (so that same color between FPA and PPA plots):
-FPA_sp <- colnames(crust_FPA_peaks[, which(! colnames(crust_FPA_peaks)
-                                          %in% c("site", "hour",
-                                                 "seq", "day",
-                                                 "summed_bites"))])
-PPA_sp <- colnames(crust_PPA_peaks[, which(! colnames(crust_PPA_peaks)
-                                          %in% c("site", "hour",
-                                                 "seq", "day",
-                                                 "summed_bites"))])
-sp_crust <- unique(c(FPA_sp, PPA_sp, "Others"))
-# remove "_" and replace by empty space for species names:
-sp_crust <- stringr::str_replace_all(sp_crust, "_", " ")
-
-# Create the color palette (colorblindfriendly)
-sp_nb <- length(sp_crust)
-crust_colour_vect <- hcl.colors(sp_nb, palette = "Heat")
-names(crust_colour_vect) <- sp_crust
-crust_colour_vect[which(names(crust_colour_vect) == "Others")] <- "gray75"
-col_vect <- crust_colour_vect
-
-
-# FPA:
-biggest_peaks_df <- crust_FPA_peaks
-guild_nm <- "Crustacivores"
-site <- "FPA"
-FPA_crust <- plot.peaks.contrib(biggest_peaks_df, guild_nm, site, col_vect)
-FPA_crust_plot <- FPA_crust[[1]]
-# PPA:
-biggest_peaks_df <- crust_PPA_peaks
-guild_nm <- "Crustacivores"
-site <- "PPA"
-PPA_crust <- plot.peaks.contrib(biggest_peaks_df, guild_nm, site, col_vect)
-PPA_crust_plot <- PPA_crust[[1]]
-
-crust_peaks <- (FPA_crust_plot + PPA_crust_plot) +
-  patchwork::plot_layout(byrow = TRUE, heights = c(1, 1), widths = c(1, 1),
-                         ncol = 1, nrow = 2, guides = "collect") +
-  patchwork::plot_annotation(title = "Crustacivores")
-
-ggplot2::ggsave(filename = here::here("outputs", "Crustac_peaks_tot.pdf"),
-                plot = crust_peaks,
-                device = "pdf",
-                scale = 1,
-                height = 4000,
-                width = 5000,
-                units = "px",
-                dpi = 600)
-
-# save the five biggest peaks data:
-saveRDS(FPA_crust[[2]], here::here("transformed_data", "biggest_peaks_crust_FPA.rds"))
-saveRDS(PPA_crust[[2]], here::here("transformed_data", "biggest_peaks_crust_PPA.rds"))
 
 
 

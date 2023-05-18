@@ -99,31 +99,6 @@ ggpubr::ggboxplot(data, x = protection, y = bites,
                   ylab = "bites number per sequence", xlab = "protection level")
 
 
-# 5 - Crustacivory test:
-
-FPA_bites <- c(bites_seq_guilds_03_df$crustac_bites, bites_seq_guilds_05_df$crustac_bites)
-PPA_bites <- c(bites_seq_guilds_04_df$crustac_bites, bites_seq_guilds_06_df$crustac_bites)
-
-
-# Create a df to do a summary and plot data:
-bites <-  c(FPA_bites, PPA_bites)
-protection <- rep(c("FPA", "PPA"), each = 24)
-
-# Now creating a dataframe
-data <- data.frame(protection, bites, stringsAsFactors = TRUE)
-
-dplyr::group_by(data, protection) %>%
-  summarise(
-    count = n(),
-    median = median(bites, na.rm = TRUE),
-    IQR = IQR(bites, na.rm = TRUE))
-
-# loading package for boxplot
-ggpubr::ggboxplot(data, x = protection, y = bites,
-                  color = protection, palette = c("#80cdc1", "#bf812d"),
-                  ylab = "bites number per sequence", xlab = "protection level")
-
-
 
 # Mean (on sequence) bite rates per feeding activity and test if significant difference ####
 
@@ -157,11 +132,6 @@ all_bites_df %>%
 all_bites_df %>%
   dplyr::group_by(site) %>%
   rstatix::get_summary_stats(invert_bites, type = "common")
-
-# crustac:
-all_bites_df %>%
-  dplyr::group_by(site) %>%
-  rstatix::get_summary_stats(crustac_bites, type = "common")
 
 
 # 3 - Kruskal-Wallis test if there is a significative difference between ...
@@ -207,8 +177,7 @@ herb_contrib_PPA <- readRDS(here::here("transformed_data", "herb_contrib_PPA.rds
 herb_contrib_FPA <- readRDS(here::here("transformed_data", "herb_contrib_FPA.rds"))
 invert_contrib_PPA <- readRDS(here::here("transformed_data", "invert_contrib_PPA.rds"))
 invert_contrib_FPA <- readRDS(here::here("transformed_data", "invert_contrib_FPA.rds"))
-crustac_contrib_FPA <- readRDS(here::here("transformed_data", "crustac_contrib_FPA.rds"))
-crustac_contrib_PPA <- readRDS(here::here("transformed_data", "crustac_contrib_PPA.rds"))
+
 
 
 # 2 - Corallivory: what  of the total corallivory realised the 3 dominant species?
