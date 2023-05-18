@@ -143,7 +143,7 @@ saveRDS(PPA_tot_contrib, here::here("transformed_data",
                                     "PPA_feedact_tot_contrib.rds"))
 
 
-# c - Link with trophic guilds and gather invertivores####
+# c - Link with trophic guilds and gather invertivores and crustacivores ####
 
 
 FPA_mean_contrib_diet <- dplyr::left_join(FPA_mean_contrib, sp_diet, by = "sp_nm")
@@ -152,11 +152,13 @@ PPA_mean_contrib_diet <- dplyr::left_join(PPA_mean_contrib, sp_diet, by = "sp_nm
 FPA_mean_contrib_diet[which(FPA_mean_contrib_diet$Diet_Parravicini_2020 %in%
                              c("Macroinvertivores",
                                "sessile invertivores",
-                               "Microinvertivores")), "Diet_Parravicini_2020"] <- "Invertivores"
+                               "Microinvertivores",
+                               "Crustacivores")), "Diet_Parravicini_2020"] <- "Invertivores"
 PPA_mean_contrib_diet[which(PPA_mean_contrib_diet$Diet_Parravicini_2020 %in%
                              c("Macroinvertivores",
                                "sessile invertivores",
-                               "Microinvertivores")), "Diet_Parravicini_2020"] <- "Invertivores"
+                               "Microinvertivores",
+                               "Crustacivores")), "Diet_Parravicini_2020"] <- "Invertivores"
 
 # rename herbivores: HMD
 FPA_mean_contrib_diet[which(FPA_mean_contrib_diet$Diet_Parravicini_2020 %in%
@@ -226,29 +228,13 @@ saveRDS(invert_contrib_PPA, here::here("transformed_data", "invert_contrib_PPA.r
 saveRDS(invert_contrib_FPA, here::here("transformed_data", "invert_contrib_FPA.rds"))
 
 
-# Crustacivores
-contrib_FPA_df <- FPA_mean_contrib_diet
-contrib_PPA_df <- PPA_mean_contrib_diet
-guild_nm <- "Crustacivores"
-sites_colors <- c("grey85", "#bf812d", "#80cdc1")
-res_crustac <- plot.interact.guild.contrib(contrib_FPA_df,
-                            contrib_PPA_df,
-                            guild_nm,
-                            sites_colors)
-crustac_contrib_PPA <- res_crustac[[2]]
-crustac_contrib_FPA <- res_crustac[[3]]
-saveRDS(crustac_contrib_PPA, here::here("transformed_data", "crustac_contrib_PPA.rds"))
-saveRDS(crustac_contrib_FPA, here::here("transformed_data", "crustac_contrib_FPA.rds"))
-
-
 # Plot all in an other design (rows = feeding activities, columns = protection levels):
 
 plot_all <- (res_coral[[4]] + res_coral[[5]] +
              res_herb[[4]] + res_herb[[5]] +
-             res_invert[[4]] + res_invert[[5]] +
-             res_crustac[[4]] + res_crustac[[5]]) +
+             res_invert[[4]] + res_invert[[5]]) +
   patchwork::plot_layout(byrow = TRUE, heights = c(2, 2), widths = c(1, 1),
-                         ncol = 2, nrow = 4, guides = "collect")
+                         ncol = 2, nrow = 3, guides = "collect")
 
 ggplot2::ggsave(filename = here::here("outputs", "all_contribution_feedact.pdf"),
                 plot = plot_all,

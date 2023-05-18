@@ -364,7 +364,7 @@ plot.interact.guild.contrib <- function(contrib_FPA_df,
       ggplot2::scale_fill_manual(values = c(sites_colors[1],
                                             sites_colors[3]),
                                  name = "Site presence",
-                                 labels = c("Both", "Fully Protected")) +
+                                 labels = c("Both", "N'Gouja")) +
 
       ggplot2::theme(axis.text.x = ggplot2::element_text(size = 13),
                      axis.text.y = ggplot2::element_text(size = 13,
@@ -403,7 +403,7 @@ plot.interact.guild.contrib <- function(contrib_FPA_df,
       ggplot2::scale_fill_manual(values = c(sites_colors[1],
                                             sites_colors[2]),
                                  name = "Site presence",
-                                 labels = c("Both", "Poorly Protected")) +
+                                 labels = c("Both", "Bouéni")) +
 
       ggplot2::theme(axis.text.x = ggplot2::element_text(size = 13),
                      axis.text.y = ggplot2::element_text(size = 13,
