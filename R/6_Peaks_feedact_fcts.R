@@ -213,7 +213,7 @@ plot.peaks.contrib <- function(biggest_peaks_df, guild_nm, site, col_vect) {
 
     ggplot2::scale_fill_manual(values = col_vect_site) +
 
-    ggplot2::xlab("Feeding events") +
+    ggplot2::xlab("Top Five Feeding Events") +
 
     ggplot2::ylab("Bites number/5min/10m²") +
 

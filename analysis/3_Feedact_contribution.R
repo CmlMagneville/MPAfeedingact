@@ -239,3 +239,22 @@ crustac_contrib_PPA <- res_crustac[[2]]
 crustac_contrib_FPA <- res_crustac[[3]]
 saveRDS(crustac_contrib_PPA, here::here("transformed_data", "crustac_contrib_PPA.rds"))
 saveRDS(crustac_contrib_FPA, here::here("transformed_data", "crustac_contrib_FPA.rds"))
+
+
+# Plot all in an other design (rows = feeding activities, columns = protection levels):
+
+plot_all <- (res_coral[[4]] + res_coral[[5]] +
+             res_herb[[4]] + res_herb[[5]] +
+             res_invert[[4]] + res_invert[[5]] +
+             res_crustac[[4]] + res_crustac[[5]]) +
+  patchwork::plot_layout(byrow = TRUE, heights = c(2, 2), widths = c(1, 1),
+                         ncol = 2, nrow = 4, guides = "collect")
+
+ggplot2::ggsave(filename = here::here("outputs", "all_contribution_feedact.pdf"),
+                plot = plot_all,
+                device = "pdf",
+                scale = 1.3,
+                height = 12000,
+                width = 10000,
+                units = "px",
+                dpi = 800)

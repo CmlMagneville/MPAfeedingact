@@ -343,7 +343,10 @@ plot.interact.guild.contrib <- function(contrib_FPA_df,
     # data_subset_FPA[which(data_subset_FPA$bottom < 0), "bottom"] <- 0
     # data_subset_PPA[which(data_subset_PPA$bottom < 0), "bottom"] <- 0
 
-
+    # Change HMD -> Herbivores
+    if (guild_nm == "HMD") {
+      guild_nm <- "Herbivores"
+    }
 
     plot_FPA <- ggplot2::ggplot(data = data_subset_FPA) +
 
@@ -363,14 +366,16 @@ plot.interact.guild.contrib <- function(contrib_FPA_df,
                                  name = "Site presence",
                                  labels = c("Both", "Fully Protected")) +
 
-      ggplot2::theme(axis.text.x = ggplot2::element_text(size = 12),
-                     axis.text.y = ggplot2::element_text(size = 12,
+      ggplot2::theme(axis.text.x = ggplot2::element_text(size = 13),
+                     axis.text.y = ggplot2::element_text(size = 13,
                                                          face = "italic"),
+                     axis.title.x = ggplot2::element_text(size = 13),
+                     axis.title.y = ggplot2::element_text(size = 13),
                      panel.background = ggplot2::element_rect(fill = "white",
                                                               colour = "grey90"),
                      panel.grid.major = ggplot2::element_line(colour = "grey90"),
-                     legend.text = ggplot2::element_text(size = 12),
-                     legend.title = ggplot2::element_text(size = 12)) +
+                     legend.text = ggplot2::element_text(size = 13),
+                     legend.title = ggplot2::element_text(size = 13)) +
 
       ggplot2::xlab("Mean bites number/5 min/10m²") +
 
@@ -379,7 +384,7 @@ plot.interact.guild.contrib <- function(contrib_FPA_df,
 
       ggplot2::ylab("") +
 
-      ggplot2::ggtitle("FPA")
+      ggplot2::ggtitle(guild_nm)
 
 
     plot_PPA <- ggplot2::ggplot(data = data_subset_PPA) +
@@ -400,29 +405,24 @@ plot.interact.guild.contrib <- function(contrib_FPA_df,
                                  name = "Site presence",
                                  labels = c("Both", "Poorly Protected")) +
 
-      ggplot2::theme(axis.text.x = ggplot2::element_text(size = 12),
-                     axis.text.y = ggplot2::element_text(size = 12,
+      ggplot2::theme(axis.text.x = ggplot2::element_text(size = 13),
+                     axis.text.y = ggplot2::element_text(size = 13,
                                                          face = "italic"),
+                     axis.title.x = ggplot2::element_text(size = 13),
+                     axis.title.y = ggplot2::element_text(size = 13),
                      panel.background = ggplot2::element_rect(fill = "white",
                                                               colour = "grey90"),
                      panel.grid.major = ggplot2::element_line(colour = "grey90"),
-                     legend.text = ggplot2::element_text(size = 12),
-                     legend.title = ggplot2::element_text(size = 12)) +
+                     legend.text = ggplot2::element_text(size = 13),
+                     legend.title = ggplot2::element_text(size = 13)) +
 
       ggplot2::xlab("Mean bites number/5 min/10m²") +
 
       ggplot2::xlim(c(0, max(max(data_subset_FPA$feed_act_mean),
                              max(data_subset_PPA$feed_act_mean)) + 0.1)) +
 
-      ggplot2::ylab("") +
+      ggplot2::ylab("")
 
-      ggplot2::ggtitle("PPA")
-
-
-    # Change HMD -> Herbivores
-    if (guild_nm == "HMD") {
-      guild_nm <- "Herbivores"
-    }
 
 
     plot_both <- (plot_FPA + plot_PPA) +
@@ -441,6 +441,6 @@ plot.interact.guild.contrib <- function(contrib_FPA_df,
                     units = "px",
                     dpi = 800)
 
-    return(list(plot_both, data_subset_PPA, data_subset_FPA))
+    return(list(plot_both, data_subset_PPA, data_subset_FPA, plot_FPA, plot_PPA))
 
 }
