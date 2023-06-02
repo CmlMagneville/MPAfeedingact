@@ -236,8 +236,6 @@ FPA_peaks_herb <- readRDS(here::here("transformed_data", "biggest_peaks_herb_FPA
 PPA_peaks_herb <-readRDS(here::here("transformed_data", "biggest_peaks_herb_PPA.rds"))
 FPA_peaks_invert <- readRDS(here::here("transformed_data", "biggest_peaks_invert_FPA.rds"))
 PPA_peaks_invert <-readRDS(here::here("transformed_data", "biggest_peaks_invert_PPA.rds"))
-FPA_peaks_crust <- readRDS(here::here("transformed_data", "biggest_peaks_crust_FPA.rds"))
-PPA_peaks_crust <-readRDS(here::here("transformed_data", "biggest_peaks_crust_PPA.rds"))
 
 
 # 2 - Corallivory:
@@ -594,14 +592,10 @@ herb_bites_seq_03_df <- subset.df.feedact(bites_seq_df,
 sp_feedact_nm_vect <- sp_diet$Latin_nm[which(sp_diet$Diet_Parravicini_2020 %in%
                                                c("Macroinvertivores",
                                                  "Microinvertivores",
-                                                 "sessile invertivores"))]
+                                                 "sessile invertivores",
+                                                 "Crustacivores"))]
 invert_bites_seq_03_df <- subset.df.feedact(bites_seq_df,
                                             sp_feedact_nm_vect)
-
-# crust
-sp_feedact_nm_vect <- sp_diet$Latin_nm[which(sp_diet$Diet_Parravicini_2020 == "Crustacivores")]
-crust_bites_seq_03_df <- subset.df.feedact(bites_seq_df,
-                                           sp_feedact_nm_vect)
 
 
 ## 04
@@ -622,14 +616,10 @@ herb_bites_seq_04_df <- subset.df.feedact(bites_seq_df,
 sp_feedact_nm_vect <- sp_diet$Latin_nm[which(sp_diet$Diet_Parravicini_2020 %in%
                                                c("Macroinvertivores",
                                                  "Microinvertivores",
-                                                 "sessile invertivores"))]
+                                                 "sessile invertivores",
+                                                 "Crustacivores"))]
 invert_bites_seq_04_df <- subset.df.feedact(bites_seq_df,
                                             sp_feedact_nm_vect)
-
-# crust
-sp_feedact_nm_vect <- sp_diet$Latin_nm[which(sp_diet$Diet_Parravicini_2020 == "Crustacivores")]
-crust_bites_seq_04_df <- subset.df.feedact(bites_seq_df,
-                                           sp_feedact_nm_vect)
 
 
 ## 05
@@ -650,14 +640,11 @@ herb_bites_seq_05_df <- subset.df.feedact(bites_seq_df,
 sp_feedact_nm_vect <- sp_diet$Latin_nm[which(sp_diet$Diet_Parravicini_2020 %in%
                                                c("Macroinvertivores",
                                                  "Microinvertivores",
-                                                 "sessile invertivores"))]
+                                                 "sessile invertivores",
+                                                 "Crustacivores"))]
 invert_bites_seq_05_df <- subset.df.feedact(bites_seq_df,
                                             sp_feedact_nm_vect)
 
-# crust
-sp_feedact_nm_vect <- sp_diet$Latin_nm[which(sp_diet$Diet_Parravicini_2020 == "Crustacivores")]
-crust_bites_seq_05_df <- subset.df.feedact(bites_seq_df,
-                                           sp_feedact_nm_vect)
 
 
 ## 06
@@ -678,14 +665,11 @@ herb_bites_seq_06_df <- subset.df.feedact(bites_seq_df,
 sp_feedact_nm_vect <- sp_diet$Latin_nm[which(sp_diet$Diet_Parravicini_2020 %in%
                                                c("Macroinvertivores",
                                                  "Microinvertivores",
-                                                 "sessile invertivores"))]
+                                                 "sessile invertivores",
+                                                 "Crustacivores"))]
 invert_bites_seq_06_df <- subset.df.feedact(bites_seq_df,
                                             sp_feedact_nm_vect)
 
-# crust
-sp_feedact_nm_vect <- sp_diet$Latin_nm[which(sp_diet$Diet_Parravicini_2020 == "Crustacivores")]
-crust_bites_seq_06_df <- subset.df.feedact(bites_seq_df,
-                                           sp_feedact_nm_vect)
 
 
 # 3 - Compute temporal turnover between timeslots and plot them ####
@@ -696,30 +680,27 @@ crust_bites_seq_06_df <- subset.df.feedact(bites_seq_df,
 list_df <- list(coral_bites_seq_03_df, coral_bites_seq_04_df,
                 coral_bites_seq_05_df, coral_bites_seq_06_df)
 
-coral_dissim <- compute.temporal.turn.allday(list_df, type == "jaccard")
+coral_dissim <- compute.temporal.turn.allday(list_df, type = "jaccard")
 coral_dissim_dist <- coral_dissim[[1]]
+coral_dissim_df <- mFD::dist.to.df(list(dist = coral_dissim_dist))
+
 
 # Herbivory:
 list_df <- list(herb_bites_seq_03_df, herb_bites_seq_04_df,
                 herb_bites_seq_05_df, herb_bites_seq_06_df)
 
-herb_dissim <- compute.temporal.turn.allday(list_df, type == "jaccard")
+herb_dissim <- compute.temporal.turn.allday(list_df, type = "jaccard")
 herb_dissim_dist <- herb_dissim[[1]]
+herb_dissim_df <- mFD::dist.to.df(list(dist = herb_dissim_dist))
 
 # Invertivory:
 list_df <- list(invert_bites_seq_03_df, invert_bites_seq_04_df,
                 invert_bites_seq_05_df, invert_bites_seq_06_df)
 
-invert_dissim <- compute.temporal.turn.allday(list_df, type == "jaccard")
+invert_dissim <- compute.temporal.turn.allday(list_df, type = "jaccard")
 invert_dissim_dist <- invert_dissim[[1]]
+invert_dissim_df <- mFD::dist.to.df(list(dist = invert_dissim_dist))
 
-
-# Crustacivory:
-list_df <- list(crust_bites_seq_03_df, crust_bites_seq_04_df,
-                crust_bites_seq_05_df, crust_bites_seq_06_df)
-
-crust_dissim <- compute.temporal.turn.allday(list_df, type == "jaccard")
-crust_dissim_dist <- crust_dissim[[1]]
 
 
 # 4 - Compute ordination, visualise and PERMANOVA ####
@@ -878,57 +859,6 @@ vegan::adonis2(invert_dissim_dist ~ timeslot + site,
                data = invert_var,  permutations = 999)
 
 
-## Crustacivory:
-
-# create the variable dataframe with info about timeslots:
-crust_var <- as.data.frame(matrix(ncol = 3, nrow = 12))
-colnames(crust_var) <- c("id", "site", "timeslot")
-
-crust_dissim_df <- mFD::dist.to.df(list(dist = crust_dissim_dist))
-
-crust_var$id <- unique(as.character(c(crust_dissim_df$x1, crust_dissim_df$x2)))
-crust_var$site <- substr(crust_var$id, 7, 9)
-crust_var$timeslot <- substr(crust_var$id, 11, 20)
-crust_var$site_timeslot <- paste0(crust_var$site, sep = "_", crust_var$timeslot)
-crust_var$site <- as.factor(crust_var$site)
-crust_var$timeslot <- as.factor(crust_var$timeslot)
-crust_var$site_timeslot <- as.factor(crust_var$site_timeslot)
-
-rownames(crust_var) <- crust_var$id
-
-
-# compute ordination and plot it:
-
-#compute pcoa and get coord along axis 1 and 2:
-pcoa_crust <- ape::pcoa(as.matrix(crust_dissim_dist))
-
-pcoa_coord <- as.data.frame(matrix(ncol = 2, nrow = 12))
-colnames(pcoa_coord) <- c("pcoa1", "pcoa2")
-pcoa_coord$pcoa1 <- pcoa_crust$vectors[, 1]
-pcoa_coord$pcoa2 <- pcoa_crust$vectors[, 2]
-pcoa_coord$id <- names(pcoa_crust$vectors[, 1])
-
-# get together coordinates and variables about timeslots:
-var_coord_df <- dplyr::inner_join(crust_var, pcoa_coord)
-
-# plot according to timeslots and site:
-ggplot2::ggplot(data = var_coord_df,
-                ggplot2::aes(x = pcoa1, y = pcoa2,
-                             colour = timeslot,
-                             shape = site)) +
-  ggplot2::geom_point()
-
-# compute permdisp: no significant variation differece between timeslots or sites:
-permd <- vegan::betadisper(crust_dissim_dist, crust_var$site)
-anova(permd)
-permd <- vegan::betadisper(crust_dissim_dist, crust_var$timeslot)
-anova(permd)
-
-# compute permanova: NA so not possible
-vegan::adonis2(crust_dissim_dist ~ timeslot + site,
-               data = crust_var,  permutations = 999,
-               na.action = na.omit)
-
 
 # Dissimilarity and Turnover between time slots ####
 
@@ -980,19 +910,6 @@ sd(turn_invert_df[which(turn_invert_df$site == "FPA"), "tot_dissim"])/sqrt(lengt
 mean(turn_invert_df[which(turn_invert_df$site == "PPA"), "tot_dissim"])
 sd(turn_invert_df[which(turn_invert_df$site == "PPA"), "tot_dissim"])/sqrt(length((turn_invert_df[which(turn_invert_df$site == "PPA"), "tot_dissim"])))
 
-
-# 3 - Crustacivory:
-
-turn_crust_df$tot_dissim <- as.numeric(turn_crust_df$tot_dissim)
-turn_crust_df$turnover <- as.numeric(turn_crust_df$turnover)
-
-# mean dissim in the FPA:
-mean(turn_crust_df[which(turn_crust_df$site == "FPA"), "tot_dissim"])
-sd(turn_crust_df[which(turn_crust_df$site == "FPA"), "tot_dissim"])/sqrt(length((turn_crust_df[which(turn_crust_df$site == "FPA"), "tot_dissim"])))
-
-# mean dissim in the PPA:
-mean(turn_crust_df[which(turn_crust_df$site == "PPA"), "tot_dissim"])
-sd(turn_crust_df[which(turn_crust_df$site == "PPA"), "tot_dissim"])/sqrt(length((turn_crust_df[which(turn_crust_df$site == "PPA"), "tot_dissim"])))
 
 
 
@@ -1516,24 +1433,4 @@ bites_seq_final_df <- dplyr::bind_rows(bites_seq_guilds_03_df,
 # 06-11-2020 (PPA)
 (sum(bites_seq_final_df[which(bites_seq_final_df$day == "06-11-2020"), "invert_bites"])/
     sum(bites_seq_final_df[which(bites_seq_final_df$site == "PPA"), "invert_bites"]))*100
-
-# 4 - crustac:
-
-## Compute percentage of activity realised each day based on PPA/FPA:
-
-# 03-11-2020 (FPA)
-(sum(bites_seq_final_df[which(bites_seq_final_df$day == "03-11-2020"), "crustac_bites"])/
-    sum(bites_seq_final_df[which(bites_seq_final_df$site == "FPA"), "crustac_bites"]))*100
-
-# 05-11-2020 (FPA)
-(sum(bites_seq_final_df[which(bites_seq_final_df$day == "05-11-2020"), "crustac_bites"])/
-    sum(bites_seq_final_df[which(bites_seq_final_df$site == "FPA"), "crustac_bites"]))*100
-
-# 04-11-2020 (PPA)
-(sum(bites_seq_final_df[which(bites_seq_final_df$day == "04-11-2020"), "crustac_bites"])/
-    sum(bites_seq_final_df[which(bites_seq_final_df$site == "PPA"), "crustac_bites"]))*100
-
-# 06-11-2020 (PPA)
-(sum(bites_seq_final_df[which(bites_seq_final_df$day == "06-11-2020"), "crustac_bites"])/
-    sum(bites_seq_final_df[which(bites_seq_final_df$site == "PPA"), "crustac_bites"]))*100
 

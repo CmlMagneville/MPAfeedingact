@@ -1,8 +1,8 @@
 ################################################################################
 ##
-## Script to plot heatmaps of feedact across time
+## Script to plot heatmaps of feedact across time and feedact variations
 ##
-## 4_Heatmaps_feedact.R
+## 4_Heatmaps_feedact_and_seqvar.R
 ##
 ## 27/01/2023
 ##
@@ -72,3 +72,17 @@ bites_seq_df_list <- list(bites_seq_guilds_03_df,
                           bites_seq_guilds_06_df)
 
 plot.heatmaps.act.intensity(bites_seq_df_list)
+
+
+# 4 - Plot the boxplots showing the variation in bites nb per seq ####
+
+
+bites_seq_df_list <- list(bites_seq_guilds_03_df,
+                          bites_seq_guilds_04_df,
+                          bites_seq_guilds_05_df,
+                          bites_seq_guilds_06_df)
+
+plot.boxplots.act(bites_seq_df_list)
+
+
+

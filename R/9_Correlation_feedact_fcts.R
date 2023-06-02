@@ -84,31 +84,6 @@ compute.plot.correl <- function(bites_df) {
 
 
 
-  ## Coral - Crustacivores:
-
-  # Correlation computation:
-  cor_coral_crust <- cor.test(bites_df$coral_bites, bites_df$crustac_bites, method = "spearman")
-
-  # Plot:
-  plot_coral_crust <- ggplot2::ggplot(bites_df,
-                                     ggplot2::aes(color = seq,
-                                                  shape = day,
-                                                  y = coral_bites, x = crustac_bites)) +
-
-    ggplot2::geom_abline(color = "gray70", linewidth = 0.8) +
-
-    ggplot2::geom_point(size = 2) +
-
-    ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 90),
-                   panel.background = ggplot2::element_rect(fill = "white",
-                                                            colour = "grey90"),
-                   panel.grid.major = ggplot2::element_line(colour = "grey90")) +
-
-    ggplot2::xlab("Crustacivores bites/sequence/10m²") +
-
-    ggplot2::ylab("Corallivores bites/sequence/10m²")
-
-
   ## Herbivory - Invertivory:
 
   # Correlation computation:
@@ -134,66 +109,14 @@ compute.plot.correl <- function(bites_df) {
     ggplot2::ylab("Invertivores bites/sequence/10m²")
 
 
-  ## Crustacivory - Herbivory:
-
-  # Correlation computation:
-  cor_crust_herb <- cor.test(bites_df$crustac_bites, bites_df$herb_bites, method = "spearman")
-
-  # Plot:
-  plot_crust_herb <- ggplot2::ggplot(bites_df,
-                                     ggplot2::aes(color = seq,
-                                                  shape = day,
-                                                  y = crustac_bites, x = herb_bites)) +
-
-    ggplot2::geom_abline(color = "gray70", linewidth = 0.8) +
-
-    ggplot2::geom_point(size = 2) +
-
-    ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 90),
-                   panel.background = ggplot2::element_rect(fill = "white",
-                                                            colour = "grey90"),
-                   panel.grid.major = ggplot2::element_line(colour = "grey90")) +
-
-    ggplot2::xlab("Herbivory bites/sequence/10m²") +
-
-    ggplot2::ylab("Crustacivores bites/sequence/10m²")
-
-
-  ## Crustacivory - Invertivory:
-
-  # Correlation computation:
-  cor_crust_invert <- cor.test(bites_df$crustac_bites, bites_df$invert_bites, method = "spearman")
-
-  # Plot:
-  plot_crust_invert <- ggplot2::ggplot(bites_df,
-                                     ggplot2::aes(color = seq,
-                                                  shape = day,
-                                                  y = crustac_bites, x = invert_bites)) +
-
-    ggplot2::geom_abline(color = "gray70", linewidth = 0.8) +
-
-    ggplot2::geom_point(size = 2) +
-
-    ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 90),
-                   panel.background = ggplot2::element_rect(fill = "white",
-                                                            colour = "grey90"),
-                   panel.grid.major = ggplot2::element_line(colour = "grey90")) +
-
-    ggplot2::xlab("Invertivores bites/sequence/10m²") +
-
-    ggplot2::ylab("Crustacivores bites/sequence/10m²")
-
-
-  all_correl_plots <- (plot_invert_herb + plot_crust_herb + plot_coral_herb +
-                        patchwork::plot_spacer() + plot_crust_invert + plot_coral_inv +
-                         patchwork::plot_spacer() + patchwork::plot_spacer() +
-                         plot_coral_crust) +
+  all_correl_plots <- (plot_invert_herb + plot_coral_herb +
+                        plot_coral_inv + patchwork::plot_spacer()) +
 
     patchwork::plot_layout(byrow = TRUE, heights = c(1, 1), widths = c(1, 1),
-                           ncol = 3, nrow = 3, guides = "collect")
+                           ncol = 2, nrow = 2, guides = "collect")
 
-  return(list(cor_coral_inv, cor_coral_herb, cor_coral_crust, cor_invert_herb,
-              cor_crust_herb, cor_crust_invert, all_correl_plots))
+  return(list(cor_coral_inv, cor_coral_herb, cor_invert_herb,
+              all_correl_plots))
 
 }
 
