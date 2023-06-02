@@ -241,6 +241,9 @@ compute.contrib.feedact <- function(df_list,
 #' @param scale a caracter string either "total" if total herbivory contribution
 #' is to be plotted or "day" if daily herbivory contribution is to be plotted
 #'
+#' @param type equals "mean" if mean contrib per seq to be plotted or
+#' "total" if total number of bites to be plotted
+#'
 #' @return a barplot showing species contribution to herbivory for the two
 #' protection level
 #'
@@ -252,7 +255,8 @@ compute.contrib.feedact <- function(df_list,
 plot.interact.guild.contrib <- function(contrib_FPA_df,
                               contrib_PPA_df,
                               guild_nm,
-                              sites_colors) {
+                              sites_colors,
+                              type) {
 
 
     # only keep data from the studied guild:
@@ -348,80 +352,160 @@ plot.interact.guild.contrib <- function(contrib_FPA_df,
       guild_nm <- "Herbivores"
     }
 
-    plot_FPA <- ggplot2::ggplot(data = data_subset_FPA) +
+    if (type == "total") {
+      plot_FPA <- ggplot2::ggplot(data = data_subset_FPA) +
 
-      ggplot2::geom_bar(ggplot2::aes(y = reorder(sp_nm, - feed_act_mean),
-                                     x = feed_act_mean,
-                                     fill = site),
-                        stat = "identity") +
+        ggplot2::geom_bar(ggplot2::aes(y = reorder(sp_nm, - feed_act_mean),
+                                       x = feed_act_mean*24,
+                                       fill = site),
+                          stat = "identity") +
 
-      # ggplot2::geom_errorbar(ggplot2::aes(y = reorder(sp_nm, - feed_act_mean),
-      #                        xmin = bottom,
-      #                        xmax = top), width = 0.1,
-      #                        colour = "grey50",
-      #                        size = 0.7) +
+        # ggplot2::geom_errorbar(ggplot2::aes(y = reorder(sp_nm, - feed_act_mean),
+        #                        xmin = bottom,
+        #                        xmax = top), width = 0.1,
+        #                        colour = "grey50",
+        #                        size = 0.7) +
 
-      ggplot2::scale_fill_manual(values = c(sites_colors[1],
-                                            sites_colors[3]),
-                                 name = "Site presence",
-                                 labels = c("Both", "N'Gouja")) +
+        ggplot2::scale_fill_manual(values = c(sites_colors[1],
+                                              sites_colors[3]),
+                                   name = "Site presence",
+                                   labels = c("Both", "N'Gouja")) +
 
-      ggplot2::theme(axis.text.x = ggplot2::element_text(size = 13),
-                     axis.text.y = ggplot2::element_text(size = 13,
-                                                         face = "italic"),
-                     axis.title.x = ggplot2::element_text(size = 13),
-                     axis.title.y = ggplot2::element_text(size = 13),
-                     panel.background = ggplot2::element_rect(fill = "white",
-                                                              colour = "grey90"),
-                     panel.grid.major = ggplot2::element_line(colour = "grey90"),
-                     legend.text = ggplot2::element_text(size = 13),
-                     legend.title = ggplot2::element_text(size = 13)) +
+        ggplot2::theme(axis.text.x = ggplot2::element_text(size = 13),
+                       axis.text.y = ggplot2::element_text(size = 13,
+                                                           face = "italic"),
+                       axis.title.x = ggplot2::element_text(size = 13),
+                       axis.title.y = ggplot2::element_text(size = 13),
+                       panel.background = ggplot2::element_rect(fill = "white",
+                                                                colour = "grey90"),
+                       panel.grid.major = ggplot2::element_line(colour = "grey90"),
+                       legend.text = ggplot2::element_text(size = 13),
+                       legend.title = ggplot2::element_text(size = 13)) +
 
-      ggplot2::xlab("Mean bites number/5 min/10m²") +
+        ggplot2::xlab("Total bites number/ 1h /10m²") +
 
-      ggplot2::xlim(c(0, max(max(data_subset_FPA$feed_act_mean),
-                             max(data_subset_PPA$feed_act_mean)) + 0.1)) +
+        ggplot2::xlim(c(0, max(max(data_subset_FPA$feed_act_mean*24),
+                               max(data_subset_PPA$feed_act_mean*24)) + 0.1)) +
 
-      ggplot2::ylab("") +
+        ggplot2::ylab("") +
 
-      ggplot2::ggtitle(guild_nm)
+        ggplot2::ggtitle(guild_nm)
 
 
-    plot_PPA <- ggplot2::ggplot(data = data_subset_PPA) +
+      plot_PPA <- ggplot2::ggplot(data = data_subset_PPA) +
 
-      ggplot2::geom_bar(ggplot2::aes(y = reorder(sp_nm, - feed_act_mean),
-                                     x = feed_act_mean,
-                                     fill = site),
-                        stat = "identity") +
+        ggplot2::geom_bar(ggplot2::aes(y = reorder(sp_nm, - feed_act_mean),
+                                       x = feed_act_mean*24,
+                                       fill = site),
+                          stat = "identity") +
 
-      # ggplot2::geom_errorbar(ggplot2::aes(y = reorder(sp_nm, - feed_act_mean),
-      #                                     xmin = bottom,
-      #                                     xmax = top), width = 0.1,
-      #                        colour = "grey50",
-      #                        size = 0.7) +
+        # ggplot2::geom_errorbar(ggplot2::aes(y = reorder(sp_nm, - feed_act_mean),
+        #                                     xmin = bottom,
+        #                                     xmax = top), width = 0.1,
+        #                        colour = "grey50",
+        #                        size = 0.7) +
 
-      ggplot2::scale_fill_manual(values = c(sites_colors[1],
-                                            sites_colors[2]),
-                                 name = "Site presence",
-                                 labels = c("Both", "Bouéni")) +
+        ggplot2::scale_fill_manual(values = c(sites_colors[1],
+                                              sites_colors[2]),
+                                   name = "Site presence",
+                                   labels = c("Both", "Bouéni")) +
 
-      ggplot2::theme(axis.text.x = ggplot2::element_text(size = 13),
-                     axis.text.y = ggplot2::element_text(size = 13,
-                                                         face = "italic"),
-                     axis.title.x = ggplot2::element_text(size = 13),
-                     axis.title.y = ggplot2::element_text(size = 13),
-                     panel.background = ggplot2::element_rect(fill = "white",
-                                                              colour = "grey90"),
-                     panel.grid.major = ggplot2::element_line(colour = "grey90"),
-                     legend.text = ggplot2::element_text(size = 13),
-                     legend.title = ggplot2::element_text(size = 13)) +
+        ggplot2::theme(axis.text.x = ggplot2::element_text(size = 13),
+                       axis.text.y = ggplot2::element_text(size = 13,
+                                                           face = "italic"),
+                       axis.title.x = ggplot2::element_text(size = 13),
+                       axis.title.y = ggplot2::element_text(size = 13),
+                       panel.background = ggplot2::element_rect(fill = "white",
+                                                                colour = "grey90"),
+                       panel.grid.major = ggplot2::element_line(colour = "grey90"),
+                       legend.text = ggplot2::element_text(size = 13),
+                       legend.title = ggplot2::element_text(size = 13)) +
 
-      ggplot2::xlab("Mean bites number/5 min/10m²") +
+        ggplot2::xlab("Total bites number/ 1h /10m²") +
 
-      ggplot2::xlim(c(0, max(max(data_subset_FPA$feed_act_mean),
-                             max(data_subset_PPA$feed_act_mean)) + 0.1)) +
+        ggplot2::xlim(c(0, max(max(data_subset_FPA$feed_act_mean*24),
+                               max(data_subset_PPA$feed_act_mean*24)) + 0.1)) +
 
-      ggplot2::ylab("")
+        ggplot2::ylab("")
+    }
+
+
+    if (type == "mean") {
+      plot_FPA <- ggplot2::ggplot(data = data_subset_FPA) +
+
+        ggplot2::geom_bar(ggplot2::aes(y = reorder(sp_nm, - feed_act_mean),
+                                       x = feed_act_mean,
+                                       fill = site),
+                          stat = "identity") +
+
+        # ggplot2::geom_errorbar(ggplot2::aes(y = reorder(sp_nm, - feed_act_mean),
+        #                        xmin = bottom,
+        #                        xmax = top), width = 0.1,
+        #                        colour = "grey50",
+        #                        size = 0.7) +
+
+        ggplot2::scale_fill_manual(values = c(sites_colors[1],
+                                              sites_colors[3]),
+                                   name = "Site presence",
+                                   labels = c("Both", "N'Gouja")) +
+
+        ggplot2::theme(axis.text.x = ggplot2::element_text(size = 13),
+                       axis.text.y = ggplot2::element_text(size = 13,
+                                                           face = "italic"),
+                       axis.title.x = ggplot2::element_text(size = 13),
+                       axis.title.y = ggplot2::element_text(size = 13),
+                       panel.background = ggplot2::element_rect(fill = "white",
+                                                                colour = "grey90"),
+                       panel.grid.major = ggplot2::element_line(colour = "grey90"),
+                       legend.text = ggplot2::element_text(size = 13),
+                       legend.title = ggplot2::element_text(size = 13)) +
+
+        ggplot2::xlab("Mean bites number/ 5min /10m²") +
+
+        ggplot2::xlim(c(0, max(max(data_subset_FPA$feed_act_mean),
+                               max(data_subset_PPA$feed_act_mean)) + 0.1)) +
+
+        ggplot2::ylab("") +
+
+        ggplot2::ggtitle(guild_nm)
+
+
+      plot_PPA <- ggplot2::ggplot(data = data_subset_PPA) +
+
+        ggplot2::geom_bar(ggplot2::aes(y = reorder(sp_nm, - feed_act_mean),
+                                       x = feed_act_mean,
+                                       fill = site),
+                          stat = "identity") +
+
+        # ggplot2::geom_errorbar(ggplot2::aes(y = reorder(sp_nm, - feed_act_mean),
+        #                                     xmin = bottom,
+        #                                     xmax = top), width = 0.1,
+        #                        colour = "grey50",
+        #                        size = 0.7) +
+
+        ggplot2::scale_fill_manual(values = c(sites_colors[1],
+                                              sites_colors[2]),
+                                   name = "Site presence",
+                                   labels = c("Both", "Bouéni")) +
+
+        ggplot2::theme(axis.text.x = ggplot2::element_text(size = 13),
+                       axis.text.y = ggplot2::element_text(size = 13,
+                                                           face = "italic"),
+                       axis.title.x = ggplot2::element_text(size = 13),
+                       axis.title.y = ggplot2::element_text(size = 13),
+                       panel.background = ggplot2::element_rect(fill = "white",
+                                                                colour = "grey90"),
+                       panel.grid.major = ggplot2::element_line(colour = "grey90"),
+                       legend.text = ggplot2::element_text(size = 13),
+                       legend.title = ggplot2::element_text(size = 13)) +
+
+        ggplot2::xlab("Mean bites number/ 5min /10m²") +
+
+        ggplot2::xlim(c(0, max(max(data_subset_FPA$feed_act_mean),
+                               max(data_subset_PPA$feed_act_mean)) + 0.1)) +
+
+        ggplot2::ylab("")
+    }
 
 
 

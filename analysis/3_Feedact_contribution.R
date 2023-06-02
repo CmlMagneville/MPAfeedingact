@@ -178,54 +178,60 @@ PPA_mean_contrib_diet %>%
   dplyr::summarise(n())
 
 
-# d - Plot ####
+# d - Plot - Total number of bites per species per trophic guild per site ####
 
 
 # Corallivores
 contrib_FPA_df <- FPA_mean_contrib_diet
 contrib_PPA_df <- PPA_mean_contrib_diet
 guild_nm <- "Corallivores"
+type <- "total" # (change to "mean" if mean nb per seq to compute)
 sites_colors <- c("grey85", "#bf812d", "#80cdc1")
 res_coral <- plot.interact.guild.contrib(contrib_FPA_df,
                                          contrib_PPA_df,
                                          guild_nm,
-                                         sites_colors)
-# mean number of bites per sequences (days pooled) in the PPA:
+                                         sites_colors,
+                                         type)
+# total number of bites per sequences (days pooled) in the PPA:
 coral_contrib_PPA <- res_coral[[2]]
-# mean number of bites per sequences (days pooled) in the FPA:
+# total number of bites per sequences (days pooled) in the FPA:
 coral_contrib_FPA <- res_coral[[3]]
-saveRDS(coral_contrib_PPA, here::here("transformed_data", "coral_contrib_PPA.rds"))
-saveRDS(coral_contrib_FPA, here::here("transformed_data", "coral_contrib_FPA.rds"))
+saveRDS(coral_contrib_PPA, here::here("transformed_data", "coral_total_contrib_PPA.rds"))
+saveRDS(coral_contrib_FPA, here::here("transformed_data", "coral_total_contrib_FPA.rds"))
 
 
 # HMD
 contrib_FPA_df <- FPA_mean_contrib_diet
 contrib_PPA_df <- PPA_mean_contrib_diet
 guild_nm <- "HMD"
+type <- "total" # (change to "mean" if mean nb per seq to compute)
 sites_colors <- c("grey85", "#bf812d", "#80cdc1")
 res_herb <- plot.interact.guild.contrib(contrib_FPA_df,
                             contrib_PPA_df,
                             guild_nm,
-                            sites_colors)
+                            sites_colors,
+                            type)
 herb_contrib_PPA <- res_herb[[2]]
 herb_contrib_FPA <- res_herb[[3]]
-saveRDS(herb_contrib_PPA, here::here("transformed_data", "herb_contrib_PPA.rds"))
-saveRDS(herb_contrib_FPA, here::here("transformed_data", "herb_contrib_FPA.rds"))
+saveRDS(herb_contrib_PPA, here::here("transformed_data", "herb_total_contrib_PPA.rds"))
+saveRDS(herb_contrib_FPA, here::here("transformed_data", "herb_total_contrib_FPA.rds"))
 
 
 # Invertivores
 contrib_FPA_df <- FPA_mean_contrib_diet
 contrib_PPA_df <- PPA_mean_contrib_diet
 guild_nm <- "Invertivores"
+type <- "total" # (change to "mean" if mean nb per seq to compute)
 sites_colors <- c("grey85", "#bf812d", "#80cdc1")
 res_invert <- plot.interact.guild.contrib(contrib_FPA_df,
                             contrib_PPA_df,
                             guild_nm,
-                            sites_colors)
+                            sites_colors,
+                            type)
 invert_contrib_PPA <- res_invert[[2]]
 invert_contrib_FPA <- res_invert[[3]]
-saveRDS(invert_contrib_PPA, here::here("transformed_data", "invert_contrib_PPA.rds"))
-saveRDS(invert_contrib_FPA, here::here("transformed_data", "invert_contrib_FPA.rds"))
+saveRDS(invert_contrib_PPA, here::here("transformed_data", "invert_total_contrib_PPA.rds"))
+saveRDS(invert_contrib_FPA, here::here("transformed_data", "invert_total_contrib_FPA.rds"))
 
 
 # Plot all in an other design (rows = feeding activities, columns = protection levels):
