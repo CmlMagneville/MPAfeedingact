@@ -230,17 +230,23 @@ plot.heatmaps.act.intensity <- function(bites_seq_df_list) {
               levels = paste0("seq", sep ="_", c(1:(nrow(PPA_subset_data)/2))))
 
 
-    # compute 5 classes of bites intensity based on FPA and PPA values:
+    # compute min and max values:
     min_value <- min(min(FPA_subset_data[, ncol(FPA_subset_data)]),
                      min(PPA_subset_data[, ncol(PPA_subset_data)]))
     max_value <- max(max(FPA_subset_data[, ncol(FPA_subset_data)]),
                      max(PPA_subset_data[, ncol(PPA_subset_data)]))
-    interval_span <- round((max_value - min_value)/5)
+
+    # compute 5 classes of bites intensity based on FPA and PPA values:
+    interval_span <- round((max_value - min_value)/8)
     first_interval <- c(1, 1 + interval_span)
     second_interval <- c(first_interval[2] + 1, first_interval[2] + interval_span)
     third_interval <- c(second_interval[2] + 1, second_interval[2] + interval_span)
     fourth_interval <- c(third_interval[2] + 1, third_interval[2] + interval_span)
-    fifth_interval <- c(fourth_interval[2] + 1, max_value)
+    fifth_interval <- c(fourth_interval[2] + 1, fourth_interval[2] + interval_span)
+    sixth_interval <- c(fifth_interval[2] + 1, fifth_interval[2] + interval_span)
+    seventh_interval <- c(sixth_interval[2] + 1, sixth_interval[2] + interval_span)
+    eighth_interval <- c(seventh_interval[2] + 1, max_value)
+
 
     # Add new column to store this new variable:
     # FPA
@@ -262,6 +268,16 @@ plot.heatmaps.act.intensity <- function(bites_seq_df_list) {
     FPA_subset_data[which(FPA_subset_data[, ncol(FPA_subset_data) - 1] <= fifth_interval[2] &
                             FPA_subset_data[, ncol(FPA_subset_data) - 1] >= fifth_interval[1]),
                     "bites_class"] <- paste0(fifth_interval[1], sep = "-", fifth_interval[2])
+    FPA_subset_data[which(FPA_subset_data[, ncol(FPA_subset_data) - 1] <= sixth_interval[2] &
+                            FPA_subset_data[, ncol(FPA_subset_data) - 1] >= sixth_interval[1]),
+                    "bites_class"] <- paste0(sixth_interval[1], sep = "-", sixth_interval[2])
+    FPA_subset_data[which(FPA_subset_data[, ncol(FPA_subset_data) - 1] <= seventh_interval[2] &
+                            FPA_subset_data[, ncol(FPA_subset_data) - 1] >= seventh_interval[1]),
+                    "bites_class"] <- paste0(seventh_interval[1], sep = "-", seventh_interval[2])
+    FPA_subset_data[which(FPA_subset_data[, ncol(FPA_subset_data) - 1] <= eighth_interval[2] &
+                            FPA_subset_data[, ncol(FPA_subset_data) - 1] >= eighth_interval[1]),
+                    "bites_class"] <- paste0(eighth_interval[1], sep = "-", eighth_interval[2])
+
     # PPA
     PPA_subset_data$bites_class <- rep(NA, nrow(PPA_subset_data))
     PPA_subset_data[which(PPA_subset_data[, ncol(PPA_subset_data) - 1] == 0),
@@ -281,32 +297,50 @@ plot.heatmaps.act.intensity <- function(bites_seq_df_list) {
     PPA_subset_data[which(PPA_subset_data[, ncol(PPA_subset_data) - 1] <= fifth_interval[2] &
                             PPA_subset_data[, ncol(PPA_subset_data) - 1] >= fifth_interval[1]),
                     "bites_class"] <- paste0(fifth_interval[1], sep = "-", fifth_interval[2])
+    PPA_subset_data[which(PPA_subset_data[, ncol(PPA_subset_data) - 1] <= sixth_interval[2] &
+                            PPA_subset_data[, ncol(PPA_subset_data) - 1] >= sixth_interval[1]),
+                    "bites_class"] <- paste0(sixth_interval[1], sep = "-", sixth_interval[2])
+    PPA_subset_data[which(PPA_subset_data[, ncol(PPA_subset_data) - 1] <= seventh_interval[2] &
+                            PPA_subset_data[, ncol(PPA_subset_data) - 1] >= seventh_interval[1]),
+                    "bites_class"] <- paste0(seventh_interval[1], sep = "-", seventh_interval[2])
+    PPA_subset_data[which(PPA_subset_data[, ncol(PPA_subset_data) - 1] <= eighth_interval[2] &
+                            PPA_subset_data[, ncol(PPA_subset_data) - 1] >= eighth_interval[1]),
+                    "bites_class"] <- paste0(eighth_interval[1], sep = "-", eighth_interval[2])
 
 
     # get the right color palette according to the studied feedact:
     if (guild_nm == "coral_bites") {
-      col_vect_feedact <-  c("white", rev(hcl.colors(5, palette = "GnBu")))
+      col_vect_feedact <-  c("white", rev(hcl.colors(8, palette = "GnBu")))
       names(col_vect_feedact) <- c("0", paste0(first_interval[1], sep = "-", first_interval[2]),
                                    paste0(second_interval[1], sep = "-", second_interval[2]),
                                    paste0(third_interval[1], sep = "-", third_interval[2]),
                                    paste0(fourth_interval[1], sep = "-", fourth_interval[2]),
-                                   paste0(fifth_interval[1], sep = "-", fifth_interval[2]))
+                                   paste0(fifth_interval[1], sep = "-", fifth_interval[2]),
+                                   paste0(sixth_interval[1], sep = "-", sixth_interval[2]),
+                                   paste0(seventh_interval[1], sep = "-", seventh_interval[2]),
+                                   paste0(eighth_interval[1], sep = "-", eighth_interval[2]))
     }
     if (guild_nm == "herb_bites") {
-      col_vect_feedact <-  c("white", rev(hcl.colors(5, palette = "YlGnBu")))
+      col_vect_feedact <-  c("white", rev(hcl.colors(8, palette = "YlGnBu")))
       names(col_vect_feedact) <- c("0", paste0(first_interval[1], sep = "-", first_interval[2]),
                                    paste0(second_interval[1], sep = "-", second_interval[2]),
                                    paste0(third_interval[1], sep = "-", third_interval[2]),
                                    paste0(fourth_interval[1], sep = "-", fourth_interval[2]),
-                                   paste0(fifth_interval[1], sep = "-", fifth_interval[2]))
+                                   paste0(fifth_interval[1], sep = "-", fifth_interval[2]),
+                                   paste0(sixth_interval[1], sep = "-", sixth_interval[2]),
+                                   paste0(seventh_interval[1], sep = "-", seventh_interval[2]),
+                                   paste0(eighth_interval[1], sep = "-", eighth_interval[2]))
     }
     if (guild_nm == "invert_bites") {
-      col_vect_feedact <-  c("white", rev(hcl.colors(5, palette = "Heat")))
+      col_vect_feedact <-  c("white", rev(hcl.colors(8, palette = "Heat")))
       names(col_vect_feedact) <- c("0", paste0(first_interval[1], sep = "-", first_interval[2]),
                                    paste0(second_interval[1], sep = "-", second_interval[2]),
                                    paste0(third_interval[1], sep = "-", third_interval[2]),
                                    paste0(fourth_interval[1], sep = "-", fourth_interval[2]),
-                                   paste0(fifth_interval[1], sep = "-", fifth_interval[2]))
+                                   paste0(fifth_interval[1], sep = "-", fifth_interval[2]),
+                                   paste0(sixth_interval[1], sep = "-", sixth_interval[2]),
+                                   paste0(seventh_interval[1], sep = "-", seventh_interval[2]),
+                                   paste0(eighth_interval[1], sep = "-", eighth_interval[2]))
     }
 
 
@@ -316,13 +350,20 @@ plot.heatmaps.act.intensity <- function(bites_seq_df_list) {
                                              paste0(second_interval[1], sep = "-", second_interval[2]),
                                              paste0(third_interval[1], sep = "-", third_interval[2]),
                                              paste0(fourth_interval[1], sep = "-", fourth_interval[2]),
-                                             paste0(fifth_interval[1], sep = "-", fifth_interval[2])))
+                                             paste0(fifth_interval[1], sep = "-", fifth_interval[2]),
+                                             paste0(sixth_interval[1], sep = "-", sixth_interval[2]),
+                                             paste0(seventh_interval[1], sep = "-", seventh_interval[2]),
+                                             paste0(eighth_interval[1], sep = "-", eighth_interval[2])))
+
     PPA_subset_data$bites_class <- factor(PPA_subset_data$bites_class,
                                   levels = c("0", paste0(first_interval[1], sep = "-", first_interval[2]),
                                              paste0(second_interval[1], sep = "-", second_interval[2]),
                                              paste0(third_interval[1], sep = "-", third_interval[2]),
                                              paste0(fourth_interval[1], sep = "-", fourth_interval[2]),
-                                             paste0(fifth_interval[1], sep = "-", fifth_interval[2])))
+                                             paste0(fifth_interval[1], sep = "-", fifth_interval[2]),
+                                             paste0(sixth_interval[1], sep = "-", sixth_interval[2]),
+                                             paste0(seventh_interval[1], sep = "-", seventh_interval[2]),
+                                             paste0(eighth_interval[1], sep = "-", eighth_interval[2])))
 
 
     # plot FPA:
