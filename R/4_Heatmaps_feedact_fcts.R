@@ -321,7 +321,7 @@ plot.heatmaps.act.intensity <- function(bites_seq_df_list) {
                                    paste0(eighth_interval[1], sep = "-", eighth_interval[2]))
     }
     if (guild_nm == "herb_bites") {
-      col_vect_feedact <-  c("white", rev(hcl.colors(8, palette = "YlGnBu")))
+      col_vect_feedact <-  c("white", rev(hcl.colors(8, palette = "GnBu")))
       names(col_vect_feedact) <- c("0", paste0(first_interval[1], sep = "-", first_interval[2]),
                                    paste0(second_interval[1], sep = "-", second_interval[2]),
                                    paste0(third_interval[1], sep = "-", third_interval[2]),
@@ -332,7 +332,7 @@ plot.heatmaps.act.intensity <- function(bites_seq_df_list) {
                                    paste0(eighth_interval[1], sep = "-", eighth_interval[2]))
     }
     if (guild_nm == "invert_bites") {
-      col_vect_feedact <-  c("white", rev(hcl.colors(8, palette = "Heat")))
+      col_vect_feedact <-  c("white", rev(hcl.colors(8, palette = "GnBu")))
       names(col_vect_feedact) <- c("0", paste0(first_interval[1], sep = "-", first_interval[2]),
                                    paste0(second_interval[1], sep = "-", second_interval[2]),
                                    paste0(third_interval[1], sep = "-", third_interval[2]),
@@ -387,6 +387,8 @@ plot.heatmaps.act.intensity <- function(bites_seq_df_list) {
       ggplot2::xlab("") +
       ggplot2::ylab("") +
 
+      ggplot2::labs(fill = 'Bites number') +
+
       ggplot2::ggtitle("N'Gouja")
 
 
@@ -410,6 +412,8 @@ plot.heatmaps.act.intensity <- function(bites_seq_df_list) {
 
       ggplot2::xlab("") +
       ggplot2::ylab("") +
+
+      ggplot2::labs(fill = 'Bites number') +
 
       ggplot2::ggtitle("Bouéni")
 
