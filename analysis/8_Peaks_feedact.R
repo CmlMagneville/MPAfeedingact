@@ -202,7 +202,7 @@ PPA_coral_plot <- PPA_coral[[1]]
 
 coral_peaks <- (FPA_coral_plot + PPA_coral_plot) +
   patchwork::plot_layout(byrow = TRUE, heights = c(1, 1), widths = c(1, 1),
-                         ncol = 1, nrow = 2, guides = "collect") +
+                         ncol = 2, nrow = 1, guides = "collect") +
   patchwork::plot_annotation(title = "Corallivores")
 
 ggplot2::ggsave(filename = here::here("outputs", "Coral_peaks_tot.pdf"),
@@ -210,7 +210,7 @@ ggplot2::ggsave(filename = here::here("outputs", "Coral_peaks_tot.pdf"),
                 device = "pdf",
                 scale = 1,
                 height = 4000,
-                width = 5000,
+                width = 7000,
                 units = "px",
                 dpi = 600)
 
@@ -260,7 +260,7 @@ PPA_herb_plot <- PPA_herb[[1]]
 
 herb_peaks <- (FPA_herb_plot + PPA_herb_plot) +
   patchwork::plot_layout(byrow = TRUE, heights = c(1, 1), widths = c(1, 1),
-                         ncol = 1, nrow = 2, guides = "collect") +
+                         ncol = 2, nrow = 1, guides = "collect") +
   patchwork::plot_annotation(title = "Herbivores")
 
 ggplot2::ggsave(filename = here::here("outputs", "Herb_peaks_tot.pdf"),
@@ -268,7 +268,7 @@ ggplot2::ggsave(filename = here::here("outputs", "Herb_peaks_tot.pdf"),
                 device = "pdf",
                 scale = 1,
                 height = 4000,
-                width = 5000,
+                width = 7000,
                 units = "px",
                 dpi = 600)
 
@@ -321,7 +321,7 @@ PPA_invert_plot <- PPA_invert[[1]]
 
 invert_peaks <- (FPA_invert_plot + PPA_invert_plot) +
   patchwork::plot_layout(byrow = TRUE, heights = c(1, 1), widths = c(1, 1),
-                         ncol = 1, nrow = 2, guides = "collect") +
+                         ncol = 2, nrow = 1, guides = "collect") +
   patchwork::plot_annotation(title = "Invertivores")
 
 ggplot2::ggsave(filename = here::here("outputs", "Invert_peaks_tot.pdf"),
@@ -329,7 +329,7 @@ ggplot2::ggsave(filename = here::here("outputs", "Invert_peaks_tot.pdf"),
                 device = "pdf",
                 scale = 1,
                 height = 4000,
-                width = 5000,
+                width = 7000,
                 units = "px",
                 dpi = 600)
 

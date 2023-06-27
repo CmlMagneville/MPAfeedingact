@@ -382,7 +382,7 @@ plot.interact.guild.contrib <- function(contrib_FPA_df,
                        legend.text = ggplot2::element_text(size = 13),
                        legend.title = ggplot2::element_text(size = 13)) +
 
-        ggplot2::xlab("Total bites number/ 1h /10m²") +
+        ggplot2::xlab("Total bites number/ 2h /10m²") +
 
         ggplot2::xlim(c(0, max(max(data_subset_FPA$feed_act_mean*24),
                                max(data_subset_PPA$feed_act_mean*24)) + 0.1)) +
@@ -421,7 +421,7 @@ plot.interact.guild.contrib <- function(contrib_FPA_df,
                        legend.text = ggplot2::element_text(size = 13),
                        legend.title = ggplot2::element_text(size = 13)) +
 
-        ggplot2::xlab("Total bites number/ 1h /10m²") +
+        ggplot2::xlab("Total bites number/ 2h /10m²") +
 
         ggplot2::xlim(c(0, max(max(data_subset_FPA$feed_act_mean*24),
                                max(data_subset_PPA$feed_act_mean*24)) + 0.1)) +
@@ -460,7 +460,7 @@ plot.interact.guild.contrib <- function(contrib_FPA_df,
                        legend.text = ggplot2::element_text(size = 13),
                        legend.title = ggplot2::element_text(size = 13)) +
 
-        ggplot2::xlab("Mean bites number/ 5min /10m²") +
+        ggplot2::xlab("Mean bites number/ 2h /10m²") +
 
         ggplot2::xlim(c(0, max(max(data_subset_FPA$feed_act_mean),
                                max(data_subset_PPA$feed_act_mean)) + 0.1)) +
@@ -499,7 +499,7 @@ plot.interact.guild.contrib <- function(contrib_FPA_df,
                        legend.text = ggplot2::element_text(size = 13),
                        legend.title = ggplot2::element_text(size = 13)) +
 
-        ggplot2::xlab("Mean bites number/ 5min /10m²") +
+        ggplot2::xlab("Mean bites number/ 2h /10m²") +
 
         ggplot2::xlim(c(0, max(max(data_subset_FPA$feed_act_mean),
                                max(data_subset_PPA$feed_act_mean)) + 0.1)) +

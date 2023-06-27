@@ -49,7 +49,7 @@ plot.boxplots.act <- function(bites_seq_df_list) {
 
     ggplot2::xlab("") +
 
-    ggplot2::ylab("Bites number / 5min / 2m²") +
+    ggplot2::ylab("Bites number / 5min / 10m²") +
 
     ggplot2::theme(axis.text.x = ggplot2::element_blank(),
                    axis.ticks.x = ggplot2::element_blank(),
@@ -74,7 +74,7 @@ plot.boxplots.act <- function(bites_seq_df_list) {
 
     ggplot2::xlab("") +
 
-    ggplot2::ylab("Bites number / 5min / 2m²") +
+    ggplot2::ylab("Bites number / 5min / 10m²") +
 
     ggplot2::theme(axis.text.x = ggplot2::element_blank(),
                    axis.ticks.x = ggplot2::element_blank(),
@@ -99,7 +99,7 @@ plot.boxplots.act <- function(bites_seq_df_list) {
 
     ggplot2::xlab("") +
 
-    ggplot2::ylab("Bites number / 5min / 2m²") +
+    ggplot2::ylab("Bites number / 5min / 10m²") +
 
     ggplot2::theme(axis.text.x = ggplot2::element_blank(),
                    axis.ticks.x = ggplot2::element_blank(),
