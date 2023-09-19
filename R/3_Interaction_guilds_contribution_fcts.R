@@ -374,15 +374,15 @@ plot.interact.guild.contrib <- function(contrib_FPA_df,
         ggplot2::theme(axis.text.x = ggplot2::element_text(size = 13),
                        axis.text.y = ggplot2::element_text(size = 13,
                                                            face = "italic"),
-                       axis.title.x = ggplot2::element_text(size = 13),
-                       axis.title.y = ggplot2::element_text(size = 13),
+                       axis.title.x = ggplot2::element_text(size = 14),
+                       axis.title.y = ggplot2::element_text(size = 14),
                        panel.background = ggplot2::element_rect(fill = "white",
                                                                 colour = "grey90"),
                        panel.grid.major = ggplot2::element_line(colour = "grey90"),
-                       legend.text = ggplot2::element_text(size = 13),
-                       legend.title = ggplot2::element_text(size = 13)) +
+                       legend.text = ggplot2::element_text(size = 14),
+                       legend.title = ggplot2::element_text(size = 14)) +
 
-        ggplot2::xlab("Total bites number/ 2h /10m²") +
+        ggplot2::xlab(expression(Total~number~of~bites~2~h^-1~10~m^-2)) +
 
         ggplot2::xlim(c(0, max(max(data_subset_FPA$feed_act_mean*24),
                                max(data_subset_PPA$feed_act_mean*24)) + 0.1)) +
@@ -418,10 +418,10 @@ plot.interact.guild.contrib <- function(contrib_FPA_df,
                        panel.background = ggplot2::element_rect(fill = "white",
                                                                 colour = "grey90"),
                        panel.grid.major = ggplot2::element_line(colour = "grey90"),
-                       legend.text = ggplot2::element_text(size = 13),
-                       legend.title = ggplot2::element_text(size = 13)) +
+                       legend.text = ggplot2::element_text(size = 14),
+                       legend.title = ggplot2::element_text(size = 14)) +
 
-        ggplot2::xlab("Total bites number/ 2h /10m²") +
+        ggplot2::xlab(expression(Total~number~of~bites~2~h^-1~10~m^-2)) +
 
         ggplot2::xlim(c(0, max(max(data_subset_FPA$feed_act_mean*24),
                                max(data_subset_PPA$feed_act_mean*24)) + 0.1)) +
@@ -452,8 +452,8 @@ plot.interact.guild.contrib <- function(contrib_FPA_df,
         ggplot2::theme(axis.text.x = ggplot2::element_text(size = 13),
                        axis.text.y = ggplot2::element_text(size = 13,
                                                            face = "italic"),
-                       axis.title.x = ggplot2::element_text(size = 13),
-                       axis.title.y = ggplot2::element_text(size = 13),
+                       axis.title.x = ggplot2::element_text(size = 14),
+                       axis.title.y = ggplot2::element_text(size = 14),
                        panel.background = ggplot2::element_rect(fill = "white",
                                                                 colour = "grey90"),
                        panel.grid.major = ggplot2::element_line(colour = "grey90"),
@@ -491,8 +491,8 @@ plot.interact.guild.contrib <- function(contrib_FPA_df,
         ggplot2::theme(axis.text.x = ggplot2::element_text(size = 13),
                        axis.text.y = ggplot2::element_text(size = 13,
                                                            face = "italic"),
-                       axis.title.x = ggplot2::element_text(size = 13),
-                       axis.title.y = ggplot2::element_text(size = 13),
+                       axis.title.x = ggplot2::element_text(size = 14),
+                       axis.title.y = ggplot2::element_text(size = 14),
                        panel.background = ggplot2::element_rect(fill = "white",
                                                                 colour = "grey90"),
                        panel.grid.major = ggplot2::element_line(colour = "grey90"),
