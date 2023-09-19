@@ -365,6 +365,17 @@ plot.heatmaps.act.intensity <- function(bites_seq_df_list) {
                                              paste0(seventh_interval[1], sep = "-", seventh_interval[2]),
                                              paste0(eighth_interval[1], sep = "-", eighth_interval[2])))
 
+    # factor and order days:
+    # FPA:
+    FPA_subset_data$day <- factor(FPA_subset_data$day,
+                                  levels = c("05-11-2020",
+                                             "03-11-2020"))
+
+    # PPA:
+    PPA_subset_data$day <- factor(PPA_subset_data$day,
+                                  levels = c("06-11-2020",
+                                             "04-11-2020"))
+
 
     # plot FPA:
     heatmap_FPA <- ggplot2::ggplot(FPA_subset_data,
@@ -379,7 +390,11 @@ plot.heatmaps.act.intensity <- function(bites_seq_df_list) {
 
       ggplot2::scale_x_discrete(labels = FPA_subset_data$hour) +
 
-      ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 90),
+      ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 90, size = 13),
+                     axis.text.y = ggplot2::element_text(size = 13),
+                     axis.title = ggplot2::element_text(size = 14),
+                     legend.title = ggplot2::element_text(size = 14),
+                     legend.text = ggplot2::element_text(size = 13),
                      panel.background = ggplot2::element_rect(fill = "white",
                                                               colour = "grey"),
                      panel.grid.major = ggplot2::element_line(colour = "white")) +
@@ -387,7 +402,7 @@ plot.heatmaps.act.intensity <- function(bites_seq_df_list) {
       ggplot2::xlab("") +
       ggplot2::ylab("") +
 
-      ggplot2::labs(fill = 'Bites number') +
+      ggplot2::labs(fill = 'Number of bites') +
 
       ggplot2::ggtitle("N'Gouja")
 
@@ -405,7 +420,11 @@ plot.heatmaps.act.intensity <- function(bites_seq_df_list) {
 
       ggplot2::scale_x_discrete(labels = PPA_subset_data$hour) +
 
-      ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 90),
+      ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 90, size = 13),
+                     axis.text.y = ggplot2::element_text(size = 13),
+                     axis.title = ggplot2::element_text(size = 14),
+                     legend.title = ggplot2::element_text(size = 14),
+                     legend.text = ggplot2::element_text(size = 13),
                      panel.background = ggplot2::element_rect(fill = "white",
                                                               colour = "grey"),
                      panel.grid.major = ggplot2::element_line(colour = "white")) +
@@ -413,7 +432,7 @@ plot.heatmaps.act.intensity <- function(bites_seq_df_list) {
       ggplot2::xlab("") +
       ggplot2::ylab("") +
 
-      ggplot2::labs(fill = 'Bites number') +
+      ggplot2::labs(fill = 'Number of bites') +
 
       ggplot2::ggtitle("Bouéni")
 
