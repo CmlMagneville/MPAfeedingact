@@ -76,6 +76,14 @@ plot.heatmaps.act.intensity(bites_seq_df_list)
 
 # 4 - Plot the boxplots showing the variation in bites nb per seq ####
 
+bites_seq_guilds_03_df <- readRDS(here::here("transformed_data",
+                                             "bites_seq_guilds_03_df.rds"))
+bites_seq_guilds_04_df <- readRDS(here::here("transformed_data",
+                                             "bites_seq_guilds_04_df.rds"))
+bites_seq_guilds_05_df <- readRDS(here::here("transformed_data",
+                                             "bites_seq_guilds_05_df.rds"))
+bites_seq_guilds_06_df <- readRDS(here::here("transformed_data",
+                                             "bites_seq_guilds_06_df.rds"))
 
 bites_seq_df_list <- list(bites_seq_guilds_03_df,
                           bites_seq_guilds_04_df,

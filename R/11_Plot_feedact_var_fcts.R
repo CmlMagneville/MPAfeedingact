@@ -49,10 +49,13 @@ plot.boxplots.act <- function(bites_seq_df_list) {
 
     ggplot2::xlab("") +
 
-    ggplot2::ylab("Bites number / 5min / 10m²") +
+    ggplot2::ylab(expression(Number~of~bites~5~min^-1~10~m^-2)) +
 
     ggplot2::theme(axis.text.x = ggplot2::element_blank(),
                    axis.ticks.x = ggplot2::element_blank(),
+                   axis.title = ggplot2::element_text(size = 14),
+                   strip.text.x = ggplot2::element_text(size = 14),
+                   plot.title = ggplot2::element_text(size = 14),
                    panel.background = ggplot2::element_rect(fill = "white",
                                                             colour = "grey90"),
                    panel.grid.major = ggplot2::element_line(colour = "grey90")) +
@@ -74,10 +77,13 @@ plot.boxplots.act <- function(bites_seq_df_list) {
 
     ggplot2::xlab("") +
 
-    ggplot2::ylab("Bites number / 5min / 10m²") +
+    ggplot2::ylab(expression(Number~of~bites~5~min^-1~10~m^-2)) +
 
     ggplot2::theme(axis.text.x = ggplot2::element_blank(),
                    axis.ticks.x = ggplot2::element_blank(),
+                   axis.title = ggplot2::element_text(size = 14),
+                   strip.text.x = ggplot2::element_text(size = 14),
+                   plot.title = ggplot2::element_text(size = 14),
                    panel.background = ggplot2::element_rect(fill = "white",
                                                             colour = "grey90"),
                    panel.grid.major = ggplot2::element_line(colour = "grey90")) +
@@ -99,10 +105,13 @@ plot.boxplots.act <- function(bites_seq_df_list) {
 
     ggplot2::xlab("") +
 
-    ggplot2::ylab("Bites number / 5min / 10m²") +
+    ggplot2::ylab(expression(Number~of~bites~5~min^-1~10~m^-2)) +
 
     ggplot2::theme(axis.text.x = ggplot2::element_blank(),
                    axis.ticks.x = ggplot2::element_blank(),
+                   axis.title = ggplot2::element_text(size = 14),
+                   strip.text.x = ggplot2::element_text(size = 14),
+                   plot.title = ggplot2::element_text(size = 14),
                    panel.background = ggplot2::element_rect(fill = "white",
                                                             colour = "grey90"),
                    panel.grid.major = ggplot2::element_line(colour = "grey90")) +
@@ -114,7 +123,9 @@ plot.boxplots.act <- function(bites_seq_df_list) {
   plot_all <- (plot_box_coral + plot_box_herb + plot_box_invert) +
 
     patchwork::plot_layout(byrow = TRUE, heights = c(1, 1), widths = c(0.5, 0.5),
-                           ncol = 2, nrow = 2, guides = "collect")
+                           ncol = 2, nrow = 2, guides = "collect") +
+    patchwork::plot_annotation(tag_levels = 'a') &
+    ggplot2::theme(plot.tag = ggplot2::element_text(face = 'bold'))
 
   ggplot2::ggsave(filename = here::here("outputs", "boxplots_feedact.pdf"),
                   plot = plot_all,
